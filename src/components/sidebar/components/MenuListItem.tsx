@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { ReactNode } from 'react';
 import React from 'react';
+import clsx from 'clsx';
 
 const MenuListItem = ({
   isExpanded,
@@ -18,13 +19,13 @@ const MenuListItem = ({
       <NavLink to={path}>
         {({ isActive }) => (
           <div
-            className={[
+            className={clsx(
               'flex items-center rounded-full bg-gray-100 overflow-hidden',
               isExpanded ? 'w-44 px-5 py-3' : 'w-12 px-3 py-3 justify-center',
               isActive
                 ? 'bg-blue-100 text-[#293F66] font-semibold shadow-[0_0_6px_#4983EF]'
                 : 'text-gray-700',
-            ].join(' ')}>
+            )}>
             {React.cloneElement(
               icon as React.ReactElement<React.SVGProps<SVGSVGElement>>,
               {
@@ -34,14 +35,12 @@ const MenuListItem = ({
               },
             )}
             <span
-              className={`
-                whitespace-nowrap transition-transform duration-200
-                ${
-                  isExpanded
-                    ? 'opacity-100 translate-x-0 ml-4'
-                    : 'opacity-0 -translate-x-4 absolute left-0'
-                }
-              `}>
+              className={clsx(
+                'whitespace-nowrap transition-transform duration-200',
+                isExpanded
+                  ? 'opacity-100 translate-x-0 ml-4'
+                  : 'opacity-0 -translate-x-4 absolute left-0',
+              )}>
               {menuName}
             </span>
           </div>
