@@ -2,7 +2,7 @@ import searchIcon from '@/assets/icons/header/search-icon.svg';
 
 const HeaderSearchBar = () => {
   return (
-    <div className='flex items-center gap-2 p-2 bg-white/20 rounded-full'>
+    <div className='flex items-center gap-2 p-2 mx-2 bg-white/20 rounded-full'>
       <input
         type='text'
         placeholder='사용자 조회'
