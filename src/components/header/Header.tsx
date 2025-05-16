@@ -2,8 +2,8 @@ import HeaderSearchBar from './components/HeaderSearchBar';
 import AuthButton from './components/AuthButton';
 import ProfileButton from './components/ProfileButton';
 import defaultProfile from '@/assets/icons/header/default-profile.png';
-import logoutIcon from '@/assets/icons/header/logout-icon.svg';
 import Logo from './components/Logo';
+import Notification from '../notification/Notification';
 
 const Header = () => {
   return (
@@ -14,17 +14,11 @@ const Header = () => {
       }}>
       <Logo />
 
-      <div className='flex items-center gap-4 px-2'>
+      <div className='flex items-center gap-2 px-2'>
         <HeaderSearchBar />
         <ProfileButton profile={defaultProfile} />
-        <AuthButton
-          icon={
-            <img
-              src={logoutIcon}
-              alt='logout'
-            />
-          }
-        />
+        <Notification />
+        <AuthButton />
       </div>
     </header>
   );
