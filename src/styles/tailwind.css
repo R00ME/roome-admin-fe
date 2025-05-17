@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+
+@theme {
+}
+
+@layer base {
+  * {
+    --font-sans: 'Pretendard Variable', Pretendard, -apple-system,
+      BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI',
+      'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  }
+}
+
+@layer components {
+}
+
+@layer utilities {
+  @keyframes spin-once {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin-once {
+    animation: spin-once 0.5s ease-in-out;
+  }
+}
