@@ -8,8 +8,15 @@ import {
 } from '@/components/ui/popover';
 
 const HeaderSearchBar = () => {
-  const { open, setOpen, query, setQuery, filteredItems, handleSelect } =
-    useSearchBar();
+  const {
+    open,
+    setOpen,
+    query,
+    setQuery,
+    filteredItems,
+    handleSelect,
+    selectedIndex,
+  } = useSearchBar();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -37,6 +44,7 @@ const HeaderSearchBar = () => {
         <SearchResultList
           items={filteredItems}
           onSelect={handleSelect}
+          selectedIndex={selectedIndex}
         />
       </PopoverContent>
     </Popover>
