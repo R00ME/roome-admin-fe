@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SEARCH_ITEMS, SearchItem } from '@/constants/search-items';
 
@@ -8,11 +8,14 @@ export function useSearchBar() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
 
-  const handleSelect = (item: SearchItem) => {
-    setOpen(false);
-    setQuery('');
-    navigate(item.path);
-  };
+  const handleSelect = useCallback(
+    (item: SearchItem) => {
+      setOpen(false);
+      setQuery('');
+      navigate(item.path);
+    },
+    [navigate, setOpen, setQuery],
+  );
 
   const filteredItems = SEARCH_ITEMS.filter(
     (item) =>
