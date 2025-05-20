@@ -19,7 +19,6 @@ type EventModalProps = {
 
 // 모달 헤더 컴포넌트
 const ModalHeader = memo(() => {
-  console.log('ModalHeader 렌더링');
   return (
     <AlertDialogHeader>
       <AlertDialogTitle className='text-blue-500 text-lg font-bold mb-4 border-b border-gray-200 pb-2'>
@@ -31,7 +30,6 @@ const ModalHeader = memo(() => {
 
 // 모달 푸터 컴포넌트
 const ModalFooter = memo(() => {
-  console.log('ModalFooter 렌더링');
   return (
     <AlertDialogFooter className='flex-row justify-end gap-2 mt-6'>
       <AlertDialogCancel className='rounded-full border px-8 py-2'>
@@ -48,7 +46,6 @@ const ModalFooter = memo(() => {
 
 // 이벤트 제목 입력 컴포넌트
 const EventTitleInput = memo(() => {
-  console.log('EventTitleInput 렌더링');
   const title = useEventModalStore((state) => state.title);
   const setTitle = useEventModalStore((state) => state.setTitle);
 
@@ -69,7 +66,6 @@ const EventTitleInput = memo(() => {
 
 // 이벤트 내용 입력 컴포넌트
 const EventContentInput = memo(() => {
-  console.log('EventContentInput 렌더링');
   const content = useEventModalStore((state) => state.content);
   const setContent = useEventModalStore((state) => state.setContent);
 
@@ -99,7 +95,6 @@ const EventContentInput = memo(() => {
 
 // 날짜/시간 입력 컴포넌트
 const StartDateTimeInput = memo(() => {
-  console.log('StartDateTimeInput 렌더링');
   const startDate = useEventModalStore((state) => state.startDate);
   const startTime = useEventModalStore((state) => state.startTime);
   const setStartDate = useEventModalStore((state) => state.setStartDate);
@@ -129,7 +124,6 @@ const StartDateTimeInput = memo(() => {
 });
 
 const EndDateTimeInput = memo(() => {
-  console.log('EndDateTimeInput 렌더링');
   const endDate = useEventModalStore((state) => state.endDate);
   const endTime = useEventModalStore((state) => state.endTime);
   const startDate = useEventModalStore((state) => state.startDate);
@@ -162,7 +156,6 @@ const EndDateTimeInput = memo(() => {
 
 // 모달 폼 컴포넌트
 const EventForm = memo(() => {
-  console.log('EventForm 렌더링');
   return (
     <form>
       <div className='grid grid-cols-2 gap-4 mb-4'>
@@ -178,7 +171,6 @@ const EventForm = memo(() => {
 
 // 모달 컨텐츠 래퍼 컴포넌트
 const ModalContent = memo(({ children }: { children: React.ReactNode }) => {
-  console.log('ModalContent 렌더링');
   return (
     <AlertDialogContent className='max-w-[700px]'>
       {children}
