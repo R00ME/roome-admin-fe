@@ -2,6 +2,7 @@ import ServiceDashboard from '@/pages/service-dashboard/ServiceDashboard';
 import BaseLayout from './layout/BaseLayout';
 import { Route, Routes } from 'react-router-dom';
 import Main from '@/pages/main/Main';
+import Events from '@/pages/Events/Events';
 
 const Router = () => {
   return (
@@ -19,8 +20,13 @@ const Router = () => {
           {/* <Route path='user' element={< UserDashboard />} /> */}
           {/* <Route path='system' element={< SystemDashboard />} /> */}
         </Route>
-        {/* <Route path='admin' /> */}
-        {/* <Route path='event' /> */}
+        {/* <Route path='admins'>
+
+        </Route> */}
+        <Route
+          path='events'
+          element={<Events />}
+        />
       </Route>
     </Routes>
   );
