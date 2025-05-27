@@ -28,4 +28,8 @@
   .animate-spin-once {
     animation: spin-once 0.5s ease-in-out;
   }
+
+  .shadow-blue {
+    box-shadow: 0 0 2px 0 rgba(43, 0, 255, 0.393);
+  }
 }
