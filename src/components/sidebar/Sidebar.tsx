@@ -10,13 +10,14 @@ const Sidebar = () => {
         ${isExpanded ? 'w-52 items-start' : 'w-20 items-center'}
       `}>
       <button
-        className={`text-2xl cursor-pointer ${
+        className={`text-2xl cursor-pointer select-none ${
           isExpanded ? 'ml-6' : ''
         }`}
         onClick={() => setIsExpanded((prev) => !prev)}>
         <img
           src={hamburgerIcon}
           alt='hamburger-menu-icon'
+          className='[-webkit-user-drag:none] select-none pointer-events-none'
         />
       </button>
       <MenuList isExpanded={isExpanded} />
