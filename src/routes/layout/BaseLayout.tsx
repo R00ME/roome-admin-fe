@@ -6,7 +6,7 @@ const BaseLayout = () => {
   return (
     <div className='h-screen relative overflow-hidden'>
       <Header />
-      <main className='relative pt-16 flex '>
+      <main className='relative pt-16 flex w-full'>
         <Sidebar />
         <Outlet />
       </main>

@@ -31,13 +31,13 @@ const MenuList = ({ isExpanded }: { isExpanded: boolean }) => {
         isExpanded={isExpanded}
         icon={<ManagementEventIcon className='w-6 h-6 transition-colors' />}
         menuName='이벤트 관리'
-        path='/dashboard/event'
+        path='/events'
       />
       <MenuListItem
         isExpanded={isExpanded}
         icon={<AdminInviteIcon className='w-6 h-6 transition-colors' />}
         menuName='운영자 관리'
-        path='/dashboard/admin'
+        path='/admins'
       />
     </ul>
   );
