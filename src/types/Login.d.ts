@@ -9,4 +9,5 @@ interface Field {
 interface FormProps {
   title: string;
   fields: Field[];
+  onClick?: () => void;
 }

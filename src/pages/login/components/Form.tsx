@@ -1,6 +1,6 @@
 import InputField from "./InputField";
 
-export default function Form({ title, fields }: FormProps) {
+export default function Form({ title, fields, onClick }: FormProps) {
   return (
     <>
       <h1 className='font-bold text-2xl text-[#4983ef]'>{title}</h1>
@@ -21,13 +21,16 @@ export default function Form({ title, fields }: FormProps) {
       <div className='flex flex-col items-center gap-2 mt-3'>
         <button
           type='submit'
-          className='w-full bg-[#B9C2D1] rounded-full h-13 text-white '>
+          className='w-full bg-[#B9C2D1] rounded-full h-13 text-white font-semibold '>
           로그인
         </button>
         {title === "운영자 로그인" && (
-        <span className='flex items-center gap-1 text-sm text-[#888888]'>
+        <span className='flex items-center gap-1 font-medium text-sm text-[#888888]'>
           <p>가입된 이메일로</p>
-          <button className='underline decoration-[#888888]'>
+          <button 
+            type="button"
+            className='underline decoration-[#888888] font-semibold'
+            onClick={onClick}> 
             비밀번호 재발급
           </button>
         </span>
