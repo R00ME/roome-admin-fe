@@ -9,17 +9,20 @@ interface StatCardGridProps {
 
 const StatCardGrid = ({ selectedCard, onCardSelect }: StatCardGridProps) => {
   return (
-    <div className='grid grid-cols-1 gap-y-4 border border-gray-200 bg-gray-50 rounded-lg md:grid-cols-2 lg:grid-cols-3 overflow-visible'>
+    <div className='grid grid-cols-1 gap-y-4 h-full border border-gray-200 bg-gray-50 rounded-lg md:grid-cols-2 lg:grid-cols-3 overflow-visible'>
       {statCards.map((card) => (
-        <StatCard
+        <div
           key={card.title}
-          title={card.title}
-          value={card.value}
-          icon={card.icon}
-          trend={card.trend}
-          isActive={card.title === selectedCard}
-          onClick={() => onCardSelect(card.title)}
-        />
+          className='h-full'>
+          <StatCard
+            title={card.title}
+            value={card.value}
+            icon={card.icon}
+            trend={card.trend}
+            isActive={card.title === selectedCard}
+            onClick={() => onCardSelect(card.title)}
+          />
+        </div>
       ))}
     </div>
   );

@@ -4,9 +4,7 @@ import ContentsIcon from '@/assets/icons/service-dashboard/contents-icon.svg?rea
 import NewUsersIcon from '@/assets/icons/service-dashboard/new-user-icon.svg?react';
 import RevisionsIcon from '@/assets/icons/service-dashboard/revisiting-icon.svg?react';
 
-import {
-  StatCardProps,
-} from '@/types/service-dashboard/stat-card.type';
+import { StatCardProps } from '@/types/service-dashboard/stat-card.type';
 import { statTitleMap } from '@/constants/service-dashboard/stat-card';
 
 const iconMap = {
@@ -32,19 +30,19 @@ const StatCard = ({
     <button
       type='button'
       onClick={onClick}
-      className={`w-full text-left transition-all cursor-pointer relative py-6 px-8
+      className={`w-full text-left transition-all cursor-pointer relative py-6 px-8 h-full
       ${
         isActive
           ? 'bg-white shadow-blue rounded-lg z-10 w-[calc(100%+3rem)]'
           : 'bg-gray-50 hover:bg-gray-100 w-full'
       }
       ${!isActive && title !== 'CONTENTS' ? 'border-r border-gray-200' : ''}`}>
-      <div className='flex items-center gap-2'>
-        <Icon className='h-12 w-12' />
+      <div className='flex items-start gap-4'>
+        <Icon className='h-14 w-14' />
 
         <div className='space-y-1'>
           <span className='text-sm text-gray-500'>{statTitleMap[title]}</span>
-          <div className='text-2xl font-semibold'>
+          <div className='text-3xl font-semibold text-gray-700'>
             {value}
             {unit}
           </div>
