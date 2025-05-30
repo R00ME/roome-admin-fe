@@ -20,7 +20,10 @@ const Router = () => {
         />
 
         {/* <Route path='admin' /> */}
-        {/* <Route path='event' /> */}
+        <Route 
+          path='event'
+          element={<Events />}
+        />
       </Route>
 
       <Route
