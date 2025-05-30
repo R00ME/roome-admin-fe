@@ -14,6 +14,7 @@ const Router = () => {
           path='/'
           element={<Main />}
         />
+
         <Route
           path='/login'
           element={<Login />}
@@ -23,7 +24,21 @@ const Router = () => {
         <Route 
           path='event'
           element={<Events />}
+
+        {/* <Route path='admin' /> */}
+        {/* <Route path='event' /> */}
+      </Route>
+
+      <Route
+        path='dashboard'
+        element={<DashboardLayout />}>
+        <Route
+          path='service'
+          element={<ServiceDashboard />}
+
         />
+        {/* <Route path='user' element={< UserDashboard />} /> */}
+        {/* <Route path='system' element={< SystemDashboard />} /> */}
       </Route>
 
       <Route
