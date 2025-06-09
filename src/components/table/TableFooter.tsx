@@ -11,23 +11,11 @@ import { Button } from '@/components/ui/button';
 interface TableFooterProps {
   onAddItem: () => void;
   buttonText: string;
-  selectedCount?: number;
-  totalCount?: number;
 }
 
-const TableFooter = ({
-  onAddItem,
-  buttonText,
-  selectedCount,
-  totalCount,
-}: TableFooterProps) => {
+const TableFooter = ({ onAddItem, buttonText }: TableFooterProps) => {
   return (
     <div className='flex justify-between items-center mt-4'>
-      <span className='hidden flex-shrink-0 text-sm text-muted-foreground lg:flex'>
-        {selectedCount !== undefined && totalCount !== undefined
-          ? `${selectedCount} of ${totalCount} row(s) selected.`
-          : 'n of n row(s) selected.'}
-      </span>
       <Pagination>
         <PaginationContent>
           <PaginationItem>

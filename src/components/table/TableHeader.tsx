@@ -30,6 +30,7 @@ const TableHeader = ({
           <TabsList>
             {tabs.map((tab) => (
               <TabsTrigger
+                className='cursor-pointer'
                 key={tab.value}
                 value={tab.value}>
                 {tab.label}

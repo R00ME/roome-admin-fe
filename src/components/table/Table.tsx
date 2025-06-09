@@ -1,4 +1,12 @@
 import { flexRender, Table as TanStackTable } from '@tanstack/react-table';
+import {
+  Table as ShadcnTable,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 interface TableProps<T> {
   table: TanStackTable<T>;
@@ -6,44 +14,40 @@ interface TableProps<T> {
 
 const Table = <T,>({ table }: TableProps<T>) => {
   return (
-    <div className='rounded-xl border bg-white shadow-sm'>
-      <table className='min-w-full text-sm'>
-        <thead>
+    <div className='rounded-xl border bg-white'>
+      <ShadcnTable>
+        <TableHeader className='bg-gray-100 text-gray-500'>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr
-              key={headerGroup.id}
-              className='border-b'>
+            <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th
+                <TableHead
                   key={header.id}
-                  className='px-4 py-3 text-left font-medium text-gray-600 bg-[#EDEDED]'>
+                  className='py-3 whitespace-nowrap'>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
                         header.getContext(),
                       )}
-                </th>
+                </TableHead>
               ))}
-            </tr>
+            </TableRow>
           ))}
-        </thead>
-        <tbody>
+        </TableHeader>
+        <TableBody>
           {table.getRowModel().rows.map((row) => (
-            <tr
-              key={row.id}
-              className='border-b hover:bg-gray-50'>
+            <TableRow key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td
+                <TableCell
                   key={cell.id}
-                  className='px-4 py-3 text-left'>
+                  className='py-3 whitespace-nowrap'>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
+                </TableCell>
               ))}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </ShadcnTable>
     </div>
   );
 };

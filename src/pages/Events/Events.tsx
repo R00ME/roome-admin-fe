@@ -5,10 +5,23 @@ import {
 } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableFooter, TableHeader } from '@/components/table';
 import EventModal from '@/pages/events/components/EventModal';
 import EventIcon from '@/assets/icons/sidebar/event-icon.svg?react';
+
+import { cn } from '@/lib/utils';
+
+interface EventItem {
+  id: string;
+  title: string;
+  target: string;
+  uploadTime: string;
+  status: string;
+  message: string;
+  browser: string;
+  createdAt: string;
+  author: string;
+}
 
 const data: EventItem[] = [
   {
@@ -26,72 +39,50 @@ const data: EventItem[] = [
 
 const columns: ColumnDef<EventItem>[] = [
   {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='전체 선택'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='행 선택'
-      />
-    ),
-    size: 32,
-  },
-  {
     accessorKey: 'title',
     header: '이벤트 제목명',
-    cell: (info) => <span>{info.getValue() as string}</span>,
   },
   {
     accessorKey: 'target',
     header: '수신대상',
-    cell: (info) => <span>{info.getValue() as string}</span>,
   },
   {
     accessorKey: 'uploadTime',
     header: '업로드 예정일시',
-    cell: (info) => <span>{info.getValue() as string}</span>,
   },
   {
     accessorKey: 'status',
     header: '업로드 상태',
-    cell: (info) => (
-      <span
-        className={
-          (info.getValue() === '대기중'
-            ? 'bg-[#E6F4FF] text-[#3BA3FF]'
-            : 'bg-[#F5F5F5] text-[#BDBDBD]') +
-          ' px-3 py-1 rounded-full text-xs font-semibold'
-        }>
-        {info.getValue() as string}
-      </span>
-    ),
+    cell: ({ getValue }) => {
+      const status = getValue<string>();
+      return (
+        <span
+          className={cn(
+            status === '대기중'
+              ? 'bg-[#E6F4FF] text-[#3BA3FF]'
+              : 'bg-[#F5F5F5] text-[#BDBDBD]',
+            'px-3 py-1 rounded-full text-xs font-semibold user-select-none',
+          )}>
+          {status}
+        </span>
+      );
+    },
   },
   {
     accessorKey: 'message',
     header: '이벤트 메시지',
-    cell: (info) => <span>{info.getValue() as string}</span>,
   },
   {
     accessorKey: 'browser',
     header: '첨부파일 여부',
-    cell: (info) => <span>{info.getValue() as string}</span>,
   },
   {
     accessorKey: 'createdAt',
     header: '작성일/시간',
-    cell: (info) => <span>{info.getValue() as string}</span>,
   },
   {
     accessorKey: 'author',
     header: '작성자',
-    cell: (info) => <span>{info.getValue() as string}</span>,
   },
 ];
 
@@ -103,8 +94,6 @@ const Events = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-
-  const selectedRows = table.getFilteredSelectedRowModel().rows;
 
   return (
     <div className='w-full p-8'>
@@ -121,8 +110,6 @@ const Events = () => {
       <TableFooter
         onAddItem={() => setOpen(true)}
         buttonText='+ 새 이벤트 추가하기'
-        selectedCount={selectedRows.length}
-        totalCount={data.length}
       />
       <EventModal
         open={open}

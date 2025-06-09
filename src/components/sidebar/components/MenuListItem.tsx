@@ -15,12 +15,12 @@ const MenuListItem = ({
   path: string;
 }) => {
   return (
-    <li className='flex items-center w-fit'>
+    <li className='flex items-center w-fit select-none drag-none'>
       <NavLink to={path}>
         {({ isActive }) => (
           <div
             className={clsx(
-              'flex items-center rounded-full bg-gray-100 overflow-hidden',
+              'flex items-center rounded-full bg-gray-100 overflow-hidden select-none [&_*]:select-none [&_*]:-webkit-user-drag-none',
               isExpanded ? 'w-44 px-5 py-3' : 'w-12 px-3 py-3 justify-center',
               isActive
                 ? 'bg-blue-100 text-[#293F66] font-semibold shadow-[0_0_6px_#4983EF]'
