@@ -12,18 +12,6 @@ import AdminRoleCell from '@/components/table/cells/AdminRoleCell';
 import UrlCell from '@/components/table/cells/UrlCell';
 import DeleteCell from '@/components/table/cells/DeleteCell';
 
-type AdminRole = '운영 관리자' | '시스템 관리자' | '일반 관리자';
-
-interface AdminItem {
-  id: string;
-  name: string;
-  email: string;
-  role: AdminRole;
-  url: string;
-  accessTime: string;
-  createdAt: string;
-}
-
 const data: AdminItem[] = [
   {
     id: '1',

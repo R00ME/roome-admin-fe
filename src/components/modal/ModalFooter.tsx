@@ -5,16 +5,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { memo } from 'react';
 
-interface ModalFooterProps {
-  variant?: 'single' | 'double';
-  cancelText?: string;
-  confirmText?: string;
-  onCancel?: () => void;
-  onConfirm?: () => void;
-  confirmDisabled?: boolean;
-  className?: string;
-}
-
 const ModalFooter = memo(
   ({
     variant = 'double',

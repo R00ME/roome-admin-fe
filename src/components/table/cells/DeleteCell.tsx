@@ -1,10 +1,6 @@
 import { memo } from 'react';
 import BinIcon from '@/assets/icons/bin-icon.svg?react';
 
-interface DeleteCellProps {
-  onClick: () => void;
-}
-
 const DeleteCell = memo(({ onClick }: DeleteCellProps) => {
   return (
     <button

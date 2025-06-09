@@ -11,18 +11,6 @@ import EventIcon from '@/assets/icons/sidebar/event-icon.svg?react';
 
 import { cn } from '@/lib/utils';
 
-interface EventItem {
-  id: string;
-  title: string;
-  target: string;
-  uploadTime: string;
-  status: string;
-  message: string;
-  browser: string;
-  createdAt: string;
-  author: string;
-}
-
 const data: EventItem[] = [
   {
     id: '1',

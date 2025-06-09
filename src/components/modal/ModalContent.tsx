@@ -1,12 +1,6 @@
 import { AlertDialogContent } from '@/components/ui/alert-dialog';
 import { memo } from 'react';
 
-interface ModalContentProps {
-  children: React.ReactNode;
-  className?: string;
-  maxWidth?: 'sm' | 'md' | 'lg' | 'xl';
-}
-
 const ModalContent = memo(
   ({ children, className = '', maxWidth = 'lg' }: ModalContentProps) => {
     const maxWidthClasses = {

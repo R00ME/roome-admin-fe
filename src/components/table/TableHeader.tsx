@@ -1,15 +1,5 @@
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-interface TableHeaderProps {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  tabs?: {
-    value: string;
-    label: string;
-  }[];
-  defaultTab?: string;
-}
-
 const TableHeader = ({
   icon: Icon,
   title,

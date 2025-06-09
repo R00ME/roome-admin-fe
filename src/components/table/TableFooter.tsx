@@ -8,11 +8,6 @@ import {
 } from '@/components/ui/pagination';
 import { Button } from '@/components/ui/button';
 
-interface TableFooterProps {
-  onAddItem: () => void;
-  buttonText: string;
-}
-
 const TableFooter = ({ onAddItem, buttonText }: TableFooterProps) => {
   return (
     <div className='flex justify-between items-center mt-4'>

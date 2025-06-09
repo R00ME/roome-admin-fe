@@ -9,3 +9,8 @@ type EventItem = {
   createdAt: string;
   author: string;
 };
+
+type EventModalProps = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+};

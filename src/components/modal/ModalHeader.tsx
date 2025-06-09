@@ -4,11 +4,6 @@ import {
 } from '@/components/ui/alert-dialog';
 import { memo } from 'react';
 
-interface ModalHeaderProps {
-  title: string;
-  className?: string;
-}
-
 const ModalHeader = memo(({ title, className = '' }: ModalHeaderProps) => {
   return (
     <AlertDialogHeader>

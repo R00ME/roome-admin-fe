@@ -4,7 +4,6 @@ import ContentsIcon from '@/assets/icons/service-dashboard/contents-icon.svg?rea
 import NewUsersIcon from '@/assets/icons/service-dashboard/new-user-icon.svg?react';
 import RevisionsIcon from '@/assets/icons/service-dashboard/revisiting-icon.svg?react';
 
-import { StatCardProps } from '@/types/service-dashboard/stat-card.type';
 import { statTitleMap } from '@/constants/service-dashboard/stat-card';
 
 const iconMap = {

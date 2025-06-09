@@ -3,18 +3,6 @@ import { Input } from '@/components/ui/input';
 import { memo, useState, useCallback } from 'react';
 import { ModalHeader, ModalFooter, ModalContent } from '@/components/modal';
 
-type AdminModalProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-};
-
-interface AdminData {
-  name: string;
-  email: string;
-  role: 'operation' | 'system';
-  permissions: string[];
-}
-
 const initialState: AdminData = {
   name: '',
   email: '',

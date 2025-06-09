@@ -5,11 +5,6 @@ import { memo } from 'react';
 import { useEventModalStore } from '@/store/eventModalStore';
 import { ModalHeader, ModalFooter, ModalContent } from '@/components/modal';
 
-type EventModalProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-};
-
 // 이벤트 제목 입력 컴포넌트
 const EventTitleInput = memo(() => {
   const title = useEventModalStore((state) => state.title);
