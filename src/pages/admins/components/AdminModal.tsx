@@ -2,12 +2,32 @@ import { AlertDialog } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { memo, useState, useCallback } from 'react';
 import { ModalHeader, ModalFooter, ModalContent } from '@/components/modal';
+import { Label, RadioCard, CheckList } from '@/components/form';
+
+interface Permission {
+  text: string;
+  description?: string;
+}
 
 const initialState: AdminData = {
   name: '',
   email: '',
   role: 'operation',
   permissions: [],
+};
+
+const ADMIN_TYPES = [
+  { value: 'operation', label: '운영 관리자' },
+  { value: 'system', label: '시스템 관리자' },
+];
+
+const ADMIN_PERMISSIONS: Record<'operation' | 'system', Permission[]> = {
+  operation: [
+    { text: '운영 기능 사용 가능', description: '관리자 타입 지정' },
+    { text: '서비스 사용성 분석 대시보드 사용 가능' },
+    { text: '사용자 분석 대시보드 사용 가능' },
+  ],
+  system: [{ text: '시스템 대시보드 사용 가능' }],
 };
 
 // 관리자 타입 선택 컴포넌트
@@ -19,51 +39,24 @@ const AdminTypeSelector = memo(
     selectedRole: 'operation' | 'system';
     onRoleChange: (role: 'operation' | 'system') => void;
   }) => {
-    return (
-      <div className='col-span-2'>
-        <label className='block text-sm font-regular mb-3 text-gray-600'>
-          관리자 타입 지정
-        </label>
-        <div className='flex gap-4'>
-          <div
-            className={`flex items-center gap-2 p-3 border rounded-lg cursor-pointer transition-colors ${
-              selectedRole === 'operation'
-                ? 'border-blue-500 bg-blue-50'
-                : 'border-gray-200 hover:border-gray-300'
-            }`}
-            onClick={() => onRoleChange('operation')}>
-            <div
-              className={`w-4 h-4 rounded-full border-2 ${
-                selectedRole === 'operation'
-                  ? 'border-blue-500 bg-blue-500'
-                  : 'border-gray-300'
-              }`}>
-              {selectedRole === 'operation' && (
-                <div className='w-2 h-2 bg-white rounded-full m-0.5'></div>
-              )}
-            </div>
-            <span className='font-medium'>운영 관리자</span>
-          </div>
+    const handleChange = useCallback(
+      (value: string) => {
+        if (value === 'operation' || value === 'system') {
+          onRoleChange(value);
+        }
+      },
+      [onRoleChange],
+    );
 
-          <div
-            className={`flex items-center gap-2 p-3 border rounded-lg cursor-pointer transition-colors ${
-              selectedRole === 'system'
-                ? 'border-blue-500 bg-blue-50'
-                : 'border-gray-200 hover:border-gray-300'
-            }`}
-            onClick={() => onRoleChange('system')}>
-            <div
-              className={`w-4 h-4 rounded-full border-2 ${
-                selectedRole === 'system'
-                  ? 'border-blue-500 bg-blue-500'
-                  : 'border-gray-300'
-              }`}>
-              {selectedRole === 'system' && (
-                <div className='w-2 h-2 bg-white rounded-full m-0.5'></div>
-              )}
-            </div>
-            <span className='font-medium'>시스템 관리자</span>
-          </div>
+    return (
+      <div>
+        <Label>관리자 타입 지정</Label>
+        <div className='mt-3'>
+          <RadioCard
+            options={ADMIN_TYPES}
+            value={selectedRole}
+            onChange={handleChange}
+          />
         </div>
       </div>
     );
@@ -81,14 +74,13 @@ const NameInput = memo(
   }) => {
     return (
       <div>
-        <label className='block text-sm font-regular mb-1 text-gray-600'>
-          이름
-        </label>
+        <Label>이름</Label>
         <Input
           name='name'
-          placeholder='관리자 이름을 입력하세요'
+          placeholder='운영자로 초대할 팀원의 이름을 입력하세요'
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          className='mt-1'
         />
       </div>
     );
@@ -106,15 +98,14 @@ const EmailInput = memo(
   }) => {
     return (
       <div>
-        <label className='block text-sm font-regular mb-1 text-gray-600'>
-          이메일
-        </label>
+        <Label>이메일</Label>
         <Input
           name='email'
           type='email'
-          placeholder='관리자 이메일을 입력하세요'
+          placeholder='초대할 팀원의 이메일을 입력하세요'
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          className='mt-1'
         />
       </div>
     );
@@ -122,76 +113,22 @@ const EmailInput = memo(
 );
 
 // 권한 설정 컴포넌트
-const PermissionSettings = memo(() => {
-  return (
-    <div className='col-span-2'>
-      <label className='block text-sm font-regular mb-3 text-gray-600'>
-        시스템 관리자의 권한
-      </label>
-      <div className='space-y-3'>
-        <div className='flex items-center gap-3'>
-          <div className='w-4 h-4 bg-blue-500 rounded-sm flex items-center justify-center'>
-            <svg
-              width='12'
-              height='12'
-              viewBox='0 0 12 12'
-              fill='none'>
-              <path
-                d='M2 6L5 9L10 3'
-                stroke='white'
-                strokeWidth='2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-              />
-            </svg>
-          </div>
-          <span className='text-sm'>운영 기능 사용 가능</span>
-          <span className='text-xs text-gray-500 ml-auto'>
-            관리자 타입 지정
-          </span>
-        </div>
+const PermissionSettings = memo(
+  ({ role }: { role: 'operation' | 'system' }) => {
+    const permissions = ADMIN_PERMISSIONS[role];
 
-        <div className='flex items-center gap-3'>
-          <div className='w-4 h-4 bg-blue-500 rounded-sm flex items-center justify-center'>
-            <svg
-              width='12'
-              height='12'
-              viewBox='0 0 12 12'
-              fill='none'>
-              <path
-                d='M2 6L5 9L10 3'
-                stroke='white'
-                strokeWidth='2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-              />
-            </svg>
-          </div>
-          <span className='text-sm'>서비스 사용량 분석 대시보드 사용 가능</span>
-        </div>
-
-        <div className='flex items-center gap-3'>
-          <div className='w-4 h-4 bg-blue-500 rounded-sm flex items-center justify-center'>
-            <svg
-              width='12'
-              height='12'
-              viewBox='0 0 12 12'
-              fill='none'>
-              <path
-                d='M2 6L5 9L10 3'
-                stroke='white'
-                strokeWidth='2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-              />
-            </svg>
-          </div>
-          <span className='text-sm'>사용량 분석 대시보드 사용 가능</span>
+    return (
+      <div>
+        <Label>
+          {role === 'operation' ? '운영 관리자' : '시스템 관리자'}의 권한
+        </Label>
+        <div className='mt-3'>
+          <CheckList items={permissions} />
         </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);
 
 // 모달 폼 컴포넌트
 const AdminForm = memo(
@@ -204,23 +141,23 @@ const AdminForm = memo(
   }) => {
     return (
       <form>
-        <div className='grid grid-cols-2 gap-4 mb-6'>
-          <AdminTypeSelector
-            selectedRole={adminData.role}
-            onRoleChange={(role) => onDataChange({ role })}
-          />
+        <div className='grid grid-cols-2 gap-8 mb-6'>
+          <div className='space-y-4'>
+            <AdminTypeSelector
+              selectedRole={adminData.role}
+              onRoleChange={(role) => onDataChange({ role })}
+            />
+            <NameInput
+              value={adminData.name}
+              onChange={(name) => onDataChange({ name })}
+            />
+            <EmailInput
+              value={adminData.email}
+              onChange={(email) => onDataChange({ email })}
+            />
+          </div>
 
-          <NameInput
-            value={adminData.name}
-            onChange={(name) => onDataChange({ name })}
-          />
-
-          <EmailInput
-            value={adminData.email}
-            onChange={(email) => onDataChange({ email })}
-          />
-
-          <PermissionSettings />
+          <PermissionSettings role={adminData.role} />
         </div>
         <ModalFooter
           cancelText='취소'

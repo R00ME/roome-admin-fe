@@ -21,3 +21,8 @@ interface AdminData {
   role: 'operation' | 'system';
   permissions: string[];
 }
+
+interface Permission {
+  text: string;
+  description?: string;
+}
