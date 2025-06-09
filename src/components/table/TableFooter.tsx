@@ -24,12 +24,6 @@ const TableFooter = ({ onAddItem, buttonText }: TableFooterProps) => {
             </PaginationLink>
           </PaginationItem>
           <PaginationItem>
-            <PaginationLink href='#'>2</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href='#'>3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
             <PaginationNext href='#' />
           </PaginationItem>
         </PaginationContent>
