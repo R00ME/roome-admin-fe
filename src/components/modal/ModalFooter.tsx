@@ -20,14 +20,14 @@ const ModalFooter = memo(
         className={`flex-row justify-end gap-2 mt-6 ${className}`}>
         {variant === 'double' && (
           <AlertDialogCancel
-            className='rounded-full border px-8 py-2'
+            className='rounded-full border px-8 py-2 cursor-pointer'
             onClick={onCancel}>
             {cancelText}
           </AlertDialogCancel>
         )}
         <Button
           type='submit'
-          className='rounded-full px-8 py-2 bg-blue-900 text-white'
+          className='rounded-full px-8 py-2 bg-blue-900 text-white cursor-pointer'
           onClick={onConfirm}
           disabled={confirmDisabled}>
           {confirmText}

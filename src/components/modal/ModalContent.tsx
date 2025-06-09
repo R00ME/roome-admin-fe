@@ -1,22 +1,18 @@
 import { AlertDialogContent } from '@/components/ui/alert-dialog';
-import { memo } from 'react';
+import { cn } from '@/lib/utils';
 
-const maxWidthClasses = {
-  sm: 'max-w-[500px]',
-  md: 'max-w-[600px]',
-  lg: 'max-w-[700px]',
-  xl: 'max-w-[800px]',
+interface ModalContentProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const ModalContent = ({ children, className }: ModalContentProps) => {
+  return (
+    <AlertDialogContent
+      className={cn('min-w-[600px] max-w-[800px]', className)}>
+      {children}
+    </AlertDialogContent>
+  );
 };
-
-const ModalContent = memo(
-  ({ children, className = '', maxWidth = 'lg' }: ModalContentProps) => {
-    return (
-      <AlertDialogContent
-        className={`${maxWidthClasses[maxWidth]} ${className}`}>
-        {children}
-      </AlertDialogContent>
-    );
-  },
-);
 
 export default ModalContent;
