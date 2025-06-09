@@ -3,7 +3,7 @@ type EventItem = {
   title: string;
   target: string;
   uploadTime: string;
-  status: '접속중' | '휴면';
+  status: '대기중' | '진행중' | '전송완료';
   message: string;
   browser: string;
   createdAt: string;

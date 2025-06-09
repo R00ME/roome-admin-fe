@@ -1,48 +1,14 @@
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogCancel,
-} from '@/components/ui/alert-dialog';
+import { AlertDialog } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
 import { memo } from 'react';
 import { useEventModalStore } from '@/store/eventModalStore';
+import { ModalHeader, ModalFooter, ModalContent } from '@/components/modal';
 
 type EventModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
-
-// 모달 헤더 컴포넌트
-const ModalHeader = memo(() => {
-  return (
-    <AlertDialogHeader>
-      <AlertDialogTitle className='text-blue-500 text-lg font-bold mb-4 border-b border-gray-200 pb-2'>
-        이벤트 등록
-      </AlertDialogTitle>
-    </AlertDialogHeader>
-  );
-});
-
-// 모달 푸터 컴포넌트
-const ModalFooter = memo(() => {
-  return (
-    <AlertDialogFooter className='flex-row justify-end gap-2 mt-6'>
-      <AlertDialogCancel className='rounded-full border px-8 py-2'>
-        닫기
-      </AlertDialogCancel>
-      <Button
-        type='submit'
-        className='rounded-full px-8 py-2 bg-blue-900 text-white'>
-        등록하기
-      </Button>
-    </AlertDialogFooter>
-  );
-});
 
 // 이벤트 제목 입력 컴포넌트
 const EventTitleInput = memo(() => {
@@ -164,17 +130,11 @@ const EventForm = memo(() => {
         <StartDateTimeInput />
         <EndDateTimeInput />
       </div>
-      <ModalFooter />
+      <ModalFooter
+        cancelText='닫기'
+        confirmText='등록하기'
+      />
     </form>
-  );
-});
-
-// 모달 컨텐츠 래퍼 컴포넌트
-const ModalContent = memo(({ children }: { children: React.ReactNode }) => {
-  return (
-    <AlertDialogContent className='max-w-[700px]'>
-      {children}
-    </AlertDialogContent>
   );
 });
 
@@ -190,7 +150,7 @@ const EventModal = ({ open, onOpenChange }: EventModalProps) => {
       open={open}
       onOpenChange={onOpenChange}>
       <ModalContent>
-        <ModalHeader />
+        <ModalHeader title='이벤트 등록' />
         <EventForm />
       </ModalContent>
     </AlertDialog>

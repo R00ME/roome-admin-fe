@@ -7,24 +7,54 @@ import { useState } from 'react';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableFooter, TableHeader } from '@/components/table';
-import EventModal from '@/pages/events/components/EventModal';
-import EventIcon from '@/assets/icons/sidebar/event-icon.svg?react';
+import AdminModal from './components/AdminModal';
+import AdminIcon from '@/assets/icons/sidebar/admin-invite-icon.svg?react';
 
-const data: EventItem[] = [
+interface AdminItem {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  url: string;
+  status: string;
+  accessTime: string;
+  createdAt: string;
+}
+
+const data: AdminItem[] = [
   {
     id: '1',
-    title: '2025년 새로운 방꾸로 돌아왔습니다',
-    target: '전체',
-    uploadTime: '오늘, PM 04:20',
-    status: '대기중',
-    message: '2025 출시기념 오픈 이벤트에 여러분을 초대합니다',
-    browser: 'chrome',
-    createdAt: '2025-04-24, 09:22 AM',
-    author: '김광구',
+    name: '고광희',
+    email: 'test02@naver.com',
+    role: '운영 관리자',
+    url: 'https://www.room-e.com/1002',
+    status: '접속중',
+    accessTime: '오늘, PM 04:20',
+    createdAt: '2025-04-24',
+  },
+  {
+    id: '2',
+    name: '고광희',
+    email: 'test02@naver.com',
+    role: '시스템 관리자',
+    url: 'https://www.room-e.com/1002',
+    status: '접속중',
+    accessTime: '오늘, PM 04:20',
+    createdAt: '2025-04-24',
+  },
+  {
+    id: '3',
+    name: '고광희',
+    email: 'test02@naver.com',
+    role: '시스템 관리자',
+    url: 'https://www.room-e.com/1002',
+    status: '접속중',
+    accessTime: '오늘, PM 04:20',
+    createdAt: '2025-04-24',
   },
 ];
 
-const columns: ColumnDef<EventItem>[] = [
+const columns: ColumnDef<AdminItem>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -44,28 +74,25 @@ const columns: ColumnDef<EventItem>[] = [
     size: 32,
   },
   {
-    accessorKey: 'title',
-    header: '이벤트 제목명',
+    accessorKey: 'name',
+    header: '관리자명',
     cell: (info) => <span>{info.getValue() as string}</span>,
   },
   {
-    accessorKey: 'target',
-    header: '수신대상',
+    accessorKey: 'email',
+    header: 'ID/이메일',
     cell: (info) => <span>{info.getValue() as string}</span>,
   },
   {
-    accessorKey: 'uploadTime',
-    header: '업로드 예정일시',
-    cell: (info) => <span>{info.getValue() as string}</span>,
-  },
-  {
-    accessorKey: 'status',
-    header: '업로드 상태',
+    accessorKey: 'role',
+    header: '관리자 등급',
     cell: (info) => (
       <span
         className={
-          (info.getValue() === '대기중'
+          (info.getValue() === '운영 관리자'
             ? 'bg-[#E6F4FF] text-[#3BA3FF]'
+            : info.getValue() === '시스템 관리자'
+            ? 'bg-[#F0E6FF] text-[#8B5CF6]'
             : 'bg-[#F5F5F5] text-[#BDBDBD]') +
           ' px-3 py-1 rounded-full text-xs font-semibold'
         }>
@@ -74,31 +101,28 @@ const columns: ColumnDef<EventItem>[] = [
     ),
   },
   {
-    accessorKey: 'message',
-    header: '이벤트 메시지',
-    cell: (info) => <span>{info.getValue() as string}</span>,
+    accessorKey: 'url',
+    header: '가장 많이 접속한 기능 (url)',
+    cell: (info) => (
+      <span className='text-blue-500'>{info.getValue() as string}</span>
+    ),
   },
   {
-    accessorKey: 'browser',
-    header: '첨부파일 여부',
+    accessorKey: 'accessTime',
+    header: '마지막 접속 시간',
     cell: (info) => <span>{info.getValue() as string}</span>,
   },
   {
     accessorKey: 'createdAt',
-    header: '작성일/시간',
-    cell: (info) => <span>{info.getValue() as string}</span>,
-  },
-  {
-    accessorKey: 'author',
-    header: '작성자',
+    header: '최초 가입일',
     cell: (info) => <span>{info.getValue() as string}</span>,
   },
 ];
 
-const Events = () => {
+const Admins = () => {
   const [open, setOpen] = useState(false);
 
-  const table = useReactTable<EventItem>({
+  const table = useReactTable<AdminItem>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -109,8 +133,8 @@ const Events = () => {
   return (
     <div className='w-full p-8'>
       <TableHeader
-        icon={EventIcon}
-        title='이벤트 목록'
+        icon={AdminIcon}
+        title='운영자 목록'
         tabs={[
           { value: 'name', label: '이름순' },
           { value: 'date', label: '가입순' },
@@ -120,11 +144,11 @@ const Events = () => {
       <Table table={table} />
       <TableFooter
         onAddItem={() => setOpen(true)}
-        buttonText='+ 새 이벤트 추가하기'
+        buttonText='+ 운영자 초대'
         selectedCount={selectedRows.length}
         totalCount={data.length}
       />
-      <EventModal
+      <AdminModal
         open={open}
         onOpenChange={setOpen}
       />
@@ -132,4 +156,4 @@ const Events = () => {
   );
 };
 
-export default Events;
+export default Admins;

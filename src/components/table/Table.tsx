@@ -1,6 +1,10 @@
-import { flexRender, Table } from '@tanstack/react-table';
+import { flexRender, Table as TanStackTable } from '@tanstack/react-table';
 
-const EventTable = ({ table }: { table: Table<EventItem> }) => {
+interface TableProps<T> {
+  table: TanStackTable<T>;
+}
+
+const Table = <T,>({ table }: TableProps<T>) => {
   return (
     <div className='rounded-xl border bg-white shadow-sm'>
       <table className='min-w-full text-sm'>
@@ -44,4 +48,4 @@ const EventTable = ({ table }: { table: Table<EventItem> }) => {
   );
 };
 
-export default EventTable;
+export default Table;

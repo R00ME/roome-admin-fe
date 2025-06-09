@@ -3,8 +3,9 @@ import { Route, Routes } from 'react-router-dom';
 import ServiceDashboard from '@/pages/service-dashboard/ServiceDashboard';
 import Main from '@/pages/main/Main';
 import Login from '@/pages/login/Login';
-import Events from '@/pages/Events/Events';
+import Events from '@/pages/events/Events';
 import DashboardLayout from './layout/DashboardLayout';
+import Admins from '@/pages/admins/Admins';
 
 const Router = () => {
   return (
@@ -20,13 +21,14 @@ const Router = () => {
           element={<Login />}
         />
 
-        {/* <Route path='admin' /> */}
-        <Route 
-          path='event'
+        <Route
+          path='admins'
+          element={<Admins />}
+        />
+        <Route
+          path='events'
           element={<Events />}
-
-        {/* <Route path='admin' /> */}
-        {/* <Route path='event' /> */}
+        />
       </Route>
 
       <Route
@@ -35,7 +37,6 @@ const Router = () => {
         <Route
           path='service'
           element={<ServiceDashboard />}
-
         />
         {/* <Route path='user' element={< UserDashboard />} /> */}
         {/* <Route path='system' element={< SystemDashboard />} /> */}
