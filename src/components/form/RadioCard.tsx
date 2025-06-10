@@ -1,17 +1,6 @@
 import { memo } from 'react';
 import { cn } from '@/lib/utils';
 
-interface RadioCardOption {
-  value: string;
-  label: string;
-}
-
-interface RadioCardGroupProps {
-  options: RadioCardOption[];
-  value: string;
-  onChange: (value: string) => void;
-}
-
 const RadioCard = memo(({ options, value, onChange }: RadioCardGroupProps) => {
   return (
     <div className='flex gap-4 text-sm'>

@@ -2,14 +2,6 @@ import { memo } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
-interface TextareaWithCountProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  showCount?: boolean;
-  maxLength?: number;
-  value: string;
-  className?: string;
-}
-
 const TextareaWithCount = memo(
   ({
     showCount = false,

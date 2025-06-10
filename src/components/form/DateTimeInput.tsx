@@ -2,16 +2,6 @@ import { memo } from 'react';
 import { Input } from '@/components/ui/input';
 import Label from './Label';
 
-interface DateTimeInputProps {
-  label: string;
-  date: string;
-  time: string;
-  onDateChange: (date: string) => void;
-  onTimeChange: (time: string) => void;
-  minDate?: string;
-  className?: string;
-}
-
 const DateTimeInput = memo(
   ({
     label,

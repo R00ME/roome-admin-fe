@@ -1,14 +1,5 @@
 import { memo } from 'react';
 
-interface CheckListItem {
-  text: string;
-  description?: string;
-}
-
-interface CheckListProps {
-  items: CheckListItem[];
-}
-
 const CheckList = memo(({ items }: CheckListProps) => {
   return (
     <div className='space-y-3 bg-gray-100 px-2 py-3 rounded-lg'>

@@ -1,10 +1,6 @@
 import { memo } from 'react';
 import { cn } from '@/lib/utils';
 
-interface LabelProps {
-  children: React.ReactNode;
-  className?: string;
-}
 
 const Label = memo(({ children, className }: LabelProps) => {
   return (
