@@ -1,24 +1,23 @@
-import { memo } from 'react';
-import { cn } from '@/lib/utils';
+const AdminRoleCell = ({ role }: AdminRoleCellProps) => {
+  const getBgColor = () => {
+    switch (role) {
+      case '운영 관리자':
+        return 'bg-blue-100 text-blue-700';
+      case '시스템 관리자':
+        return 'bg-purple-100 text-purple-700';
+      case '일반 관리자':
+        return 'bg-gray-100 text-gray-700';
+      default:
+        return 'bg-gray-100 text-gray-700';
+    }
+  };
 
-const roleStyles: Record<AdminRole, string> = {
-  '운영 관리자': 'bg-[#E6F4FF] text-[#3BA3FF]',
-  '시스템 관리자': 'bg-[#F0E6FF] text-[#8B5CF6]',
-  '일반 관리자': 'bg-[#F5F5F5] text-[#BDBDBD]',
-} as const;
-
-const AdminRoleCell = memo(({ role }: AdminRoleCellProps) => {
   return (
-    <span
-      className={cn(
-        roleStyles[role],
-        'px-3 py-1 rounded-full text-xs font-semibold user-select-none',
-      )}>
+    <div
+      className={`px-2 py-1 rounded-full text-xs font-medium inline-block ${getBgColor()}`}>
       {role}
-    </span>
+    </div>
   );
-});
-
-AdminRoleCell.displayName = 'AdminRoleCell';
+};
 
 export default AdminRoleCell;

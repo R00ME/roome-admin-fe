@@ -7,12 +7,18 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import TableSkeleton from './TableSkeleton';
 
 interface TableProps<T> {
   table: TanStackTable<T>;
+  isLoading?: boolean;
 }
 
-const Table = <T,>({ table }: TableProps<T>) => {
+const Table = <T,>({ table, isLoading }: TableProps<T>) => {
+  if (isLoading) {
+    return <TableSkeleton columns={table.getAllColumns().length} />;
+  }
+
   return (
     <div className='rounded-xl border bg-white'>
       <ShadcnTable>

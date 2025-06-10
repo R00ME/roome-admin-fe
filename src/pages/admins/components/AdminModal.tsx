@@ -3,32 +3,13 @@ import { Input } from '@/components/ui/input';
 import { memo, useState, useCallback } from 'react';
 import { ModalHeader, ModalFooter, ModalContent } from '@/components/modal';
 import { Label, RadioCard, CheckList } from '@/components/form';
+import type { AdminData, AdminRole, AdminModalProps } from '@/types/admins';
 
-interface Permission {
-  text: string;
-  description?: string;
-}
-
-const initialState: AdminData = {
-  name: '',
-  email: '',
-  role: 'operation',
-  permissions: [],
-};
-
-const ADMIN_TYPES = [
-  { value: 'operation', label: '운영 관리자' },
-  { value: 'system', label: '시스템 관리자' },
-];
-
-const ADMIN_PERMISSIONS: Record<'operation' | 'system', Permission[]> = {
-  operation: [
-    { text: '운영 기능 사용 가능', description: '관리자 타입 지정' },
-    { text: '서비스 사용성 분석 대시보드 사용 가능' },
-    { text: '사용자 분석 대시보드 사용 가능' },
-  ],
-  system: [{ text: '시스템 대시보드 사용 가능' }],
-};
+import {
+  initialState,
+  ADMIN_PERMISSIONS,
+  ADMIN_TYPES,
+} from '@/constants/admins';
 
 // 관리자 타입 선택 컴포넌트
 const AdminTypeSelector = memo(
@@ -36,14 +17,12 @@ const AdminTypeSelector = memo(
     selectedRole,
     onRoleChange,
   }: {
-    selectedRole: 'operation' | 'system';
-    onRoleChange: (role: 'operation' | 'system') => void;
+    selectedRole: AdminRole;
+    onRoleChange: (role: AdminRole) => void;
   }) => {
     const handleChange = useCallback(
       (value: string) => {
-        if (value === 'operation' || value === 'system') {
-          onRoleChange(value);
-        }
+        onRoleChange(value as AdminRole);
       },
       [onRoleChange],
     );
@@ -113,22 +92,18 @@ const EmailInput = memo(
 );
 
 // 권한 설정 컴포넌트
-const PermissionSettings = memo(
-  ({ role }: { role: 'operation' | 'system' }) => {
-    const permissions = ADMIN_PERMISSIONS[role];
+const PermissionSettings = memo(({ role }: { role: AdminRole }) => {
+  const permissions = ADMIN_PERMISSIONS[role];
 
-    return (
-      <div>
-        <Label>
-          {role === 'operation' ? '운영 관리자' : '시스템 관리자'}의 권한
-        </Label>
-        <div className='mt-3'>
-          <CheckList items={permissions} />
-        </div>
+  return (
+    <div>
+      <Label>{role}의 권한</Label>
+      <div className='mt-3'>
+        <CheckList items={permissions} />
       </div>
-    );
-  },
-);
+    </div>
+  );
+});
 
 // 모달 폼 컴포넌트
 const AdminForm = memo(

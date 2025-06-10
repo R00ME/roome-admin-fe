@@ -1,46 +1,19 @@
 import {
   useReactTable,
   getCoreRowModel,
-  ColumnDef,
+  type ColumnDef,
 } from '@tanstack/react-table';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Table, TableFooter, TableHeader } from '@/components/table';
 import AdminModal from './components/AdminModal';
 import AdminIcon from '@/assets/icons/sidebar/admin-invite-icon.svg?react';
+import { MOCK_DATA } from '@/constants/admins';
+import type { AdminItem, AdminRole } from '@/types/admins';
+
 import AdminRoleCell from '@/components/table/cells/AdminRoleCell';
 import UrlCell from '@/components/table/cells/UrlCell';
 import DeleteCell from '@/components/table/cells/DeleteCell';
-
-const data: AdminItem[] = [
-  {
-    id: '1',
-    name: '고광희',
-    email: 'test02@naver.com',
-    role: '운영 관리자',
-    url: 'https://www.room-e.com/1002',
-    accessTime: '오늘, PM 04:20',
-    createdAt: '2025-04-24',
-  },
-  {
-    id: '2',
-    name: '고광희',
-    email: 'test02@naver.com',
-    role: '시스템 관리자',
-    url: 'https://www.room-e.com/1002',
-    accessTime: '오늘, PM 04:20',
-    createdAt: '2025-04-24',
-  },
-  {
-    id: '3',
-    name: '고광희',
-    email: 'test02@naver.com',
-    role: '시스템 관리자',
-    url: 'https://www.room-e.com/1002',
-    accessTime: '오늘, PM 04:20',
-    createdAt: '2025-04-24',
-  },
-];
 
 const columns: ColumnDef<AdminItem>[] = [
   {
@@ -86,12 +59,28 @@ const columns: ColumnDef<AdminItem>[] = [
 
 const Admins = () => {
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState<AdminItem[]>([]);
 
   const table = useReactTable<AdminItem>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  useEffect(() => {
+    const fetchAdmins = async () => {
+      try {
+        setIsLoading(true);
+        // 1.5초 후에 데이터를 로드하도록 시뮬레이션
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        setData(MOCK_DATA);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchAdmins();
+  }, []);
 
   return (
     <div className='w-full p-8'>
@@ -104,7 +93,10 @@ const Admins = () => {
         ]}
         defaultTab='name'
       />
-      <Table table={table} />
+      <Table
+        table={table}
+        isLoading={isLoading}
+      />
       <TableFooter
         onAddItem={() => setOpen(true)}
         buttonText='+ 운영자 초대'

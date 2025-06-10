@@ -2,17 +2,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import StatusCell from '@/components/table/cells/StatusCell';
 import React from 'react';
 
-export interface EventItem {
-  id: string;
-  title: string;
-  target: string;
-  uploadTime: string;
-  status: string;
-  message: string;
-  browser: string;
-  createdAt: string;
-  author: string;
-}
 
 export const MOCK_EVENT_DATA: EventItem[] = [
   {

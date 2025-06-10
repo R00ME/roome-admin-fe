@@ -26,3 +26,8 @@ interface DeleteCellProps {
 interface UrlCellProps {
   url: string;
 }
+
+interface TableSkeletonProps {
+  columns: number;
+  rows?: number;
+}
