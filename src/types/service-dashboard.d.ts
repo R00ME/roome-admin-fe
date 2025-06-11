@@ -1,6 +1,6 @@
-export type IconType = 'DAU' | 'MAU' | 'CONTENTS' | 'NEW_USERS' | 'REVISIONS';
+type IconType = 'DAU' | 'MAU' | 'CONTENTS' | 'NEW_USERS' | 'REVISIONS';
 
-export interface StatCardProps {
+interface StatCardProps {
   title: IconType;
   value: string | number;
   icon: IconType;

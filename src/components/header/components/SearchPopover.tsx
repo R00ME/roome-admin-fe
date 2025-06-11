@@ -5,12 +5,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
-interface SearchPopoverProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  children: React.ReactNode;
-}
-
 const SearchPopover = ({
   open,
   onOpenChange,

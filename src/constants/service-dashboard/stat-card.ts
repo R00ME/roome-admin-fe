@@ -1,5 +1,3 @@
-import { StatCardProps } from '@/types/service-dashboard/stat-card.type';
-
 export const statCards: StatCardProps[] = [
   {
     title: 'DAU',

@@ -1,11 +1,5 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import searchIcon from '@/assets/icons/header/search-icon.svg';
-
-interface SearchInputProps {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocus: () => void;
-}
 
 const SearchInput = forwardRef<HTMLDivElement, SearchInputProps>(
   ({ value, onChange, onFocus }, ref) => (

@@ -8,7 +8,9 @@ const BaseLayout = () => {
       <Header />
       <main className='relative pt-16 flex w-full'>
         <Sidebar />
-        <Outlet />
+        <div className='flex-1 px-20 py-12'>
+          <Outlet />
+        </div>
       </main>
     </div>
   );

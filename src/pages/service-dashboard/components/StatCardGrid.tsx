@@ -1,6 +1,5 @@
 import StatCard from './StatCard';
 import { statCards } from '@/constants/service-dashboard/stat-card';
-import { IconType } from '@/types/service-dashboard/stat-card.type';
 
 interface StatCardGridProps {
   selectedCard: IconType;
