@@ -8,6 +8,9 @@ import BellIcon from '@/assets/icons/header/bell-icon.svg?react';
 import NotificationHeader from './components/NotificationHeader';
 import NotificationFilter from './components/NotificationFilter';
 import NotificationContent from './components/NotificationContent';
+import NotificationSkeleton from './components/NotificationSkeleton';
+import NotificationErrorBoundary from './components/NotificationErrorBoundary';
+import { Suspense } from 'react';
 
 const Notification = () => {
   return (
@@ -21,9 +24,13 @@ const Notification = () => {
         <NotificationHeader />
         <Tabs
           defaultValue='all'
-          className=' py-2'>
+          className='py-2'>
           <NotificationFilter />
-          <NotificationContent />
+          <NotificationErrorBoundary>
+            <Suspense fallback={<NotificationSkeleton />}>
+              <NotificationContent />
+            </Suspense>
+          </NotificationErrorBoundary>
         </Tabs>
       </PopoverContent>
     </Popover>
