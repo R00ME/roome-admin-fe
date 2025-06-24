@@ -1,10 +1,10 @@
 import { Eye, EyeOff, RotateCcw } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../../../components/ui/button';
-import { Card, CardContent } from '../../../components/ui/card';
-import ProfileImage from './ProfileImage';
-import ReadOnlyInfo from './ReadOnlyInfo';
+import { Button } from '../../components/ui/button';
+import { Card, CardContent } from '../../components/ui/card';
+import ProfileImage from './components/ProfileImage';
+import ReadOnlyInfo from './components/ReadOnlyInfo';
 
 export default function ChangePassword() {
   const navigate = useNavigate();
