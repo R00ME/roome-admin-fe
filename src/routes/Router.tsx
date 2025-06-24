@@ -1,12 +1,15 @@
-import BaseLayout from './layout/BaseLayout';
-import { Route, Routes } from 'react-router-dom';
-import ServiceDashboard from '@/pages/service-dashboard/ServiceDashboard';
-import Main from '@/pages/main/Main';
-import Login from '@/pages/login/Login';
-import Events from '@/pages/events/Events';
-import DashboardLayout from './layout/DashboardLayout';
 import Admins from '@/pages/admins/Admins';
 import Error from '@/pages/error/Error';
+import Events from '@/pages/events/Events';
+import Login from '@/pages/login/Login';
+import Main from '@/pages/main/Main';
+import ServiceDashboard from '@/pages/service-dashboard/ServiceDashboard';
+import { Route, Routes } from 'react-router-dom';
+import ChangePassword from '../pages/mypage/ChangePassword';
+import EditProfile from '@/pages/mypage/EditProfile';
+import Mypage from '../pages/mypage/Mypage';
+import BaseLayout from './layout/BaseLayout';
+import DashboardLayout from './layout/DashboardLayout';
 
 const Router = () => {
   return (
@@ -26,6 +29,20 @@ const Router = () => {
           path='admins'
           element={<Admins />}
         />
+
+        <Route
+          path='settings'
+          element={<Mypage />}
+        />
+        <Route
+          path='settings/profile'
+          element={<EditProfile />}
+        />
+        <Route
+          path='settings/password'
+          element={<ChangePassword />}
+        />
+
         <Route
           path='events'
           element={<Events />}
@@ -47,7 +64,6 @@ const Router = () => {
         path='*'
         element={<Error />}
       />
-
     </Routes>
   );
 };
