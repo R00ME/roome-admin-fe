@@ -6,6 +6,7 @@ import Login from '@/pages/login/Login';
 import Events from '@/pages/events/Events';
 import DashboardLayout from './layout/DashboardLayout';
 import Admins from '@/pages/admins/Admins';
+import Error from '@/pages/error/Error';
 
 const Router = () => {
   return (
@@ -41,6 +42,11 @@ const Router = () => {
         {/* <Route path='user' element={< UserDashboard />} /> */}
         {/* <Route path='system' element={< SystemDashboard />} /> */}
       </Route>
+
+      <Route
+        path='*'
+        element={<Error />}
+      />
 
     </Routes>
   );
