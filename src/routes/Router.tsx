@@ -6,6 +6,9 @@ import Login from '@/pages/login/Login';
 import Events from '@/pages/events/Events';
 import DashboardLayout from './layout/DashboardLayout';
 import Admins from '@/pages/admins/Admins';
+import Mypage from '../pages/mypage/Mypage';
+import ChangePassword from '../pages/mypage/components/ChangePassword';
+import EditProfile from '../pages/mypage/EditPRofile';
 
 const Router = () => {
   return (
@@ -25,6 +28,20 @@ const Router = () => {
           path='admins'
           element={<Admins />}
         />
+
+        <Route
+          path='settings'
+          element={<Mypage />}
+        />
+        <Route
+          path='settings/profile'
+          element={<EditProfile />}
+        />
+        <Route
+          path='settings/password'
+          element={<ChangePassword />}
+        />
+
         <Route
           path='events'
           element={<Events />}

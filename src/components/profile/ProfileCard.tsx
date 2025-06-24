@@ -1,10 +1,13 @@
+import profileImg from '@/assets/images/default-profile-img.jpg';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import { X } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
-import profileImg from '@/assets/images/default-profile-img.jpg';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProfileCard() {
+const navigate = useNavigate();
+
   return (
     <Card className='flex flex-col justify-center items-center w-58 rounded-xl relative p-6 shadow-md gap-3 '>
       {/* 닫기 버튼 */}
@@ -41,7 +44,11 @@ export default function ProfileCard() {
       </div>
 
       {/* 버튼 */}
-      <button className='text-sm font-medium bg-[#293F66] text-white px-10 py-1.5 rounded-full'> 마이페이지</button>
+      <button
+        onClick={()=> navigate('/settings')} 
+        className='text-sm font-medium bg-[#293F66] text-white px-10 py-1.5 rounded-full'> 
+        마이페이지
+      </button>
     </Card>
   );
 }

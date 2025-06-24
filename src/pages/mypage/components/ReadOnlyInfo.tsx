@@ -1,6 +1,5 @@
 import { Mail, Phone, User } from 'lucide-react';
 import InfoField from './InfoField';
-import PasswordField from './PasswordField';
 
 export default function ReadOnlyInfo() {
   return (
@@ -18,7 +17,6 @@ export default function ReadOnlyInfo() {
         icon={<Mail className='w-4 h-4 text-gray-300' />}
         label='superadmin@gamil.com'
       />
-      <PasswordField isEditing={false} />
     </>
   );
 }
