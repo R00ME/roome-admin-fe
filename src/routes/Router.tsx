@@ -9,6 +9,7 @@ import Admins from '@/pages/admins/Admins';
 import Mypage from '../pages/mypage/Mypage';
 import ChangePassword from '../pages/mypage/components/ChangePassword';
 import EditProfile from '../pages/mypage/EditPRofile';
+import Error from '@/pages/error/Error';
 
 const Router = () => {
   return (
@@ -58,6 +59,11 @@ const Router = () => {
         {/* <Route path='user' element={< UserDashboard />} /> */}
         {/* <Route path='system' element={< SystemDashboard />} /> */}
       </Route>
+
+      <Route
+        path='*'
+        element={<Error />}
+      />
 
     </Routes>
   );
