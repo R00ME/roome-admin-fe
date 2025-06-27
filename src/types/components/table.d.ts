@@ -9,8 +9,8 @@ interface TableHeaderProps {
 }
 
 interface TableFooterProps {
-  onAddItem: () => void;
-  buttonText: string;
+  onAddItem?: () => void;
+  buttonText?: string;
 }
 
 type AdminRole = '운영 관리자' | '시스템 관리자' | '일반 관리자';

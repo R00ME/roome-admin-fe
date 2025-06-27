@@ -28,11 +28,15 @@ const TableFooter = ({ onAddItem, buttonText }: TableFooterProps) => {
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-      <Button
-        className='bg-gradient-to-r from-[#888CFC] to-[#93B9FF] text-white px-6 py-3 rounded-full cursor-pointer'
-        onClick={onAddItem}>
-        {buttonText}
-      </Button>
+      {/* 버튼 */}
+      {onAddItem && buttonText && (
+        <Button
+          className="bg-gradient-to-r from-[#888CFC] to-[#93B9FF] text-white px-6 py-3 rounded-full cursor-pointer"
+          onClick={onAddItem}
+        >
+          {buttonText}
+        </Button>
+      )}
     </div>
   );
 };
