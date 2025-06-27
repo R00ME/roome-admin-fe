@@ -10,6 +10,7 @@ import EditProfile from '@/pages/mypage/EditProfile';
 import Mypage from '../pages/mypage/Mypage';
 import BaseLayout from './layout/BaseLayout';
 import DashboardLayout from './layout/DashboardLayout';
+import UserDashboard from '../pages/user-dashboard/UserDashboard';
 
 const Router = () => {
   return (
@@ -56,7 +57,7 @@ const Router = () => {
           path='service'
           element={<ServiceDashboard />}
         />
-        {/* <Route path='user' element={< UserDashboard />} /> */}
+        <Route path='user' element={< UserDashboard />} />
         {/* <Route path='system' element={< SystemDashboard />} /> */}
       </Route>
 

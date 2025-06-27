@@ -3,7 +3,7 @@ import UserActivity from "./components/UserActivity";
 
 export default function UserDashboard() {
   return (
-    <main className="flex gap-10">
+    <main className="flex gap-10 items-baseline ">
       <UserActivity />
       <RankingUserList />
     </main>
