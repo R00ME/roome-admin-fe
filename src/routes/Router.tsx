@@ -11,6 +11,7 @@ import Mypage from '../pages/mypage/Mypage';
 import BaseLayout from './layout/BaseLayout';
 import DashboardLayout from './layout/DashboardLayout';
 import UserDashboard from '../pages/user-dashboard/UserDashboard';
+import ManagementLayout from './layout/ManagementLayout';
 
 const Router = () => {
   return (
@@ -27,11 +28,6 @@ const Router = () => {
         />
 
         <Route
-          path='admins'
-          element={<Admins />}
-        />
-
-        <Route
           path='settings'
           element={<Mypage />}
         />
@@ -43,13 +39,8 @@ const Router = () => {
           path='settings/password'
           element={<ChangePassword />}
         />
-
-        <Route
-          path='events'
-          element={<Events />}
-        />
       </Route>
-
+      
       <Route
         path='dashboard'
         element={<DashboardLayout />}>
@@ -57,8 +48,22 @@ const Router = () => {
           path='service'
           element={<ServiceDashboard />}
         />
-        <Route path='user' element={< UserDashboard />} />
+        <Route
+          path='user'
+          element={<UserDashboard />}
+        />
         {/* <Route path='system' element={< SystemDashboard />} /> */}
+      </Route>
+
+      <Route element={<ManagementLayout />}>
+        <Route
+          path='admins'
+          element={<Admins />}
+        />
+        <Route
+          path='events'
+          element={<Events />}
+        />
       </Route>
 
       <Route
