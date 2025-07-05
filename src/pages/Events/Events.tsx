@@ -32,7 +32,7 @@ const Events = () => {
   }, []);
 
   return (
-    <div className='w-full p-8'>
+    <div className='w-full'>
       <TableHeader
         icon={EventIcon}
         title='이벤트 목록'

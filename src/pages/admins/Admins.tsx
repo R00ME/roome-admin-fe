@@ -83,7 +83,7 @@ const Admins = () => {
   }, []);
 
   return (
-    <div className='w-full p-8'>
+    <div className='w-full'>
       <TableHeader
         icon={AdminIcon}
         title='운영자 목록'
