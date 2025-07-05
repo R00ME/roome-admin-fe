@@ -39,20 +39,20 @@ const Router = () => {
           path='settings/password'
           element={<ChangePassword />}
         />
-
+      </Route>
+      
+      <Route
+        path='dashboard'
+        element={<DashboardLayout />}>
         <Route
-          path='dashboard'
-          element={<DashboardLayout />}>
-          <Route
-            path='service'
-            element={<ServiceDashboard />}
-          />
-          <Route
-            path='user'
-            element={<UserDashboard />}
-          />
-          {/* <Route path='system' element={< SystemDashboard />} /> */}
-        </Route>
+          path='service'
+          element={<ServiceDashboard />}
+        />
+        <Route
+          path='user'
+          element={<UserDashboard />}
+        />
+        {/* <Route path='system' element={< SystemDashboard />} /> */}
       </Route>
 
       <Route element={<ManagementLayout />}>
