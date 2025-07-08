@@ -17,7 +17,7 @@ const ServiceDashboard = () => {
         title='서비스 대시보드'
         tooltipContent='서비스의 주요 지표와 통계를 한눈에 확인할 수 있는 대시보드입니다.'
       />
-      <div className='grid grid-cols-[1fr_320px] gap-6 mb-12'>
+      <div className='grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 mb-12'>
         <StatCardGrid
           selectedCard={selectedCard}
           onCardSelect={handleCardSelect}
