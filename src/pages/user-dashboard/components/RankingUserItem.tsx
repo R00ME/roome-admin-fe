@@ -70,7 +70,7 @@ export default function RankingUserItem() {
     },
   ];
   return (
-    <Card className='w-full px-8 space-y-2 h-[calc(100vh-220px)] overflow-y-auto'>
+    <Card className='w-full max-h-170 px-8 space-y-2 h-[calc(100vh-220px)] overflow-y-auto'>
       {rankingData.map((user, index) => {
         const isTop3 = index < 3;
         const rankColor = isTop3
