@@ -1,6 +1,6 @@
 import InputField from "./InputField";
 
-export default function Form({ title, fields, onClick }: FormProps) {
+export default function Form({ title, fields, onClick, values, onChangeField, onSubmit, errors }: FormProps) {
   return (
     <>
       <h1 className='font-bold text-2xl text-[#4983ef]'>{title}</h1>
@@ -15,12 +15,17 @@ export default function Form({ title, fields, onClick }: FormProps) {
             type={type}
             placeholder={placeholder}
             icon={icon}
+            error={errors?.[id]}
+            value={values[id]?? ''}
+            onChange={(e) => onChangeField?.(id, e.target.value)}
           />
+          
         ))}
       </form>
-      <div className='flex flex-col items-center gap-2 mt-3'>
+      <div className='flex flex-col items-center gap-2 mt-1'>
         <button
-          type='submit'
+          type='button'
+          onClick={onSubmit}
           className='w-full bg-[#B9C2D1] rounded-full h-13 text-white font-semibold '>
           {title === "운영자 로그인" ? "로그인" : "임시 비밀번호 재발급"}
         </button>
