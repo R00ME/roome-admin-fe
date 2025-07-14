@@ -32,7 +32,7 @@ export default function Login() {
             />
           ) : (
             <Form
-              title='임시 비밀번호 발급'
+              title='임시 비밀번호 재발급'
               fields={tempPasswordFields}
             />
           )}

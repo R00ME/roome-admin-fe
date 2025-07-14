@@ -22,16 +22,16 @@ export default function Form({ title, fields, onClick }: FormProps) {
         <button
           type='submit'
           className='w-full bg-[#B9C2D1] rounded-full h-13 text-white font-semibold '>
-          로그인
+          {title === "운영자 로그인" ? "로그인" : "임시 비밀번호 재발급"}
         </button>
         {title === "운영자 로그인" && (
         <span className='flex items-center gap-1 font-medium text-sm text-[#888888]'>
-          <p>가입된 이메일로</p>
+          <p className="text-[#888888]/60" >가입된 이메일로</p>
           <button 
             type="button"
-            className='underline decoration-[#888888] font-semibold'
+            className='underline decoration-[#888888]'
             onClick={onClick}> 
-            비밀번호 재발급
+            임시 비밀번호 재발급
           </button>
         </span>
         )}
