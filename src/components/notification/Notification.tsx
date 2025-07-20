@@ -11,25 +11,29 @@ import NotificationContent from './components/NotificationContent';
 import NotificationSkeleton from './components/NotificationSkeleton';
 import NotificationErrorBoundary from './components/NotificationErrorBoundary';
 import { Suspense, useState } from 'react';
-import { useNotification } from '@/hooks/useNotification';
+import {
+  NotificationTab,
+  useNotificationRefactored,
+} from '@/hooks/useNotificationRefactored';
+
+// TODO: 실제 관리자 ID를 가져오는 로직으로 변경
+const ADMIN_ID = 1;
 
 const Notification = () => {
-  const [activeTab, setActiveTab] = useState<'all' | 'unread' | 'urgent'>(
-    'all',
-  );
-  const { handleMarkAllRead, fetchAllNotifications, isLoading } =
-    useNotification();
+  const [activeTab, setActiveTab] = useState<NotificationTab>('all');
+  const { handleMarkAllRead, refreshAllData, isActionLoading } =
+    useNotificationRefactored();
 
   const handleRefresh = () => {
-    fetchAllNotifications();
+    refreshAllData();
   };
 
-  const handleTabChange = (tab: 'all' | 'unread' | 'urgent') => {
+  const handleTabChange = (tab: NotificationTab) => {
     setActiveTab(tab);
   };
 
   const handleMarkAllReadClick = () => {
-    handleMarkAllRead(1); // TODO: 실제 adminId로 변경
+    handleMarkAllRead(ADMIN_ID);
   };
 
   return (
@@ -43,7 +47,7 @@ const Notification = () => {
         <div className='h-full flex flex-col'>
           <NotificationHeader
             onRefresh={handleRefresh}
-            isLoading={isLoading}
+            isLoading={isActionLoading}
           />
           <Tabs
             defaultValue='all'
@@ -52,7 +56,7 @@ const Notification = () => {
               activeTab={activeTab}
               onTabChange={handleTabChange}
               onMarkAllRead={handleMarkAllReadClick}
-              isLoading={isLoading}
+              isLoading={isActionLoading}
             />
             <NotificationErrorBoundary>
               <div className='flex-1 overflow-y-auto'>

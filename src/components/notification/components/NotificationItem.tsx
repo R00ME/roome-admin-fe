@@ -1,5 +1,6 @@
 import { NotificationItem as NotificationItemType } from '@/types/notification';
 import { formatNotificationDate } from '@/lib/utils';
+import { CATEGORY_LABELS, CATEGORY_COLORS } from '@/constants/notification';
 
 interface NotificationItemProps {
   notification: NotificationItemType;
@@ -13,40 +14,17 @@ const NotificationItemComponent = ({
   isLoading,
 }: NotificationItemProps) => {
   const getCategoryLabel = (category: string) => {
-    switch (category) {
-      case 'EVENT':
-        return '이벤트';
-      case 'SYSTEM':
-        return '시스템';
-      case 'CICD':
-        return '배포';
-      case 'USER':
-        return '사용자';
-      case 'ETC':
-        return '기타';
-      default:
-        return category;
-    }
+    return (
+      CATEGORY_LABELS[category as keyof typeof CATEGORY_LABELS] || category
+    );
   };
 
   const getCategoryColor = (category: string) => {
-    switch (category) {
-      case 'EVENT':
-        return 'bg-blue-100 text-blue-800';
-      case 'SYSTEM':
-        return 'bg-orange-100 text-orange-800';
-      case 'CICD':
-        return 'bg-green-100 text-green-800';
-      case 'USER':
-        return 'bg-purple-100 text-purple-800';
-      case 'ETC':
-        return 'bg-gray-100 text-gray-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
+    return (
+      CATEGORY_COLORS[category as keyof typeof CATEGORY_COLORS] ||
+      'bg-gray-100 text-gray-800'
+    );
   };
-
-  const formatDate = formatNotificationDate;
 
   return (
     <div
@@ -77,7 +55,7 @@ const NotificationItemComponent = ({
             {notification.message}
           </p>
           <p className='text-xs text-gray-500'>
-            {formatDate(notification.timestamp)}
+            {formatNotificationDate(notification.timestamp)}
           </p>
         </div>
         {!notification.isRead && (

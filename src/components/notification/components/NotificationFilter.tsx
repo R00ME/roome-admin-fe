@@ -1,5 +1,8 @@
 import { TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { NotificationTab, useNotification } from '@/hooks/useNotification';
+import {
+  NotificationTab,
+  useNotificationRefactored,
+} from '@/hooks/useNotificationRefactored';
 
 interface NotificationFilterProps {
   activeTab: NotificationTab;
@@ -15,7 +18,7 @@ const NotificationFilter = ({
   isLoading = false,
 }: NotificationFilterProps) => {
   const { getNotificationCount, getUnreadCount, getUrgentCount } =
-    useNotification();
+    useNotificationRefactored();
 
   const tabs = [
     {
