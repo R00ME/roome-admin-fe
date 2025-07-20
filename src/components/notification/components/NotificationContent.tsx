@@ -1,61 +1,120 @@
-import { TabsContent } from '@/components/ui/tabs';
-import { NOTIFICATION_TABS } from '@/constants/notification-tabinfo';
-import { useQuery } from '@tanstack/react-query';
+import { NotificationTab, useNotification } from '@/hooks/useNotification';
+import { NotificationItem } from '@/types/notification';
+import AllNotificationsTab from './AllNotificationsTab';
+import UrgentNotificationsTab from './UrgentNotificationsTab';
+import UnreadNotificationsTab from './UnreadNotificationsTab';
 
-interface NotificationItem {
-  id: string;
-  type: string;
-  content: string;
-  createdAt: string;
+interface NotificationContentProps {
+  activeTab: NotificationTab;
 }
 
-interface NotificationResponse {
-  items: NotificationItem[];
-}
+const NotificationContent = ({ activeTab }: NotificationContentProps) => {
+  const {
+    allNotifications,
+    urgentNotifications,
+    unreadNotifications,
+    handleMarkRead,
+    isLoading,
+    isAllLoading,
+    isUrgentLoading,
+    isUnreadLoading,
+  } = useNotification();
 
-interface NotificationItemProps {
-  type: string;
-}
+  const getNotificationsForTab = (tab: NotificationTab): NotificationItem[] => {
+    switch (tab) {
+      case 'all':
+        if (!allNotifications || typeof allNotifications === 'string')
+          return [];
+        if (
+          'notifications' in allNotifications &&
+          Array.isArray(allNotifications.notifications)
+        ) {
+          return allNotifications.notifications as NotificationItem[];
+        }
+        if (typeof allNotifications === 'object') {
+          return Object.entries(allNotifications)
+            .filter(
+              ([key]) =>
+                key !== 'totalCount' &&
+                key !== 'unreadCount' &&
+                key !== 'urgentCount',
+            )
+            .flatMap(([, notifications]) => {
+              if (Array.isArray(notifications)) {
+                return notifications as NotificationItem[];
+              }
+              return [];
+            });
+        }
+        return [];
 
-const NotificationItem = ({ type }: NotificationItemProps) => {
-  const { data } = useQuery<NotificationResponse>({
-    queryKey: ['notifications', type],
-    queryFn: async () => {
-      // TODO: 실제 API 호출로 대체
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      return { items: [] };
-    },
-  });
+      case 'urgent':
+        if (!urgentNotifications || typeof urgentNotifications === 'string')
+          return [];
+        if (
+          'notifications' in urgentNotifications &&
+          Array.isArray(urgentNotifications.notifications)
+        ) {
+          return urgentNotifications.notifications as NotificationItem[];
+        }
+        if (typeof urgentNotifications === 'object') {
+          return Object.entries(urgentNotifications)
+            .filter(([key]) => key !== 'totalCount')
+            .flatMap(([, notifications]) => {
+              if (Array.isArray(notifications)) {
+                return notifications as NotificationItem[];
+              }
+              return [];
+            });
+        }
+        return [];
 
-  return (
-    <div className='space-y-2'>
-      {!data?.items.length ? (
-        <div className='text-center py-4 text-gray-500'>알림이 없습니다</div>
-      ) : (
-        data.items.map((item) => (
-          <div
-            key={item.id}
-            className='p-4 border-b'>
-            {/* TODO: 실제 알림 아이템 UI 구현 */}
-            {item.content}
-          </div>
-        ))
-      )}
-    </div>
-  );
-};
+      case 'unread':
+        if (!unreadNotifications || typeof unreadNotifications === 'string')
+          return [];
+        if (
+          'notifications' in unreadNotifications &&
+          Array.isArray(unreadNotifications.notifications)
+        ) {
+          return unreadNotifications.notifications as NotificationItem[];
+        }
+        if (typeof unreadNotifications === 'object') {
+          return Object.entries(unreadNotifications)
+            .filter(([key]) => key !== 'totalCount')
+            .flatMap(([, notifications]) => {
+              if (Array.isArray(notifications)) {
+                return notifications as NotificationItem[];
+              }
+              return [];
+            });
+        }
+        return [];
 
-const NotificationContent = () => {
+      default:
+        return [];
+    }
+  };
+
   return (
     <>
-      {NOTIFICATION_TABS.map((tab) => (
-        <TabsContent
-          key={tab.value}
-          value={tab.value}
-          className='mt-4'>
-          <NotificationItem type={tab.value} />
-        </TabsContent>
-      ))}
+      <AllNotificationsTab
+        notifications={getNotificationsForTab('all')}
+        onMarkRead={handleMarkRead}
+        isLoading={isAllLoading || isLoading}
+        isActive={activeTab === 'all'}
+      />
+      <UrgentNotificationsTab
+        notifications={getNotificationsForTab('urgent')}
+        onMarkRead={handleMarkRead}
+        isLoading={isUrgentLoading || isLoading}
+        isActive={activeTab === 'urgent'}
+      />
+      <UnreadNotificationsTab
+        notifications={getNotificationsForTab('unread')}
+        onMarkRead={handleMarkRead}
+        isLoading={isUnreadLoading || isLoading}
+        isActive={activeTab === 'unread'}
+      />
     </>
   );
 };
