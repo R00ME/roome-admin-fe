@@ -21,11 +21,11 @@ const InputField = React.memo(
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`font-medium text-[#2E2E2E] w-102 h-13 border-2 placeholder-[#223250]/30 rounded-md focus:outline-none
+        className={`font-medium text-[#1c3351] w-full h-13 border-1 placeholder-[#223250]/30 rounded-md focus:outline-none
           ${icon ? 'pl-10' : 'pl-3'}
-          ${error ? 'border-[#a53d4e] focus:border-[#a53d4e]' : 'border-[#2a4d90]/30 focus:border-[#2a4d90]'}`}
+          ${error ? 'border-[#cd345c] focus:border-[#cd345c]' : 'border-[#94acd8]/30 focus:border-[#2a4d90] border-2'}`}
       />
-      {error && <p className='text-[#ab283e] font-medium text-sm pl-3'>{error}</p>}
+      {error && <p className='text-[#ab283e] font-medium text-xs pl-1'>{error}</p>}
     </fieldset>
   ),
 );

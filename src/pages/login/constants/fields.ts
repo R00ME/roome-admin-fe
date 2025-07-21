@@ -4,14 +4,14 @@ import emailIcon from '@/assets/icons/login/email-icon.svg';
 export const adminLoginFields = [
   {
     id: 'email',
-    label: '이메일',
+    label: 'Email',
     type: 'email',
     placeholder: 'RoomE@example.com',
     icon: emailIcon,
   },
   {
     id: 'password',
-    label: '비밀번호',
+    label: 'Password',
     type: 'password',
     placeholder: 'Password',
     icon: passwordIcon,
@@ -19,10 +19,10 @@ export const adminLoginFields = [
 ];
 
 export const tempPasswordFields = [
-  { id: 'name', label: '이름', type: 'text', placeholder: '홍길동' },
+  { id: 'name', label: 'Name', type: 'text', placeholder: '홍길동' },
   {
     id: 'email',
-    label: '이메일',
+    label: 'Email',
     type: 'email',
     placeholder: 'RoomE@example.com',
     icon: emailIcon,

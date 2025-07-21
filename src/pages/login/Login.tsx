@@ -1,4 +1,3 @@
-import logoBg from '@/assets/images/login-logo.svg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginAPI } from '../../apis/auth';
@@ -6,7 +5,8 @@ import { Card, CardContent } from '../../components/ui/card';
 import Form from './components/Form';
 import { adminLoginFields, tempPasswordFields } from './constants/fields';
 import { isValidEmail, isValidPassword } from './constants/validation';
-
+import loginBg from '@/assets/images/login-bg.jpg';
+import roomeLogo from '@/assets/images/roome-logo.png'
 
 export default function Login() {
   const [formType, setFormType] = useState<'login' | 'tempPassword'>('login');
@@ -26,16 +26,14 @@ export default function Login() {
     if (!isValidEmail(email)) {
       newErrors.email = '유효한 이메일 형식이 아닙니다.';
     }
-
     if (!isValidPassword(password)) {
-      newErrors.password = '비밀번호는 영문, 숫자, 특수문자를 포함한 10자 이상이어야 합니다.';
+      newErrors.password =
+        '영문, 숫자, 특수문자를 포함한 10자 이상이어야 합니다.';
     }
-
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-
     try {
       setErrors({});
       await loginAPI(email, password);
@@ -46,7 +44,6 @@ export default function Login() {
   };
 
   //임시 비밀번호 재발급
-
   const handleChangeField = (field: string, value: string) => {
     setFormState((prev) => ({ ...prev, [field]: value }));
   };
@@ -57,38 +54,44 @@ export default function Login() {
 
   const isLogin = formType === 'login';
 
+  const isValid =
+  isLogin
+    ? isValidEmail(formState.email) && isValidPassword(formState.password)
+    : isValidEmail(formState.email) && formState.name.length > 0;
+
   return (
     <main
-      style={{ background: 'linear-gradient(to right, #4983ef, #888cfc)' }}
-      className='relative h-screen flex items-center justify-center overflow-hidden'>
-      <Card className='bg-white rounded-2xl shadow-md py-10 px-6 flex flex-col gap-5 z-100 '>
-        {/* 로그인 & 임시 비밀번호 발급 창 컴포넌트 */}
-        <CardContent className='flex flex-col gap-5'>
-          {isLogin ? (
-            <Form
-              title='운영자 로그인'
-              values={formState}
-              errors={errors}
-              fields={adminLoginFields}
-              onClick={handleTempPasswordClick}
-              onChangeField={handleChangeField}
-              onSubmit={handleLogin}
-            />
-          ) : (
-            <Form
-              title='임시 비밀번호 재발급'
-              errors={errors}
-              values={formState}
-              fields={tempPasswordFields}
-            />
-          )}
-        </CardContent>
-      </Card>
-      <img
-        className='absolute bottom-[-100px]'
-        src={logoBg}
-        alt=''
-      />
+      className='relative h-screen flex flex-col items-center justify-center bg-cover bg-center overflow-hidden'
+      style={{ backgroundImage: `url(${loginBg})` }}>
+      <img src={roomeLogo} alt='' className='w-30 mb-5' />
+      {/* 로그인 창 */}
+      <section className='relative w-[400px] bg-white rounded-2xl shadow-md px-6 py-10 z-100'>
+        <Card className='w-full bg-transparent shadow-none border-none '>
+          {/* 로그인 & 임시 비밀번호 발급 창 컴포넌트 */}
+          <CardContent className='flex flex-col items-center gap-5 w-full'>
+            {isLogin ? (
+              <Form
+                title='Welcome Back!'
+                values={formState}
+                errors={errors}
+                fields={adminLoginFields}
+                onClick={handleTempPasswordClick}
+                onChangeField={handleChangeField}
+                onSubmit={handleLogin}
+                isValid={isValid}
+              />
+            ) : (
+              <Form
+                title='임시 비밀번호 재발급'
+                errors={errors}
+                values={formState}
+                fields={tempPasswordFields}
+                isValid={isValid}
+              />
+            )}
+          </CardContent>
+        </Card>
+      </section>
     </main>
   );
 }
