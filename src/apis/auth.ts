@@ -1,9 +1,11 @@
 import { useAuthStore } from "../store/useAuthStore";
 import axiosInstance from "./axiosInstance";
 
+const API_URL = 'api';
+
 export const loginAPI = async (email:string, password:string) => {
   try{
-    const response = await axiosInstance.post(`auth/login`, {
+    const response = await axiosInstance.post(`/${API_URL}/auth/login`, {
       email, password
     },{
       withCredentials: true,
@@ -24,7 +26,7 @@ export const loginAPI = async (email:string, password:string) => {
 
 export const logoutAPI = async () => {
   try{
-    await axiosInstance.post(`auth/logout`);
+    await axiosInstance.post(`/${API_URL}/auth/logout`);
     useAuthStore.getState().clearAccessToken?.();
 
     window.location.href = '/login'
@@ -37,7 +39,7 @@ export const logoutAPI = async () => {
 
 export const refreshAccessTokenAPI = async () => {
   try{
-    const response = await axiosInstance.post(`/refresh`);
+    const response = await axiosInstance.post(`/${API_URL}/refresh`);
     
     const accessToken =
       response.headers['authorization'] || response.headers['Authorization'];
