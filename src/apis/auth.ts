@@ -5,12 +5,13 @@ const API_URL = 'api';
 
 export const loginAPI = async (email:string, password:string) => {
   try{
-    const response = await axiosInstance.post(`/${API_URL}/auth/login`, {
+    const response = await axiosInstance.post(`/${API_URL}/admin/auth/login`, {
       email, password
     },{
       withCredentials: true,
     })
 
+    console.log('응답:', response);
     const authHeader = response.headers['authorization'];
     const accessToken = authHeader?.split(' ')[1];
 
@@ -26,7 +27,7 @@ export const loginAPI = async (email:string, password:string) => {
 
 export const logoutAPI = async () => {
   try{
-    await axiosInstance.post(`/${API_URL}/auth/logout`);
+    await axiosInstance.post(`/${API_URL}/admin/auth/logout`);
     useAuthStore.getState().clearAccessToken?.();
 
     window.location.href = '/login'
@@ -39,7 +40,7 @@ export const logoutAPI = async () => {
 
 export const refreshAccessTokenAPI = async () => {
   try{
-    const response = await axiosInstance.post(`/${API_URL}/refresh`);
+    const response = await axiosInstance.post(`/${API_URL}/admin/refresh`);
     
     const accessToken =
       response.headers['authorization'] || response.headers['Authorization'];
