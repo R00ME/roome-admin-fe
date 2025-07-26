@@ -13,6 +13,7 @@ export const loginAPI = async (email:string, password:string) => {
 
     console.log('응답:', response);
     const authHeader = response.headers['authorization'];
+    console.log('응답:', authHeader);
     const accessToken = authHeader?.split(' ')[1];
 
     if(!accessToken) {throw new Error('🚨 Access token이 응답에 없습니다.')}
@@ -56,6 +57,21 @@ export const refreshAccessTokenAPI = async () => {
     return token;
   } catch(error){
     console.error('🚨 Access Token 재발급 실패:', error);
+    throw error;
+  }
+}
+
+export const resetTempPasswordAPI = async (confirmEmail:string, confrimName:string) => {
+  try{
+    const response = await axiosInstance.post(`/${API_URL}/admin/auth/password/reset`, {
+      confirmEmail,
+      confrimName
+    });
+
+    const message = response.data?.message
+    return message;
+  } catch (error) {
+    console.error('🚨 임시 비밀번호 발급 실패:', error);
     throw error;
   }
 }

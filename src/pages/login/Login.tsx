@@ -2,7 +2,7 @@ import loginBg from '@/assets/images/login-bg.jpg';
 import roomeLogo from '@/assets/images/roome-logo.png';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginAPI } from '../../apis/auth';
+import { loginAPI, resetTempPasswordAPI } from '../../apis/auth';
 import { Card, CardContent } from '../../components/ui/card';
 import Form from './components/Form';
 import { adminLoginFields, tempPasswordFields } from './constants/fields';
@@ -54,6 +54,30 @@ export default function Login() {
   };
 
   //임시 비밀번호 재발급
+  const handleResetTempPassword = async () => {
+    const { email, name } = formState;
+    const newErrors: Record<string, string> = {};
+
+    if (!isValidEmail(email)) {
+      newErrors.email = '유효한 이메일 형식이 아닙니다.';
+    }
+    if (!name.trim()) {
+      newErrors.name = '이름을 입력해주세요.';
+    }
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    try{
+      setErrors({});
+      const message = await resetTempPasswordAPI(email, name);
+      console.log(message);
+      setFormType('login');
+    } catch (error){
+      setErrors({ email: '임시 비밀번호 발급 실패!' });
+    }
+  }
   const handleChangeField = (field: string, value: string) => {
     setFormState((prev) => ({ ...prev, [field]: value }));
   };
@@ -100,6 +124,7 @@ export default function Login() {
                 values={formState}
                 fields={tempPasswordFields}
                 isValid={isValid}
+                onSubmit={handleResetTempPassword}
               />
             )}
           </CardContent>
