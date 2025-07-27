@@ -1,4 +1,5 @@
 import { useAuthStore } from "../store/useAuthStore";
+import { useUserStore } from "../store/useUserStore";
 import axiosInstance from "./axiosInstance";
 
 const API_URL = 'api';
@@ -7,18 +8,16 @@ export const loginAPI = async (email:string, password:string) => {
   try{
     const response = await axiosInstance.post(`/${API_URL}/admin/auth/login`, {
       email, password
-    },{
-      withCredentials: true,
     })
 
-    console.log('응답:', response);
     const authHeader = response.headers['authorization'];
-    console.log('응답:', authHeader);
     const accessToken = authHeader?.split(' ')[1];
-
     if(!accessToken) {throw new Error('🚨 Access token이 응답에 없습니다.')}
     
     useAuthStore.getState().setAccessToken(accessToken)
+    const user = await fetchAdminInfo();
+    useUserStore.getState().setUser(user);
+    
     return accessToken;
   } catch (error) {
     console.error('🚨 로그인 실패:', error);
@@ -30,6 +29,7 @@ export const logoutAPI = async () => {
   try{
     await axiosInstance.post(`/${API_URL}/admin/auth/logout`);
     useAuthStore.getState().clearAccessToken?.();
+    useUserStore.getState().clearUser?.();
 
     window.location.href = '/login'
 
@@ -51,7 +51,6 @@ export const refreshAccessTokenAPI = async () => {
     }
 
     const token = accessToken.split(' ')[1];
-
     useAuthStore.getState().setAccessToken(token);
 
     return token;
@@ -77,7 +76,12 @@ export const resetTempPasswordAPI = async (confirmEmail:string, confrimName:stri
 }
 
 export const initStatus = () => {
-
   useAuthStore.getState().clearAccessToken?.();
+  useUserStore.getState().clearUser?.();
 
+};
+
+export const fetchAdminInfo = async () => {
+  const response = await axiosInstance.get(`/${API_URL}/admin/info`);
+  return response.data.data;
 };
