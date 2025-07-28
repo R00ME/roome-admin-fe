@@ -12,9 +12,10 @@ import TableSkeleton from './TableSkeleton';
 interface TableProps<T> {
   table: TanStackTable<T>;
   isLoading?: boolean;
+  onRowClick?: (row: T) => void;
 }
 
-const Table = <T,>({ table, isLoading }: TableProps<T>) => {
+const Table = <T,>({ table, isLoading, onRowClick }: TableProps<T>) => {
   if (isLoading) {
     return <TableSkeleton columns={table.getAllColumns().length} />;
   }
@@ -24,7 +25,7 @@ const Table = <T,>({ table, isLoading }: TableProps<T>) => {
       <ShadcnTable>
         <TableHeader className='bg-gray-100 text-gray-500'>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} >
               {headerGroup.headers.map((header) => (
                 <TableHead
                   key={header.id}
@@ -42,7 +43,10 @@ const Table = <T,>({ table, isLoading }: TableProps<T>) => {
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
+            <TableRow 
+              key={row.id}
+              onClick={() => onRowClick?.(row.original)}
+            >
               {row.getVisibleCells().map((cell) => (
                 <TableCell
                   key={cell.id}
