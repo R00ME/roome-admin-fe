@@ -15,8 +15,8 @@ export const loginAPI = async (email:string, password:string) => {
     if(!accessToken) {throw new Error('🚨 Access token이 응답에 없습니다.')}
     
     useAuthStore.getState().setAccessToken(accessToken)
-    const user = await fetchAdminInfo();
-    useUserStore.getState().setUser(user);
+    // const user = await fetchAdminInfo();
+    // useUserStore.getState().setUser(user);
     
     return accessToken;
   } catch (error) {
