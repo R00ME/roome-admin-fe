@@ -25,7 +25,7 @@ export default function Form({
             icon={icon}
             error={errors?.[id]}
             value={values[id] ?? ''}
-            onChange={(e) => onChangeField?.(id, e.target.value)}
+            onChange={(e) => onChangeField(id, e.target.value)}
           />
         ))}
       </form>

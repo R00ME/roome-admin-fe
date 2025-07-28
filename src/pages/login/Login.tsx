@@ -1,13 +1,13 @@
-import loginBg from '@/assets/images/login-bg.jpg';
-import roomeLogo from '@/assets/images/roome-logo.png';
+import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginAPI, resetTempPasswordAPI } from '../../apis/auth';
 import { Card, CardContent } from '../../components/ui/card';
-import Form from './components/Form';
+import { loginAPI, resetTempPasswordAPI } from '../../apis/auth';
 import { adminLoginFields, tempPasswordFields } from './constants/fields';
 import { isValidEmail, isValidPassword } from './constants/validation';
-import { AxiosError } from 'axios';
+import Form from './components/Form';
+import loginBg from '@/assets/images/login-bg.jpg';
+import roomeLogo from '@/assets/images/roome-logo.png';
 
 export default function Login() {
   const [formType, setFormType] = useState<'login' | 'tempPassword'>('login');
@@ -124,6 +124,7 @@ export default function Login() {
                 values={formState}
                 fields={tempPasswordFields}
                 isValid={isValid}
+                onChangeField={handleChangeField}
                 onSubmit={handleResetTempPassword}
               />
             )}

@@ -17,15 +17,15 @@ const InputField = React.memo(
           />
         )}
         <label
-          htmlFor=''
+          htmlFor={id}
           className='text-[#2a4d90] font-semibold'>
           {label}
         </label>
         <input
           id={id}
           type={inputType}
-          value={value}
           onChange={onChange}
+          value={value}
           placeholder={placeholder}
           className={`font-medium text-[#1c3351] w-full h-13 border-1 placeholder-[#223250]/30 rounded-md focus:outline-none
           ${icon ? 'pl-10' : 'pl-3'}
