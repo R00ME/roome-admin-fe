@@ -6,11 +6,13 @@ import { Table } from '../../../components/table';
 interface UserActivityTableProps {
   data: UserActivityItem[];
   isLoading: boolean;
+  onRowClick?: (user: UserActivityItem) => void;
 }
 
 export default function UserActivityTable({
   data,
   isLoading,
+  onRowClick,
 }: UserActivityTableProps) {
   const table = useReactTable({
     data,
@@ -22,6 +24,7 @@ export default function UserActivityTable({
       <Table
         table={table}
         isLoading={isLoading}
+        onRowClick={onRowClick}
       />
     </>
   );
