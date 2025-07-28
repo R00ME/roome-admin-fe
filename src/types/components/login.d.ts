@@ -15,7 +15,7 @@ interface FormProps {
   fields: Field[];
   errors?: Record<string, string>;
   isValid: boolean;
-  onSubmit?: () => void;
-  onChangeField?: (field:string, value: string) => void
+  onSubmit: () => void;
+  onChangeField: (field:string, value: string) => void
   onClick?: () => void;
 }
