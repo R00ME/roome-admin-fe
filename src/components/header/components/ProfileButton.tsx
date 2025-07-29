@@ -1,11 +1,11 @@
-import defaultProfile from '@/assets/icons/header/default-profile.png';
+import defaultProfile from '@/assets/images/default-profile-img.jpg';
 
 const ProfileButton = ({ profile }: { profile: string }) => {
   return (
-    <button className='rounded-full p-1 inline-block bg-white/80 hover:bg-white/50 transition-all duration-300 cursor-pointer'>
+    <button className='flex cursor-pointer'>
       <img
         src={profile || defaultProfile}
-        className='h-10 w-10 rounded-full'
+        className='h-9 w-9 rounded-full'
         alt='profile'
       />
     </button>

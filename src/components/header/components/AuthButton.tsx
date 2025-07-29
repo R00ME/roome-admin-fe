@@ -15,7 +15,7 @@ const AuthButton = () => {
   return (
     <button 
       onClick={handleLogout}
-      className='rounded-full p-1 hover:bg-white/20 transition-all duration-300 inline-block cursor-pointer'>
+      className='rounded-full  hover:bg-[#4983EF]/10 p-1.5 transition-all duration-300 cursor-pointer'>
       <LogoutIcon className='text-white' />
     </button>
   );

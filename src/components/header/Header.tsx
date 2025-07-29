@@ -1,24 +1,20 @@
-import HeaderSearchBar from './components/HeaderSearchBar';
-import AuthButton from './components/AuthButton';
-import ProfileButton from './components/ProfileButton';
 import defaultProfile from '@/assets/icons/header/default-profile.png';
-import Logo from './components/Logo';
 import Notification from '../notification/Notification';
+import AuthButton from './components/AuthButton';
+import HeaderSearchBar from './components/HeaderSearchBar';
+import ProfileButton from './components/ProfileButton';
 
 const Header = () => {
   return (
-    <header
-      className='w-[99.5vw] h-16 fixed top-0 left-0 z-10 flex items-center justify-between rounded-r-full'
-      style={{
-        background: 'linear-gradient(90deg, #888CFC 0%, #93B9FF 87%)',
-      }}>
-      <Logo />
-
-      <div className='flex items-center gap-2 px-2'>
+    <header className='h-17 z-100 px-5 flex items-center justify-between bg-[#ffffff]'>
+      <div className='flex flex-row items-center gap-7'>
+        <h3 className='text-xl text-[#293F66]'>👋🏻 Hi Nink!</h3>
         <HeaderSearchBar />
-        <ProfileButton profile={defaultProfile} />
+      </div>
+      <div className='flex items-center gap-2'>
         <Notification />
         <AuthButton />
+        <ProfileButton profile={defaultProfile} />
       </div>
     </header>
   );
