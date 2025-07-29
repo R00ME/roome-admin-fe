@@ -10,7 +10,7 @@ const Logo = () => {
         <img
           src={logo}
           alt='logo'
-          className='w-10 aspect-auto'
+          className='w-9.5 aspect-auto'
         />
       </Link>
     </h1>
