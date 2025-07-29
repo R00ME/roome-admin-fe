@@ -4,15 +4,15 @@ import { Outlet } from 'react-router-dom';
 
 const BaseLayout = () => {
   return (
-    <div className='h-screen relative overflow-hidden'>
-      <Header />
-      <main className='relative pt-16 flex w-full'>
-        <Sidebar />
-        <div className='flex-1 px-20 py-12'>
+    <section className='h-screen flex overflow-hidden'>
+      <Sidebar />
+      <section className='flex flex-col flex-1'>
+        <Header />
+        <main className='flex-1 overflow-y-auto px-20 py-12 bg-[#F7FBFE]'>
           <Outlet />
-        </div>
-      </main>
-    </div>
+        </main>
+      </section>
+    </section>
   );
 };
 
