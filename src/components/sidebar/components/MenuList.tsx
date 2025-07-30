@@ -7,7 +7,7 @@ import AdminInviteIcon from '@/assets/icons/sidebar/admin-invite-icon.svg?react'
 
 const MenuList = ({ isExpanded }: { isExpanded: boolean }) => {
   return (
-    <ul className='flex flex-col gap-2 px-4 w-fit'>
+    <ul className='flex flex-col mt-3 gap-2 px-4 w-fit'>
       <MenuListItem
         isExpanded={isExpanded}
         icon={<ServiceAnalysisIcon className='w-6 h-6 transition-colors' />}

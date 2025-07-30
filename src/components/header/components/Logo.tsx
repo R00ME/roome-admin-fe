@@ -6,10 +6,11 @@ const Logo = () => {
     <h1 className='h-fit w-fit'>
       <Link
         to='/'
-        className='bg-[#7A87EE] rounded-r-full p-2 inline-block'>
+        >
         <img
           src={logo}
           alt='logo'
+          className='w-9.5 aspect-auto'
         />
       </Link>
     </h1>

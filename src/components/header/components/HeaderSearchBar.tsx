@@ -38,7 +38,7 @@ const HeaderSearchBar = () => {
         />
       </PopoverTrigger>
       <PopoverContent
-        className='w-[300px] p-0'
+        className='w-[250px] p-0'
         align='start'
         sideOffset={5}>
         <SearchResultList

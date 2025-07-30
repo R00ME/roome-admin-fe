@@ -39,7 +39,7 @@ const Notification = () => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button className='rounded-full p-3 hover:bg-white/20 transition-all duration-300 inline-block cursor-pointer'>
+        <button className='rounded-full hover:bg-[#4983EF]/10 p-1.5 transition-all duration-300 inline-block cursor-pointer'>
           <BellIcon className='text-white' />
         </button>
       </PopoverTrigger>
