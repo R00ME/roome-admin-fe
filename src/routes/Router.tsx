@@ -23,50 +23,50 @@ const Router = () => {
       />
       {/* 보호 라우터 */}
       <Route element={<ProtectedRoute />}>
-        <Route element={<BaseLayout />}>
-          <Route
-            path='/'
-            element={<Main />}
-          />
-
-          <Route
-            path='settings'
-            element={<Mypage />}
-          />
-          <Route
-            path='settings/profile'
-            element={<EditProfile />}
-          />
-          <Route
-            path='settings/password'
-            element={<ChangePassword />}
-          />
-        </Route>
+      <Route element={<BaseLayout />}>
+        <Route
+          path='/'
+          element={<Main />}
+        />
 
         <Route
-          path='dashboard'
-          element={<DashboardLayout />}>
-          <Route
-            path='service'
-            element={<ServiceDashboard />}
-          />
-          <Route
-            path='user'
-            element={<UserDashboard />}
-          />
-          {/* <Route path='system' element={< SystemDashboard />} /> */}
-        </Route>
+          path='settings'
+          element={<Mypage />}
+        />
+        <Route
+          path='settings/profile'
+          element={<EditProfile />}
+        />
+        <Route
+          path='settings/password'
+          element={<ChangePassword />}
+        />
+      </Route>
 
-        <Route element={<ManagementLayout />}>
-          <Route
-            path='admins'
-            element={<Admins />}
-          />
-          <Route
-            path='events'
-            element={<Events />}
-          />
-        </Route>
+      <Route
+        path='dashboard'
+        element={<DashboardLayout />}>
+        <Route
+          path='service'
+          element={<ServiceDashboard />}
+        />
+        <Route
+          path='user'
+          element={<UserDashboard />}
+        />
+        {/* <Route path='system' element={< SystemDashboard />} /> */}
+      </Route>
+
+      <Route element={<ManagementLayout />}>
+        <Route
+          path='admins'
+          element={<Admins />}
+        />
+        <Route
+          path='events'
+          element={<Events />}
+        />
+      </Route>
       </Route>
 
       <Route

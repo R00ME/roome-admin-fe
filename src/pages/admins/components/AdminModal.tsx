@@ -3,13 +3,13 @@ import { Input } from '@/components/ui/input';
 import { memo, useState, useCallback } from 'react';
 import { ModalHeader, ModalFooter, ModalContent } from '@/components/modal';
 import { Label, RadioCard, CheckList } from '@/components/form';
-import type { AdminData, AdminRole, AdminModalProps } from '@/types/admins';
+import type {
+  AdminInviteRequest,
+  AdminRole,
+  AdminModalProps,
+} from '@/types/admins';
 
-import {
-  initialState,
-  ADMIN_PERMISSIONS,
-  ADMIN_TYPES,
-} from '@/constants/admins';
+import { ADMIN_PERMISSIONS, ADMIN_TYPES } from '@/constants/admins';
 
 // 관리자 타입 선택 컴포넌트
 const AdminTypeSelector = memo(
@@ -55,7 +55,7 @@ const NameInput = memo(
       <div>
         <Label>이름</Label>
         <Input
-          name='name'
+          name='adminName'
           placeholder='운영자로 초대할 팀원의 이름을 입력하세요'
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -79,9 +79,34 @@ const EmailInput = memo(
       <div>
         <Label>이메일</Label>
         <Input
-          name='email'
+          name='adminEmail'
           type='email'
           placeholder='초대할 팀원의 이메일을 입력하세요'
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className='mt-1'
+        />
+      </div>
+    );
+  },
+);
+
+// 전화번호 입력 컴포넌트
+const PhoneInput = memo(
+  ({
+    value,
+    onChange,
+  }: {
+    value: string;
+    onChange: (value: string) => void;
+  }) => {
+    return (
+      <div>
+        <Label>전화번호</Label>
+        <Input
+          name='phoneNumber'
+          type='tel'
+          placeholder='초대할 팀원의 전화번호를 입력하세요'
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className='mt-1'
@@ -110,29 +135,40 @@ const AdminForm = memo(
   ({
     adminData,
     onDataChange,
+    onSubmit,
   }: {
-    adminData: AdminData;
-    onDataChange: (data: Partial<AdminData>) => void;
+    adminData: AdminInviteRequest;
+    onDataChange: (data: Partial<AdminInviteRequest>) => void;
+    onSubmit: () => void;
   }) => {
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      onSubmit();
+    };
+
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className='grid grid-cols-2 gap-8 mb-6'>
           <div className='space-y-4'>
             <AdminTypeSelector
-              selectedRole={adminData.role}
-              onRoleChange={(role) => onDataChange({ role })}
+              selectedRole={adminData.adminRole}
+              onRoleChange={(role) => onDataChange({ adminRole: role })}
             />
             <NameInput
-              value={adminData.name}
-              onChange={(name) => onDataChange({ name })}
+              value={adminData.adminName}
+              onChange={(adminName) => onDataChange({ adminName })}
             />
             <EmailInput
-              value={adminData.email}
-              onChange={(email) => onDataChange({ email })}
+              value={adminData.adminEmail}
+              onChange={(adminEmail) => onDataChange({ adminEmail })}
+            />
+            <PhoneInput
+              value={adminData.phoneNumber}
+              onChange={(phoneNumber) => onDataChange({ phoneNumber })}
             />
           </div>
 
-          <PermissionSettings role={adminData.role} />
+          <PermissionSettings role={adminData.adminRole} />
         </div>
         <ModalFooter
           cancelText='취소'
@@ -143,15 +179,40 @@ const AdminForm = memo(
   },
 );
 
-const AdminModal = ({ open, onOpenChange }: AdminModalProps) => {
-  const [adminData, setAdminData] = useState<AdminData>(initialState);
+const AdminModal = ({ open, onOpenChange, onInvite }: AdminModalProps) => {
+  const [adminData, setAdminData] = useState<AdminInviteRequest>({
+    adminRole: 'SYSTEM_MANAGER',
+    adminName: '',
+    adminEmail: '',
+    phoneNumber: '',
+  });
 
-  const handleDataChange = useCallback((data: Partial<AdminData>) => {
+  const handleDataChange = useCallback((data: Partial<AdminInviteRequest>) => {
     setAdminData((prev) => ({ ...prev, ...data }));
   }, []);
 
+  const handleSubmit = useCallback(async () => {
+    if (
+      !adminData.adminName ||
+      !adminData.adminEmail ||
+      !adminData.phoneNumber
+    ) {
+      alert('모든 필드를 입력해주세요.');
+      return;
+    }
+
+    if (!onInvite) return;
+
+    await onInvite(adminData);
+  }, [adminData, onInvite]);
+
   const handleClose = useCallback(() => {
-    setAdminData(initialState);
+    setAdminData({
+      adminRole: 'SYSTEM_MANAGER',
+      adminName: '',
+      adminEmail: '',
+      phoneNumber: '',
+    });
     onOpenChange(false);
   }, [onOpenChange]);
 
@@ -164,6 +225,7 @@ const AdminModal = ({ open, onOpenChange }: AdminModalProps) => {
         <AdminForm
           adminData={adminData}
           onDataChange={handleDataChange}
+          onSubmit={handleSubmit}
         />
       </ModalContent>
     </AlertDialog>

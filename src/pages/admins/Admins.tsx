@@ -8,11 +8,11 @@ import { useEffect, useState } from 'react';
 import { Table, TableFooter, TableHeader } from '@/components/table';
 import AdminModal from './components/AdminModal';
 import AdminIcon from '@/assets/icons/sidebar/admin-invite-icon.svg?react';
-import { MOCK_DATA } from '@/constants/admins';
-import type { AdminItem, AdminRole } from '@/types/admins';
+import { fetchAdminList, inviteAdmin } from '@/apis/admins';
+import type { AdminItem, AdminRole, AdminInviteRequest } from '@/types/admins';
+import { useToast } from '@/hooks/useToast';
 
 import AdminRoleCell from '@/components/table/cells/AdminRoleCell';
-import UrlCell from '@/components/table/cells/UrlCell';
 import DeleteCell from '@/components/table/cells/DeleteCell';
 
 const columns: ColumnDef<AdminItem>[] = [
@@ -30,20 +30,8 @@ const columns: ColumnDef<AdminItem>[] = [
     cell: ({ getValue }) => <AdminRoleCell role={getValue<AdminRole>()} />,
   },
   {
-    accessorKey: 'url',
-    header: '가장 많이 접속한 기능 (url)',
-    cell: ({ getValue }) => <UrlCell url={getValue<string>()} />,
-  },
-  {
-    accessorKey: 'accessTime',
-    header: '마지막 접속 시간',
-  },
-  {
-    accessorKey: 'createdAt',
-    header: '최초 가입일',
-  },
-  {
     id: 'actions',
+    header: '관리',
     cell: () => (
       <div className='flex justify-center'>
         <DeleteCell
@@ -61,6 +49,7 @@ const Admins = () => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<AdminItem[]>([]);
+  const { success, error: showError } = useToast();
 
   const table = useReactTable<AdminItem>({
     data,
@@ -68,17 +57,33 @@ const Admins = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const fetchAdmins = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetchAdminList();
+      setData(response.content);
+    } catch (error) {
+      console.error('🚨 운영자 목록 조회 실패:', error);
+      showError('운영자 목록을 불러오는데 실패했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleInviteAdmin = async (inviteData: AdminInviteRequest) => {
+    try {
+      await inviteAdmin(inviteData);
+      success('운영자 초대가 완료되었습니다.');
+      setOpen(false);
+      // 목록 새로고침
+      await fetchAdmins();
+    } catch (error) {
+      console.error('🚨 운영자 초대 실패:', error);
+      showError('운영자 초대에 실패했습니다.');
+    }
+  };
+
   useEffect(() => {
-    const fetchAdmins = async () => {
-      try {
-        setIsLoading(true);
-        // 1.5초 후에 데이터를 로드하도록 시뮬레이션
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setData(MOCK_DATA);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchAdmins();
   }, []);
 
@@ -104,6 +109,7 @@ const Admins = () => {
       <AdminModal
         open={open}
         onOpenChange={setOpen}
+        onInvite={handleInviteAdmin}
       />
     </div>
   );
