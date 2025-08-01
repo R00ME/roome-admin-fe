@@ -75,6 +75,22 @@ export const resetTempPasswordAPI = async (confirmEmail:string, confrimName:stri
   }
 }
 
+export const changePasswordAPI = async (beforePassword:string, newPassword:string, confirmPassword:string) => {
+  try{
+    const response = await axiosInstance.put(`/${API_URL}/admin/info/password`, {
+      beforePassword,
+      newPassword,
+      confirmPassword
+    });
+
+    const message = response.data
+    return message;
+  } catch (error) {
+    console.error('🚨 비밀번호 변경 실패:', error);
+    throw error;
+  }
+}
+
 export const initStatus = () => {
   useAuthStore.getState().clearAccessToken?.();
   useUserStore.getState().clearUser?.();
@@ -83,5 +99,14 @@ export const initStatus = () => {
 
 export const fetchAdminInfo = async () => {
   const response = await axiosInstance.get(`/${API_URL}/admin/info`);
+  return response.data.data;
+};
+
+export const EditAdminInfo = async (username:string, phoneNumber:string, password:string ) => {
+  const response = await axiosInstance.patch(`/${API_URL}/admin/info`, {
+    username,
+    phoneNumber,
+    password
+  });
   return response.data.data;
 };
