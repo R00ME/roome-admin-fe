@@ -1,48 +1,50 @@
-import { useAuthStore } from "../store/useAuthStore";
-import { useUserStore } from "../store/useUserStore";
-import axiosInstance from "./axiosInstance";
+import { useAuthStore } from '../store/useAuthStore';
+import { useUserStore } from '../store/useUserStore';
+import axiosInstance from './axiosInstance';
 
 const API_URL = 'api';
 
-export const loginAPI = async (email:string, password:string) => {
-  try{
+export const loginAPI = async (email: string, password: string) => {
+  try {
     const response = await axiosInstance.post(`/${API_URL}/admin/auth/login`, {
-      email, password
-    })
+      email,
+      password,
+    });
 
     const authHeader = response.headers['authorization'];
     const accessToken = authHeader?.split(' ')[1];
-    if(!accessToken) {throw new Error('🚨 Access token이 응답에 없습니다.')}
-    
-    useAuthStore.getState().setAccessToken(accessToken)
+    if (!accessToken) {
+      throw new Error('🚨 Access token이 응답에 없습니다.');
+    }
+
+    useAuthStore.getState().setAccessToken(accessToken);
     const user = await fetchAdminInfo();
     useUserStore.getState().setUser(user);
-    
+
     return accessToken;
   } catch (error) {
     console.error('🚨 로그인 실패:', error);
     throw error;
   }
-}
+};
 
 export const logoutAPI = async () => {
-  try{
+  try {
     await axiosInstance.post(`/${API_URL}/admin/auth/logout`);
     useAuthStore.getState().clearAccessToken?.();
     useUserStore.getState().clearUser?.();
 
-    window.location.href = '/login'
-
+    window.location.href = '/login';
   } catch (error) {
     console.error('🚨 로그아웃 실패:', error);
     throw error;
   }
-}
+};
 
 export const refreshAccessTokenAPI = async () => {
-  try{
+  try {
     const response = await axiosInstance.post(`/${API_URL}/admin/refresh`);
-    
+
     const accessToken =
       response.headers['authorization'] || response.headers['Authorization'];
 
@@ -54,26 +56,32 @@ export const refreshAccessTokenAPI = async () => {
     useAuthStore.getState().setAccessToken(token);
 
     return token;
-  } catch(error){
+  } catch (error) {
     console.error('🚨 Access Token 재발급 실패:', error);
     throw error;
   }
-}
+};
 
-export const resetTempPasswordAPI = async (confirmEmail:string, confrimName:string) => {
-  try{
-    const response = await axiosInstance.post(`/${API_URL}/admin/auth/password/reset`, {
-      confirmEmail,
-      confrimName
-    });
+export const resetTempPasswordAPI = async (
+  confirmEmail: string,
+  confrimName: string,
+) => {
+  try {
+    const response = await axiosInstance.post(
+      `/${API_URL}/admin/auth/password/reset`,
+      {
+        confirmEmail,
+        confrimName,
+      },
+    );
 
-    const message = response.data?.message
+    const message = response.data?.message;
     return message;
   } catch (error) {
     console.error('🚨 임시 비밀번호 발급 실패:', error);
     throw error;
   }
-}
+};
 
 export const changePasswordAPI = async (beforePassword:string, newPassword:string, confirmPassword:string) => {
   try{
@@ -94,9 +102,7 @@ export const changePasswordAPI = async (beforePassword:string, newPassword:strin
 export const initStatus = () => {
   useAuthStore.getState().clearAccessToken?.();
   useUserStore.getState().clearUser?.();
-
 };
-
 export const fetchAdminInfo = async () => {
   const response = await axiosInstance.get(`/${API_URL}/admin/info`);
   return response.data.data;
