@@ -24,6 +24,10 @@ export interface AdminInviteRequest {
   phoneNumber: string;
 }
 
+export interface AdminDeleteResponse {
+  data: string;
+}
+
 export interface AdminRoleCellProps {
   role: AdminRole;
 }

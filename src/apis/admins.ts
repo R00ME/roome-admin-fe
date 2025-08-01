@@ -1,5 +1,9 @@
 import axiosInstance from '@/apis/axiosInstance';
-import type { AdminListResponse, AdminInviteRequest } from '@/types/admins';
+import type {
+  AdminListResponse,
+  AdminInviteRequest,
+  AdminDeleteResponse,
+} from '@/types/admins';
 
 const API_URL = 'api';
 
@@ -57,6 +61,31 @@ export const inviteAdmin = async (
     return response.data.data;
   } catch (error) {
     console.error('🚨 운영자 초대 실패:', error);
+    throw error;
+  }
+};
+
+/**
+ * 운영자 권한 삭제
+ * @description 슈퍼 관리자 권한으로 운영자 권한 삭제
+ * @param {number} adminId - 삭제할 운영자 ID
+ * @returns {Promise<string>} 삭제 완료 메시지
+ * @throws {Error} API 요청 실패 시 에러
+ *
+ * @example
+ * ```typescript
+ * const result = await deleteAdmin(123);
+ * console.log(result); // "관리자 권한 회수 완료"
+ * ```
+ */
+export const deleteAdmin = async (adminId: number): Promise<string> => {
+  try {
+    const response = await axiosInstance.delete<AdminDeleteResponse>(
+      `/${API_URL}/admin/super/admins/${adminId}/delete`,
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error('🚨 운영자 권한 삭제 실패:', error);
     throw error;
   }
 };
