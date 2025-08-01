@@ -2,12 +2,12 @@ import { memo } from 'react';
 
 const CheckList = memo(({ items }: CheckListProps) => {
   return (
-    <div className='space-y-3 bg-gray-100 px-2 py-3 rounded-lg'>
+    <div className='space-y-3 bg-gray-100 px-3 py-2 rounded-lg'>
       {items.map((item, index) => (
         <div
           key={index}
-          className='flex items-center gap-3'>
-          <div className='w-4 h-4 bg-blue-500 rounded-sm flex items-center justify-center'>
+          className='flex gap-3'>
+          <div className='w-4 h-4 mt-1 bg-blue-500 rounded-sm flex items-center justify-center flex-shrink-0'>
             <svg
               width='12'
               height='12'
@@ -20,12 +20,14 @@ const CheckList = memo(({ items }: CheckListProps) => {
               />
             </svg>
           </div>
-          <span className='text-sm'>{item.text}</span>
-          {item.description && (
-            <span className='text-xs text-gray-500'>
-              {`(${item.description})`}
-            </span>
-          )}
+          <div className='flex flex-col'>
+            <span className='text-sm'>{item.text}</span>
+            {item.description && (
+              <span className='text-xs text-gray-500'>
+                {`(${item.description})`}
+              </span>
+            )}
+          </div>
         </div>
       ))}
     </div>
