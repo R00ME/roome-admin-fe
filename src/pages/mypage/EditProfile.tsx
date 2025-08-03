@@ -6,22 +6,26 @@ import { Card, CardContent } from '../../components/ui/card';
 import { useUserStore } from '../../store/useUserStore';
 import EditableInfo from './components/EditableInfo';
 import ProfileImage from './components/ProfileImage';
-import { EditAdminInfo } from '../../apis/auth';
+import { EditAdminInfo, fetchAdminInfo } from '../../apis/auth';
+import { toast } from 'sonner';
 
 export default function EditProfile() {
   const navigate = useNavigate();
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
   const [username, setUsername] = useState(user?.username || '');
   const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || '');
 
   const handleSave = async () => {
   try {
-    await EditAdminInfo(username, phoneNumber, ''); 
-    alert('프로필이 변경되었습니다.');
+    await EditAdminInfo(username, phoneNumber); 
+    toast.success('성공적으로 변경되었습니다.')
+    const updatedUser = await fetchAdminInfo();
+    setUser(updatedUser);
     navigate('/settings');
   } catch (error) {
     console.error('🚨 관리자 정보 변경 실패:', error);
-    alert('정보 변경에 실패했습니다.');
+    toast.error('🚨 실패했습니다. 다시 한 번 시도해주세요.')
+
   }
 };
 

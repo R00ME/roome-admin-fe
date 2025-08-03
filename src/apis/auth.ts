@@ -102,11 +102,10 @@ export const fetchAdminInfo = async () => {
   return response.data.data;
 };
 
-export const EditAdminInfo = async (username:string, phoneNumber:string, password:string ) => {
+export const EditAdminInfo = async (username?:string, phoneNumber?:string) => {
   const response = await axiosInstance.patch(`/${API_URL}/admin/info`, {
     username,
     phoneNumber,
-    password
   });
   return response.data.data;
 };
