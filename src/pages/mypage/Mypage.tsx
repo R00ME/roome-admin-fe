@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import ModalBackground from '../../components/ModalBackground';
 import { Button } from '../../components/ui/button';
 import { Card, CardContent } from '../../components/ui/card';
-import PasswordField from './components/PasswordField';
+import PasswordField from './components/PasswordInfoField';
 import ProfileImage from './components/ProfileImage';
 import ReadOnlyInfo from './components/ReadOnlyInfo';
 import { useUserStore } from '../../store/useUserStore';
@@ -27,7 +27,7 @@ export default function Mypage() {
           {/* 하단 버튼 */}
           <div className='mt-3 flex gap-2 w-full'>
             <Button
-              onClick={onClose}
+              onClick={() => navigate('/')}
               variant='outline'
               className='flex-1 rounded-full'>
               닫기

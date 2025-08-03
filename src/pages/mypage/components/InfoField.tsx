@@ -7,6 +7,7 @@ type InfoFieldProps = {
   isEditing?: boolean;
   type?: string;
   disabled?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function InfoField({
@@ -14,6 +15,7 @@ export default function InfoField({
   label,
   value,
   badge,
+  onChange,
   link,
   isEditing = false,
   type = 'text',
@@ -27,6 +29,7 @@ export default function InfoField({
           type={type}
           defaultValue={value}
           disabled={disabled}
+          onChange={onChange}
           readOnly={disabled}
           className={`flex-1 px-3 py-2 border rounded-md outline-none
             ${disabled

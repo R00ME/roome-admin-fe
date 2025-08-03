@@ -1,8 +1,12 @@
 import { Mail, Phone, User } from 'lucide-react';
-import InfoField from './InfoField';
 import { AdminUser } from '../../../types/auth';
+import InfoField from './InfoField';
 
-export default function ReadOnlyInfo({adminEmail, username, phoneNumber}:Partial<AdminUser>) {
+export default function ReadOnlyInfo({
+  adminEmail,
+  username,
+  phoneNumber,
+}: Partial<AdminUser>) {
   return (
     <>
       <InfoField
@@ -10,10 +14,12 @@ export default function ReadOnlyInfo({adminEmail, username, phoneNumber}:Partial
         label={username || ''}
         badge='최고 마스터'
       />
-      <InfoField
-        icon={<Phone className='w-4 h-4 text-gray-300' />}
-        label={phoneNumber || '---'}
-      />
+      {phoneNumber && (
+        <InfoField
+          icon={<Phone className='w-4 h-4 text-gray-300' />}
+          label={phoneNumber || ''}
+        />
+      )}
       <InfoField
         icon={<Mail className='w-4 h-4 text-gray-300' />}
         label={adminEmail || ''}
