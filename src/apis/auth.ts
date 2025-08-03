@@ -92,12 +92,14 @@ export const changePasswordAPI = async (beforePassword:string, newPassword:strin
     });
 
     const message = response.data
+
+
     return message;
   } catch (error) {
     console.error('🚨 비밀번호 변경 실패:', error);
     throw error;
   }
-}
+};
 
 export const initStatus = () => {
   useAuthStore.getState().clearAccessToken?.();
