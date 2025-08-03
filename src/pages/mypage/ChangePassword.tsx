@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { changePasswordAPI } from '../../apis/auth';
 import ModalBackground from '../../components/ModalBackground';
 import { Button } from '../../components/ui/button';
 import { Card, CardContent } from '../../components/ui/card';
 import PasswordInputField from './components/PasswordInputField';
-import axios from 'axios';
 
 export default function ChangePassword() {
   const navigate = useNavigate();
@@ -39,20 +39,11 @@ export default function ChangePassword() {
         return;
       }
       await changePasswordAPI(currentPassword, newPassword, confirmPassword);
+      toast.success('성공적으로 변경되었습니다.');
       navigate('/settings');
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-      const message = error.response?.data?.message || '비밀번호 변경에 실패했습니다.';
-      if (message.includes('기존') || message.includes('현재')) {
-        setErrorMessages({ current: message, new: '', confirm: '' });
-      } else if (message.includes('확인') || message.includes('불일치')) {
-        setErrorMessages({ current: '', new: '', confirm: message });
-      } else {
-        setErrorMessages({ current: '', new: message, confirm: '' });
-      }
-    } else {
-      setErrorMessages({ current: '', new: '알 수 없는 에러가 발생했습니다.', confirm: '' });
-    }
+      console.error('🚨 비밀번호 변경 실패:', error)
+      toast.error('비밀번호 변경에 실패했습니다.')
     }
   };
 
