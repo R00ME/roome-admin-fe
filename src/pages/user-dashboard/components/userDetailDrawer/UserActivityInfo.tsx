@@ -3,13 +3,13 @@ import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 
 export default function UserActivityInfo() {
   return (
-    <section className='flex flex-col gap-3 items-center justify-center '>
-      <section className='flex flex-col items-start justify-center gap-2'>
+    <section className='flex gap-3 items-center justify-between '>
+      <section className='flex flex-row items-center justify-center gap-2'>
         <Avatar>
           <AvatarImage
             src={profileImg}
             alt='프로필'
-            className='w-14 rounded-xl border'
+            className='w-18 rounded-xl border'
           />
         </Avatar>
         <div className='flex flex-col items-start'>
@@ -20,9 +20,8 @@ export default function UserActivityInfo() {
           <p className='text-[#999999]'>gooroome@roomeio.kr</p>
         </div>
       </section>
-      <hr className='border w-full' />
-      <section className='flex gap-12'>
-        <span className='flex flex-col gap-1 text-[#999999] w-full'>
+      <section className='flex gap-12 border py-3 px-5 rounded-lg'>
+        <span className='flex flex-col text-[#999999] w-full'>
           <span className='flex justify-between items-center text-sm'>
             <p>가입일</p>
             <p className=' text-xs'>2025.05.05</p>

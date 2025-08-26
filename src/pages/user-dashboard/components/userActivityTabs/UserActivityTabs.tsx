@@ -16,7 +16,7 @@ export default function UserActivityTabs({
 }) {
   const [activeTab, setActiveTab] = useState('summary');
   return (
-    <section className='w-full bg-white rounded-xl shadow p-6 min-h-[350px] flex flex-col'>
+    <section className='w-full bg-white rounded-xl shadow p-6 max-h-100 min-h-[350px] flex flex-col'>
       {/* 탭 버튼 영역 */}
       <div className='flex gap-1 mb-6 border-b border-gray-200'>
         {TAB_LIST.map((tab) => (
@@ -38,7 +38,7 @@ export default function UserActivityTabs({
 
       {/* 탭별 콘텐츠 영역 */}
       <div className={`flex-1 pt-8  ${drawerWidth < 920 ? 'pr-0' : 'pr-10'} `}>
-        {activeTab === 'summary' && <SummaryTab drawerWidth={drawerWidth} />}
+        {activeTab === 'summary' && <SummaryTab  />}
         {activeTab === 'point' && <PointActivityTab />}
         {activeTab === 'content' && <ContentActivityTab />}
       </div>
