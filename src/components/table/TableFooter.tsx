@@ -1,3 +1,4 @@
+// components/table/TableFooter.tsx
 import {
   Pagination,
   PaginationContent,
@@ -7,32 +8,114 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { Button } from '@/components/ui/button';
+import * as React from 'react';
 
-const TableFooter = ({ onAddItem, buttonText }: TableFooterProps) => {
+export interface TableFooterProps {
+  currentPage: number;                    
+  totalPages: number;                     
+  onPageChange: (page: number) => void;   
+  onAddItem?: () => void;                 
+  buttonText?: string;                    
+  isLoading?: boolean;                     
+}
+
+const clamp = (v: number, min: number, max: number) =>
+  Math.max(min, Math.min(max, v));
+
+/** 간단한 페이지 목록 생성 (최대 5개 노출: 1, ..., prev, current, next, ..., total) */
+function getPageRange(current: number, total: number): (number | '...')[] {
+  if (total <= 5) return Array.from({ length: total }, (_, i) => i + 1);
+
+  const pages = new Set<number>();
+  pages.add(1);
+  pages.add(total);
+  pages.add(clamp(current - 1, 1, total));
+  pages.add(current);
+  pages.add(clamp(current + 1, 1, total));
+
+  const arr = Array.from(pages).sort((a, b) => a - b);
+
+  // 사이 간격이 2 이상이면 '...' 삽입
+  const withDots: (number | '...')[] = [];
+  for (let i = 0; i < arr.length; i++) {
+    withDots.push(arr[i]);
+    if (i < arr.length - 1 && arr[i + 1] - arr[i] > 1) withDots.push('...');
+  }
+  return withDots;
+}
+
+const TableFooter: React.FC<TableFooterProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  onAddItem,
+  buttonText,
+  isLoading = false,
+}) => {
+  const canPrev = currentPage > 1 && !isLoading;
+  const canNext = currentPage < totalPages && !isLoading;
+  const pageRange = getPageRange(currentPage, totalPages);
+
   return (
-    <div className='flex justify-between items-center mt-4'>
+    <div className="mt-4 flex items-center justify-between">
       <Pagination>
         <PaginationContent>
+          {/* Prev */}
           <PaginationItem>
-            <PaginationPrevious href='#' />
+            <PaginationPrevious
+              aria-disabled={!canPrev}
+              className={!canPrev ? 'pointer-events-none opacity-50' : ''}
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                if (canPrev) onPageChange(currentPage - 1);
+              }}
+            />
           </PaginationItem>
+
+          {/* Pages */}
+          {pageRange.map((p, idx) =>
+            p === '...' ? (
+              <PaginationItem key={`dots-${idx}`}>
+                <span className="px-3 text-sm text-muted-foreground">…</span>
+              </PaginationItem>
+            ) : (
+              <PaginationItem key={p}>
+                <PaginationLink asChild isActive={p === currentPage}>
+                  <button
+                    type="button"
+                    onClick={() => onPageChange(p)}
+                    disabled={isLoading}
+                  >
+                    {p}
+                  </button>
+                </PaginationLink>
+              </PaginationItem>
+            )
+          )}
+
+          {/* Next */}
           <PaginationItem>
-            <PaginationLink
-              href='#'
-              isActive>
-              1
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href='#' />
+            <PaginationNext
+              aria-disabled={!canNext}
+              className={!canNext ? 'pointer-events-none opacity-50' : ''}
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                if (canNext) onPageChange(currentPage + 1);
+              }}
+            />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-      {/* 버튼 */}
+
+      {/* 우측 버튼 (옵션) */}
       {onAddItem && buttonText && (
         <Button
-          className='bg-gradient-to-r from-[#888CFC] to-[#93B9FF] text-white px-6 py-3 rounded-full cursor-pointer'
-          onClick={onAddItem}>
+          className="cursor-pointer rounded-full bg-gradient-to-r from-[#888CFC] to-[#93B9FF] px-6 py-3 text-white"
+          onClick={onAddItem}
+          disabled={isLoading}
+        >
           {buttonText}
         </Button>
       )}

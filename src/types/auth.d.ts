@@ -7,6 +7,7 @@ export interface AuthState {
 interface AdminUser {
   adminEmail: string;
   username: string;
+  adminRole: string;
   phoneNumber?: string | null;
 };
 

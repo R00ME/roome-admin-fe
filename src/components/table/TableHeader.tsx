@@ -5,6 +5,7 @@ const TableHeader = ({
   title,
   tabs,
   defaultTab,
+  onTabChange
 }: TableHeaderProps) => {
   return (
     <div className='flex items-center justify-between gap-2 mb-4'>
@@ -16,7 +17,9 @@ const TableHeader = ({
       {tabs && (
         <Tabs
           defaultValue={defaultTab || tabs[0]?.value}
-          className=' py-2'>
+          className=' py-2'
+          onValueChange={onTabChange}
+        >
           <TabsList>
             {tabs.map((tab) => (
               <TabsTrigger
