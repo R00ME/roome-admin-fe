@@ -6,6 +6,7 @@ interface TableHeaderProps {
     label: string;
   }[];
   defaultTab?: string;
+  onTabChange?: (value: string) => void;
 }
 
 interface TableFooterProps {

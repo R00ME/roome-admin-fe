@@ -10,7 +10,7 @@ import RankingUserItem from './RankingUserItem';
 
 export default function RankingUserList() {
   return (
-    <section className='flex flex-col w-full gap-4 '>
+    <section className='flex flex-col w-full gap-4 px-5 '>
       {/* 랭킹 헤더 */}
       <div className='flex items-center gap-2 '>
         <h2 className='text-xl font-bold text-[#545454]'>이번주 랭킹 유저</h2>
