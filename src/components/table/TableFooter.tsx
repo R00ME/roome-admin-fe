@@ -1,4 +1,5 @@
 // components/table/TableFooter.tsx
+import { Button } from '@/components/ui/button';
 import {
   Pagination,
   PaginationContent,
@@ -7,16 +8,15 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { Button } from '@/components/ui/button';
 import * as React from 'react';
 
 export interface TableFooterProps {
-  currentPage: number;                    
-  totalPages: number;                     
-  onPageChange: (page: number) => void;   
-  onAddItem?: () => void;                 
-  buttonText?: string;                    
-  isLoading?: boolean;                     
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  onAddItem?: () => void;
+  buttonText?: string;
+  isLoading?: boolean;
 }
 
 const clamp = (v: number, min: number, max: number) =>
@@ -57,7 +57,7 @@ const TableFooter: React.FC<TableFooterProps> = ({
   const pageRange = getPageRange(currentPage, totalPages);
 
   return (
-    <div className="mt-4 flex items-center justify-between">
+    <div className='mt-4 flex items-center justify-between'>
       <Pagination>
         <PaginationContent>
           {/* Prev */}
@@ -65,7 +65,7 @@ const TableFooter: React.FC<TableFooterProps> = ({
             <PaginationPrevious
               aria-disabled={!canPrev}
               className={!canPrev ? 'pointer-events-none opacity-50' : ''}
-              href="#"
+              href='#'
               onClick={(e) => {
                 e.preventDefault();
                 if (canPrev) onPageChange(currentPage - 1);
@@ -77,21 +77,22 @@ const TableFooter: React.FC<TableFooterProps> = ({
           {pageRange.map((p, idx) =>
             p === '...' ? (
               <PaginationItem key={`dots-${idx}`}>
-                <span className="px-3 text-sm text-muted-foreground">…</span>
+                <span className='px-3 text-sm text-muted-foreground'>…</span>
               </PaginationItem>
             ) : (
               <PaginationItem key={p}>
-                <PaginationLink asChild isActive={p === currentPage}>
-                  <button
-                    type="button"
-                    onClick={() => onPageChange(p)}
-                    disabled={isLoading}
-                  >
-                    {p}
-                  </button>
+                <PaginationLink
+                  href='#'
+                  isActive={p === currentPage}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onPageChange(p);
+                  }}
+                >
+                  {p}
                 </PaginationLink>
               </PaginationItem>
-            )
+            ),
           )}
 
           {/* Next */}
@@ -99,7 +100,7 @@ const TableFooter: React.FC<TableFooterProps> = ({
             <PaginationNext
               aria-disabled={!canNext}
               className={!canNext ? 'pointer-events-none opacity-50' : ''}
-              href="#"
+              href='#'
               onClick={(e) => {
                 e.preventDefault();
                 if (canNext) onPageChange(currentPage + 1);
@@ -112,10 +113,9 @@ const TableFooter: React.FC<TableFooterProps> = ({
       {/* 우측 버튼 (옵션) */}
       {onAddItem && buttonText && (
         <Button
-          className="cursor-pointer rounded-full bg-gradient-to-r from-[#888CFC] to-[#93B9FF] px-6 py-3 text-white"
+          className='cursor-pointer rounded-full bg-gradient-to-r from-[#888CFC] to-[#93B9FF] px-6 py-3 text-white'
           onClick={onAddItem}
-          disabled={isLoading}
-        >
+          disabled={isLoading}>
           {buttonText}
         </Button>
       )}

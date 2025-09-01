@@ -17,9 +17,9 @@ const API_URL = 'api';
  */
 export const fetchRankingList = async () => {
   try {
-    const response = await axiosInstance.get(`/${API_URL}/rankings`);
+    const { data } = await axiosInstance.get(`/${API_URL}/admin/rankings`);
 
-    return response.data.data.rankings;
+    return data;
   } catch (error) {
     console.error('🚨 랭킹 데이터 패치 실패:', error);
     throw error;
@@ -38,7 +38,7 @@ export const fetchRecentUserActivity = async (
 ): Promise<UserActivityResult> => {
   try {
     const { data } = await axiosInstance.get(
-      `/${API_URL}/admin/usage/most-used-domain`,
+      `/${API_URL}/admin/usage/recent-user-activity`,
       { params: { page, size } },
     );
 
