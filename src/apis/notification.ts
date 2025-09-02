@@ -17,7 +17,7 @@ export const markAllNotificationsRead = async (
   data: MarkAllReadRequest,
 ): Promise<MarkAllReadResponse> => {
   const res = await axiosInstance.put<MarkAllReadResponse>(
-    '/admin/notification/allread',
+    'api/admin/notifications/allread',
     data,
   );
   return res.data;
@@ -30,7 +30,7 @@ export const markAllNotificationsRead = async (
 export const getUnreadNotifications =
   async (): Promise<UnreadNotificationListResponse> => {
     const res = await axiosInstance.get<UnreadNotificationListResponse>(
-      '/admin/notification/unread',
+      'api/admin/notifications/unread',
     );
     return res.data;
   };
@@ -44,7 +44,7 @@ export const markNotificationRead = async (
   notificationId: number,
 ): Promise<MarkReadResponse> => {
   const res = await axiosInstance.patch<MarkReadResponse>(
-    `/admin/notification/${notificationId}/read`,
+    `api/admin/notifications/${notificationId}/read`,
   );
   return res.data;
 };
@@ -56,7 +56,7 @@ export const markNotificationRead = async (
 export const getUrgentNotifications =
   async (): Promise<UrgentNotificationListResponse> => {
     const res = await axiosInstance.get<UrgentNotificationListResponse>(
-      '/admin/notification/urgent',
+      'api/admin/notifications/urgent',
     );
     return res.data;
   };
@@ -68,7 +68,7 @@ export const getUrgentNotifications =
 export const getAllNotifications =
   async (): Promise<NotificationListResponse> => {
     const res = await axiosInstance.get<NotificationListResponse>(
-      '/admin/notification',
+      'api/admin/notifications',
     );
     return res.data;
   };

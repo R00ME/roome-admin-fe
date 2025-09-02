@@ -15,12 +15,11 @@ import {
   NotificationTab,
   useNotificationRefactored,
 } from '@/hooks/useNotificationRefactored';
-
-// TODO: 실제 관리자 ID를 가져오는 로직으로 변경
-const ADMIN_ID = 1;
+import { useUserStore } from '@/store/useUserStore';
 
 const Notification = () => {
   const [activeTab, setActiveTab] = useState<NotificationTab>('all');
+  const { user } = useUserStore();
   const { handleMarkAllRead, refreshAllData, isActionLoading } =
     useNotificationRefactored();
 
@@ -33,7 +32,9 @@ const Notification = () => {
   };
 
   const handleMarkAllReadClick = () => {
-    handleMarkAllRead(ADMIN_ID);
+    if (user?.adminId) {
+      handleMarkAllRead(user.adminId);
+    }
   };
 
   return (

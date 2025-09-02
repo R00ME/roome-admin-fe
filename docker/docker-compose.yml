@@ -1,33 +1,39 @@
-version: "3.8"
+version: '3.8'
 services:
   redis:
     image: redis:7.2
+    platform: linux/amd64
     container_name: redis
     ports:
-      - "6379:6379"
+      - '6379:6379'
+    env_file:
+      - .env
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
     command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
-    networks:                               
+    networks:
       - roome-network
 
   roome-backend:
     image: 9noeyni9/roome-admin-be:latest
+    platform: linux/amd64
     container_name: roome-backend
     ports:
-      - "9090:9090"
+      - '8081:8081'
     depends_on:
       - redis
+    env_file:
+      - .env
     environment:
-      - REDIS_HOST=redis                    
-      - REDIS_PORT=6379                     
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - SPRING_DATASOURCE_URL=jdbc:mariadb://43.200.133.70:3306/roome
       - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-    networks:                              
+    networks:
       - roome-network
 
-networks:                                  
+networks:
   roome-network:
     driver: bridge
