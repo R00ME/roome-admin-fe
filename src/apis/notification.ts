@@ -68,7 +68,7 @@ export const getUrgentNotifications =
 export const getAllNotifications =
   async (): Promise<NotificationListResponse> => {
     const res = await axiosInstance.get<NotificationListResponse>(
-      'api/admin/notifications',
+      'api/admin/notifications/me',
     );
     return res.data;
   };
