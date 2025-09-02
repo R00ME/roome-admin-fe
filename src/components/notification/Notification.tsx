@@ -44,7 +44,7 @@ const Notification = () => {
           <BellIcon className='text-white' />
         </button>
       </PopoverTrigger>
-      <PopoverContent className='w-[480px] max-h-[70vh] translate-y-[10px] translate-x-[-10px] overflow-hidden'>
+      <PopoverContent className='w-[480px] max-h-[70vh] translate-y-[10px] translate-x-[-10px]'>
         <div className='h-full flex flex-col'>
           <NotificationHeader
             onRefresh={handleRefresh}
@@ -52,7 +52,7 @@ const Notification = () => {
           />
           <Tabs
             defaultValue='all'
-            className='py-2 flex-1 flex flex-col'>
+            className='py-2 flex-1 flex flex-col min-h-0'>
             <NotificationFilter
               activeTab={activeTab}
               onTabChange={handleTabChange}
@@ -60,7 +60,7 @@ const Notification = () => {
               isLoading={isActionLoading}
             />
             <NotificationErrorBoundary>
-              <div className='flex-1 overflow-y-auto'>
+              <div className='flex-1 overflow-y-auto overflow-x-hidden min-h-0'>
                 <Suspense fallback={<NotificationSkeleton />}>
                   <NotificationContent activeTab={activeTab} />
                 </Suspense>

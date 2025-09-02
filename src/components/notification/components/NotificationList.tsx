@@ -40,7 +40,7 @@ const NotificationList = ({
   }
 
   return (
-    <div className='space-y-0'>
+    <div className='space-y-0 h-[400px] overflow-y-auto'>
       {notifications.map((notification) => (
         <NotificationItemComponent
           key={notification.notificationId}
