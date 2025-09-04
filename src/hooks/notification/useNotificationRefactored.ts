@@ -69,7 +69,7 @@ export const useNotificationRefactored = () => {
   };
 
   const getUnreadCount = (): number => {
-    return unreadNotifications?.totalCount || 0;
+    return allNotifications?.unreadCount || 0;
   };
 
   const getUrgentCount = (): number => {

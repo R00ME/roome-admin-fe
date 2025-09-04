@@ -1,7 +1,7 @@
 import {
   NotificationTab,
   useNotificationRefactored,
-} from '@/hooks/useNotificationRefactored';
+} from '@/hooks/notification/useNotificationRefactored';
 import AllNotificationsTab from './AllNotificationsTab';
 import UrgentNotificationsTab from './UrgentNotificationsTab';
 import UnreadNotificationsTab from './UnreadNotificationsTab';

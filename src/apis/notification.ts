@@ -72,3 +72,23 @@ export const getAllNotifications =
     );
     return res.data;
   };
+
+/**
+ * SSE 실시간 알림 수신
+ * @param {number} adminId - 관리자 ID
+ * @returns {EventSource} SSE 연결 객체
+ */
+export const subscribeToNotifications = (adminId: number): EventSource => {
+  const url = `${
+    import.meta.env.VITE_API_URL
+  }/admin/notifications/subscribe?adminId=${adminId}`;
+
+  console.log('SSE: 연결 URL:', url);
+  console.log('SSE: VITE_API_URL:', import.meta.env.VITE_API_URL);
+
+  const eventSource = new EventSource(url, {
+    withCredentials: true,
+  });
+
+  return eventSource;
+};

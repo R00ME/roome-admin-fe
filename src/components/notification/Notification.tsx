@@ -14,13 +14,14 @@ import { Suspense, useState } from 'react';
 import {
   NotificationTab,
   useNotificationRefactored,
-} from '@/hooks/useNotificationRefactored';
+} from '@/hooks/notification/useNotificationRefactored';
 import { useUserStore } from '@/store/useUserStore';
+import { Badge } from '@/components/ui/badge';
 
 const Notification = () => {
   const [activeTab, setActiveTab] = useState<NotificationTab>('all');
   const { user } = useUserStore();
-  const { handleMarkAllRead, refreshAllData, isActionLoading } =
+  const { handleMarkAllRead, refreshAllData, isActionLoading, getUnreadCount } =
     useNotificationRefactored();
 
   const handleRefresh = () => {
@@ -37,14 +38,26 @@ const Notification = () => {
     }
   };
 
+  // 읽지 않은 알림 개수
+  const unreadCount = getUnreadCount();
+  const displayCount = unreadCount > 99 ? '99+' : unreadCount.toString();
+
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button className='rounded-full hover:bg-[#4983EF]/10 p-1.5 transition-all duration-300 inline-block cursor-pointer'>
+        <button className='rounded-full hover:bg-[#4983EF]/10 p-1.5 transition-all duration-300 inline-block cursor-pointer relative'>
           <BellIcon className='text-white' />
+          {/* 읽지 않은 알림 개수 뱃지 */}
+          {unreadCount > 0 && (
+            <Badge
+              variant='destructive'
+              className='absolute -top-1 -right-1 h-5 min-w-5 px-1 text-xs font-medium flex items-center justify-center'>
+              {displayCount}
+            </Badge>
+          )}
         </button>
       </PopoverTrigger>
-      <PopoverContent className='w-[480px] max-h-[70vh] translate-y-[10px] translate-x-[-10px]'>
+      <PopoverContent className='w-[480px] max-h-[70vh] translate-y-[10px] translate-x-[-10px] overflow-hidden'>
         <div className='h-full flex flex-col'>
           <NotificationHeader
             onRefresh={handleRefresh}

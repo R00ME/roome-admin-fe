@@ -2,7 +2,7 @@ import { TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   NotificationTab,
   useNotificationRefactored,
-} from '@/hooks/useNotificationRefactored';
+} from '@/hooks/notification/useNotificationRefactored';
 
 interface NotificationFilterProps {
   activeTab: NotificationTab;
@@ -12,7 +12,6 @@ interface NotificationFilterProps {
 }
 
 const NotificationFilter = ({
-  activeTab,
   onTabChange,
   onMarkAllRead,
   isLoading = false,
