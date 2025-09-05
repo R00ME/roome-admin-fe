@@ -1,9 +1,12 @@
 import { TabsContent } from '@/components/ui/tabs';
-import { NotificationItem } from '@/types/notification';
+import {
+  NotificationItem,
+  NotificationListResponse,
+} from '@/types/notification';
 import NotificationList from './NotificationList';
 
 interface AllNotificationsTabProps {
-  notifications: NotificationItem[];
+  notifications: NotificationItem[] | NotificationListResponse;
   onMarkRead: (notificationId: number) => void;
   isLoading: boolean;
   isActive: boolean;

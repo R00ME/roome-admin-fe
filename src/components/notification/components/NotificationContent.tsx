@@ -16,12 +16,13 @@ const NotificationContent = ({ activeTab }: NotificationContentProps) => {
     getLoadingForTab,
     handleMarkRead,
     isActionLoading,
+    allNotifications,
   } = useNotificationRefactored();
 
   return (
     <>
       <AllNotificationsTab
-        notifications={getNotificationsForTab('all')}
+        notifications={allNotifications || []}
         onMarkRead={handleMarkRead}
         isLoading={getLoadingForTab('all') || isActionLoading}
         isActive={activeTab === 'all'}
