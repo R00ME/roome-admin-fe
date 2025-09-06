@@ -1,7 +1,7 @@
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { UserActivityItem } from '../../../types/user-dashboard';
-import { USER_ACTIVITY_COLUMNS } from '../../../constants/user-dashboard/userActivity';
 import { Table } from '../../../components/table';
+import { columns as USER_ACTIVITY_COLUMNS } from '../constants/userRecentActivityTable';
 
 interface UserActivityTableProps {
   data: UserActivityItem[];
@@ -14,7 +14,7 @@ export default function UserActivityTable({
   isLoading,
   onRowClick,
 }: UserActivityTableProps) {
-  const table = useReactTable({
+  const table = useReactTable<UserActivityItem>({
     data,
     columns: USER_ACTIVITY_COLUMNS,
     getCoreRowModel: getCoreRowModel(),

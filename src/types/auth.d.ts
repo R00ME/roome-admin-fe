@@ -8,6 +8,7 @@ interface AdminUser {
   adminId: number;
   adminEmail: string;
   username: string;
+  adminRole: string;
   phoneNumber?: string | null;
 }
 

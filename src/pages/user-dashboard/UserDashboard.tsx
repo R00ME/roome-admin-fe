@@ -7,7 +7,7 @@ export default function UserDashboard() {
       <section className='flex-1 '>
         <UserActivity />
       </section>
-      <section className='max-w-95 min-w-72 2xl:min-w-90'>
+      <section className='min-w-72 2xl:min-w-90'>
         <RankingUserList />
       </section>
     </main>
