@@ -1,7 +1,7 @@
 import {
   NotificationTab,
   useNotificationRefactored,
-} from '@/hooks/useNotificationRefactored';
+} from '@/hooks/notification/useNotificationRefactored';
 import AllNotificationsTab from './AllNotificationsTab';
 import UrgentNotificationsTab from './UrgentNotificationsTab';
 import UnreadNotificationsTab from './UnreadNotificationsTab';
@@ -16,12 +16,13 @@ const NotificationContent = ({ activeTab }: NotificationContentProps) => {
     getLoadingForTab,
     handleMarkRead,
     isActionLoading,
+    allNotifications,
   } = useNotificationRefactored();
 
   return (
     <>
       <AllNotificationsTab
-        notifications={getNotificationsForTab('all')}
+        notifications={allNotifications || []}
         onMarkRead={handleMarkRead}
         isLoading={getLoadingForTab('all') || isActionLoading}
         isActive={activeTab === 'all'}

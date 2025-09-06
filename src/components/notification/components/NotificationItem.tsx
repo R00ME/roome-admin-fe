@@ -1,6 +1,7 @@
 import { NotificationItem as NotificationItemType } from '@/types/notification';
 import { formatNotificationDate } from '@/lib/utils';
 import { CATEGORY_LABELS, CATEGORY_COLORS } from '@/constants/notification';
+import { useNavigate } from 'react-router-dom';
 
 interface NotificationItemProps {
   notification: NotificationItemType;
@@ -13,6 +14,8 @@ const NotificationItemComponent = ({
   onMarkRead,
   isLoading,
 }: NotificationItemProps) => {
+  const navigate = useNavigate();
+
   const getCategoryLabel = (category: string) => {
     return (
       CATEGORY_LABELS[category as keyof typeof CATEGORY_LABELS] || category
@@ -26,10 +29,34 @@ const NotificationItemComponent = ({
     );
   };
 
+  const getRouteByCategory = (category: string) => {
+    switch (category) {
+      case 'SYSTEM':
+        return '/dashboard/system';
+      case 'EVENT':
+        return '/events';
+      case 'USER':
+        return '/dashboard/user';
+      case 'CICD':
+        return '/dashboard/service';
+      case 'ETC':
+      default:
+        return '/dashboard/service';
+    }
+  };
+
+  const handleNotificationClick = () => {
+    const route = getRouteByCategory(notification.category);
+    navigate(route);
+  };
+
   return (
     <div
-      className={`p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors ${
-        !notification.isRead ? 'bg-blue-50' : ''
+      onClick={handleNotificationClick}
+      className={`p-4 border-b rounded-lg border-gray-100 transition-colors ${
+        !notification.isRead
+          ? 'bg-gray-100  hover:bg-gray-100/70 cursor-pointer border border-gray-300'
+          : 'bg-gray-50 border border-gray-200 cursor-pointer hover:bg-gray-100/50'
       }`}>
       <div className='flex items-start justify-between gap-3'>
         <div className='flex-1 min-w-0'>
@@ -60,9 +87,12 @@ const NotificationItemComponent = ({
         </div>
         {!notification.isRead && (
           <button
-            onClick={() => onMarkRead(notification.notificationId)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onMarkRead(notification.notificationId);
+            }}
             disabled={isLoading}
-            className='text-xs text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:cursor-not-allowed'>
+            className='text-xs text-gray-500 bg-gray-200 rounded-md px-2 py-1 hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed'>
             읽음
           </button>
         )}

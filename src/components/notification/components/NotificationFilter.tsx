@@ -2,7 +2,8 @@ import { TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   NotificationTab,
   useNotificationRefactored,
-} from '@/hooks/useNotificationRefactored';
+} from '@/hooks/notification/useNotificationRefactored';
+import { cn } from '@/lib/utils';
 
 interface NotificationFilterProps {
   activeTab: NotificationTab;
@@ -12,7 +13,6 @@ interface NotificationFilterProps {
 }
 
 const NotificationFilter = ({
-  activeTab,
   onTabChange,
   onMarkAllRead,
   isLoading = false,
@@ -25,7 +25,7 @@ const NotificationFilter = ({
       value: 'all' as NotificationTab,
       label: '전체',
       count: getNotificationCount('all'),
-      color: 'text-blue-400',
+      color: 'text-gray-400',
     },
     {
       value: 'unread' as NotificationTab,
@@ -43,15 +43,27 @@ const NotificationFilter = ({
 
   return (
     <div className='flex items-center justify-between w-full'>
-      <TabsList className='bg-transparent p-0'>
+      <TabsList className='bg-transparent p-0 text-gray-700'>
         {tabs.map((tab) => (
           <TabsTrigger
             key={tab.value}
             value={tab.value}
             onClick={() => onTabChange(tab.value)}
-            className='flex items-center gap-1 data-[state=active]:bg-blue-50 data-[state=active]:shadow-none rounded-lg px-3 py-1.5'>
-            {tab.label}{' '}
-            <span className={`text-xs ${tab.color}`}>{tab.count}</span>
+            className={cn(
+              'group flex items-center gap-1 data-[state=active]:shadow-none rounded-lg px-3 py-1.5 text-gray-600',
+              tab.value === 'urgent'
+                ? 'data-[state=active]:bg-red-50 data-[state=active]:text-red-400'
+                : 'data-[state=active]:bg-blue-50 data-[state=active]:text-blue-500',
+            )}>
+            {tab.label}
+            <span
+              className={`text-xs ${
+                tab.value === 'urgent'
+                  ? 'text-red-400'
+                  : 'text-gray-400 group-data-[state=active]:text-blue-500'
+              }`}>
+              {tab.count}
+            </span>
           </TabsTrigger>
         ))}
       </TabsList>

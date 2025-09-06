@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   getAllNotifications,
   getUrgentNotifications,
@@ -12,7 +12,6 @@ import {
   UnreadNotificationListResponse,
   MarkAllReadRequest,
   NotificationItem,
-  NotificationCategory,
 } from '@/types/notification';
 
 export type NotificationTab = 'all' | 'urgent' | 'unread';
@@ -63,58 +62,6 @@ export const useNotification = (): UseNotificationReturn => {
   // 에러 상태
   const [error, setError] = useState<string | null>(null);
 
-  // 임시 더미 데이터 - useMemo로 감싸서 재생성 방지
-  const dummyNotifications = useMemo(() => {
-    const now = new Date();
-    const oneHourAgo = new Date(now.getTime() - 3600000);
-    const oneDayAgo = new Date(now.getTime() - 86400000);
-    const twoHoursAgo = new Date(now.getTime() - 7200000);
-    const thirtyMinutesAgo = new Date(now.getTime() - 1800000);
-
-    return [
-      {
-        notificationId: 1,
-        message: '새로운 이벤트가 등록되었습니다.',
-        category: 'EVENT' as NotificationCategory,
-        isUrgent: false,
-        isRead: false,
-        timestamp: now.toISOString(),
-      },
-      {
-        notificationId: 2,
-        message: '시스템 점검이 완료되었습니다.',
-        category: 'SYSTEM' as NotificationCategory,
-        isUrgent: true,
-        isRead: false,
-        timestamp: oneHourAgo.toISOString(),
-      },
-      {
-        notificationId: 3,
-        message: '새로운 사용자가 가입했습니다.',
-        category: 'USER' as NotificationCategory,
-        isUrgent: false,
-        isRead: true,
-        timestamp: oneDayAgo.toISOString(),
-      },
-      {
-        notificationId: 4,
-        message: '배포가 성공적으로 완료되었습니다.',
-        category: 'CICD' as NotificationCategory,
-        isUrgent: false,
-        isRead: false,
-        timestamp: twoHoursAgo.toISOString(),
-      },
-      {
-        notificationId: 5,
-        message: '시스템 오류가 발생했습니다.',
-        category: 'SYSTEM' as NotificationCategory,
-        isUrgent: true,
-        isRead: false,
-        timestamp: thirtyMinutesAgo.toISOString(),
-      },
-    ];
-  }, []);
-
   // 전체 알림 조회
   const fetchAllNotifications = useCallback(async () => {
     setIsAllLoading(true);
@@ -128,17 +75,17 @@ export const useNotification = (): UseNotificationReturn => {
         throw new Error('Invalid response format');
       }
     } catch (err) {
-      console.warn('전체 알림 조회 실패, dummy 데이터 사용:', err);
+      console.warn('전체 알림 조회 실패:', err);
       setAllNotifications({
-        totalCount: dummyNotifications.length,
-        unreadCount: dummyNotifications.filter((n) => !n.isRead).length,
-        urgentCount: dummyNotifications.filter((n) => n.isUrgent).length,
-        notifications: dummyNotifications,
+        totalCount: 0,
+        unreadCount: 0,
+        urgentCount: 0,
+        notifications: [],
       });
     } finally {
       setIsAllLoading(false);
     }
-  }, [dummyNotifications]);
+  }, []);
 
   // 긴급 알림 조회
   const fetchUrgentNotifications = useCallback(async () => {
@@ -149,16 +96,15 @@ export const useNotification = (): UseNotificationReturn => {
       const data = await getUrgentNotifications();
       setUrgentNotifications(data);
     } catch (err) {
-      console.warn('긴급 알림 조회 실패, dummy 데이터 사용:', err);
-      const urgent = dummyNotifications.filter((n) => n.isUrgent);
+      console.warn('긴급 알림 조회 실패:', err);
       setUrgentNotifications({
-        totalCount: urgent.length,
-        notifications: urgent,
+        totalCount: 0,
+        notifications: [],
       });
     } finally {
       setIsUrgentLoading(false);
     }
-  }, [dummyNotifications]);
+  }, []);
 
   // 안읽은 알림 조회
   const fetchUnreadNotifications = useCallback(async () => {
@@ -169,16 +115,15 @@ export const useNotification = (): UseNotificationReturn => {
       const data = await getUnreadNotifications();
       setUnreadNotifications(data);
     } catch (err) {
-      console.warn('안읽은 알림 조회 실패, dummy 데이터 사용:', err);
-      const unread = dummyNotifications.filter((n) => !n.isRead);
+      console.warn('안읽은 알림 조회 실패:', err);
       setUnreadNotifications({
-        totalCount: unread.length,
-        notifications: unread,
+        totalCount: 0,
+        notifications: [],
       });
     } finally {
       setIsUnreadLoading(false);
     }
-  }, [dummyNotifications]);
+  }, []);
 
   // 전체 읽음 처리
   const handleMarkAllRead = useCallback(
@@ -332,27 +277,9 @@ export const useNotification = (): UseNotificationReturn => {
 
   // 컴포넌트 마운트 시 전체 알림 조회
   useEffect(() => {
-    // 초기 더미 데이터 설정
-    setAllNotifications({
-      totalCount: dummyNotifications.length,
-      unreadCount: dummyNotifications.filter((n) => !n.isRead).length,
-      urgentCount: dummyNotifications.filter((n) => n.isUrgent).length,
-      notifications: dummyNotifications,
-    });
-
-    setUrgentNotifications({
-      totalCount: dummyNotifications.filter((n) => n.isUrgent).length,
-      notifications: dummyNotifications.filter((n) => n.isUrgent),
-    });
-
-    setUnreadNotifications({
-      totalCount: dummyNotifications.filter((n) => !n.isRead).length,
-      notifications: dummyNotifications.filter((n) => !n.isRead),
-    });
-
     // 실제 API 호출 시도
     fetchAllNotifications();
-  }, [fetchAllNotifications, dummyNotifications]);
+  }, [fetchAllNotifications]);
 
   return {
     // 데이터 상태

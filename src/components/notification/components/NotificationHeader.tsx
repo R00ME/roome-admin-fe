@@ -22,7 +22,7 @@ const NotificationHeader = ({
 
   return (
     <div className='space-y-2 border-b border-black/10 flex items-center justify-between'>
-      <h3 className='text-xl m-0 font-semibold'>알림</h3>
+      <h3 className='text-xl m-0 font-base text-gray-800'>알림</h3>
       <button
         onClick={handleClick}
         disabled={isLoading}

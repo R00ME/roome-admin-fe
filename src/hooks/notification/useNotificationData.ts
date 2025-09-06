@@ -28,6 +28,13 @@ export const useNotificationData = () => {
     } catch (err) {
       console.error('전체 알림 조회 실패:', err);
       setError('전체 알림을 불러오는데 실패했습니다.');
+      // 에러 발생 시 빈 데이터로 설정
+      setAllNotifications({
+        totalCount: 0,
+        unreadCount: 0,
+        urgentCount: 0,
+        notifications: [],
+      });
     } finally {
       setIsAllLoading(false);
     }
@@ -42,6 +49,11 @@ export const useNotificationData = () => {
     } catch (err) {
       console.error('긴급 알림 조회 실패:', err);
       setError('긴급 알림을 불러오는데 실패했습니다.');
+      // 에러 발생 시 빈 데이터로 설정
+      setUrgentNotifications({
+        totalCount: 0,
+        notifications: [],
+      });
     } finally {
       setIsUrgentLoading(false);
     }
@@ -56,6 +68,11 @@ export const useNotificationData = () => {
     } catch (err) {
       console.error('안읽은 알림 조회 실패:', err);
       setError('안읽은 알림을 불러오는데 실패했습니다.');
+      // 에러 발생 시 빈 데이터로 설정
+      setUnreadNotifications({
+        totalCount: 0,
+        notifications: [],
+      });
     } finally {
       setIsUnreadLoading(false);
     }

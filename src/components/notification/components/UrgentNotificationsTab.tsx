@@ -20,7 +20,7 @@ const UrgentNotificationsTab = ({
   return (
     <TabsContent
       value='urgent'
-      className='mt-4'>
+      className='mt-4 flex-1 min-h-0 overflow-hidden'>
       <NotificationList
         notifications={notifications}
         onMarkRead={onMarkRead}
