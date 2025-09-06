@@ -3,6 +3,7 @@ import {
   NotificationListResponse,
 } from '@/types/notification';
 import NotificationDateGroup from './NotificationDateGroup';
+import NotificationItemComponent from './NotificationItem';
 
 interface NotificationListProps {
   notifications: NotificationItem[] | NotificationListResponse;
@@ -17,7 +18,7 @@ const NotificationList = ({
 }: NotificationListProps) => {
   if (isLoading) {
     return (
-      <div className='space-y-2'>
+      <div className='space-y-1'>
         {Array.from({ length: 3 }).map((_, index) => (
           <div
             key={index}

@@ -81,7 +81,7 @@ export const getAllNotifications =
 export const subscribeToNotifications = (adminId: number): EventSource => {
   const url = `${
     import.meta.env.VITE_API_URL
-  }/admin/notifications/subscribe?adminId=${adminId}`;
+  }/api/admin/notifications/subscribe?adminId=${adminId}`;
 
   console.log('SSE: 연결 URL:', url);
   console.log('SSE: VITE_API_URL:', import.meta.env.VITE_API_URL);

@@ -17,6 +17,7 @@ import {
 } from '@/hooks/notification/useNotificationRefactored';
 import { useUserStore } from '@/store/useUserStore';
 import { Badge } from '@/components/ui/badge';
+import { useNotificationSSE } from '@/hooks/notification/useNotificationSSE';
 
 const Notification = () => {
   const [activeTab, setActiveTab] = useState<NotificationTab>('all');
@@ -42,6 +43,9 @@ const Notification = () => {
   const unreadCount = getUnreadCount();
   const displayCount = unreadCount > 99 ? '99+' : unreadCount.toString();
 
+  // SSE 연결
+  const { isConnected } = useNotificationSSE();
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -54,6 +58,10 @@ const Notification = () => {
               className='absolute -top-1 -right-1 h-5 min-w-5 px-1 text-xs font-medium flex items-center justify-center'>
               {displayCount}
             </Badge>
+          )}
+          {/* SSE 연결 상태 표시 */}
+          {isConnected && (
+            <div className='absolute -bottom-1 -right-1 w-2 h-2 bg-green-500 rounded-full border border-white'></div>
           )}
         </button>
       </PopoverTrigger>
