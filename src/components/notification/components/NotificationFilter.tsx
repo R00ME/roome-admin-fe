@@ -3,6 +3,7 @@ import {
   NotificationTab,
   useNotificationRefactored,
 } from '@/hooks/notification/useNotificationRefactored';
+import { cn } from '@/lib/utils';
 
 interface NotificationFilterProps {
   activeTab: NotificationTab;
@@ -24,7 +25,7 @@ const NotificationFilter = ({
       value: 'all' as NotificationTab,
       label: '전체',
       count: getNotificationCount('all'),
-      color: 'text-blue-400',
+      color: 'text-gray-400',
     },
     {
       value: 'unread' as NotificationTab,
@@ -48,9 +49,21 @@ const NotificationFilter = ({
             key={tab.value}
             value={tab.value}
             onClick={() => onTabChange(tab.value)}
-            className='flex items-center gap-1 data-[state=active]:bg-blue-50 data-[state=active]:shadow-none rounded-lg px-3 py-1.5 text-gray-600'>
+            className={cn(
+              'group flex items-center gap-1 data-[state=active]:shadow-none rounded-lg px-3 py-1.5 text-gray-600',
+              tab.value === 'urgent'
+                ? 'data-[state=active]:bg-red-50 data-[state=active]:text-red-400'
+                : 'data-[state=active]:bg-blue-50 data-[state=active]:text-blue-500',
+            )}>
             {tab.label}
-            <span className={`text-xs  ${tab.color}`}>{tab.count}</span>
+            <span
+              className={`text-xs ${
+                tab.value === 'urgent'
+                  ? 'text-red-400'
+                  : 'text-gray-400 group-data-[state=active]:text-blue-500'
+              }`}>
+              {tab.count}
+            </span>
           </TabsTrigger>
         ))}
       </TabsList>
