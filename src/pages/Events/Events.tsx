@@ -4,12 +4,17 @@ import { useEffect, useState } from 'react';
 import { Table, TableFooter, TableHeader } from '@/components/table';
 import EventModal from '@/pages/events/components/EventModal';
 import EventIcon from '@/assets/icons/sidebar/event-icon.svg?react';
-import { EVENT_COLUMNS, MOCK_EVENT_DATA } from '@/constants/events';
+import { EVENT_COLUMNS } from '@/constants/events';
+import { getEventList } from '@/apis/events';
+import { EventItem, EventListResponse } from '@/types/events';
 
 const Events = () => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<EventItem[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize] = useState(10);
 
   const table = useReactTable({
     data: data,
@@ -17,19 +22,32 @@ const Events = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const fetchEvents = async (page: number) => {
+    try {
+      setIsLoading(true);
+      const response: EventListResponse = await getEventList({
+        page,
+        pagesize: pageSize,
+      });
+
+      setData(response.events);
+      setTotalPages(response.totalPage);
+    } catch (error) {
+      console.error('이벤트 목록 조회 실패:', error);
+      setData([]);
+      setTotalPages(1);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        setIsLoading(true);
-        // 2초 후에 데이터를 로드하도록 시뮬레이션
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        setData(MOCK_EVENT_DATA);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchEvents();
-  }, []);
+    fetchEvents(currentPage);
+  }, [currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className='w-full'>
@@ -47,8 +65,12 @@ const Events = () => {
         isLoading={isLoading}
       />
       <TableFooter
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
         onAddItem={() => setOpen(true)}
         buttonText='+ 새 이벤트 추가하기'
+        isLoading={isLoading}
       />
       <EventModal
         open={open}
