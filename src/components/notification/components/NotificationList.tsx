@@ -60,7 +60,7 @@ const NotificationList = ({
     }
 
     return (
-      <div className='space-y-0 h-[400px] overflow-y-auto'>
+      <div className='space-y-2 h-[400px] overflow-y-auto'>
         {dateKeys.map((date) => (
           <NotificationDateGroup
             key={date}
@@ -86,7 +86,7 @@ const NotificationList = ({
   }
 
   return (
-    <div className='space-y-0 h-[400px] overflow-y-auto'>
+    <div className='space-y-2 h-[400px] overflow-y-auto'>
       {notificationArray.map((notification) => (
         <NotificationItemComponent
           key={notification.notificationId}
