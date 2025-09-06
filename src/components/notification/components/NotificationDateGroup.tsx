@@ -39,9 +39,9 @@ const NotificationDateGroup = ({
     );
 
     if (dateOnly.getTime() === todayOnly.getTime()) {
-      return '오늘';
+      return 'Today';
     } else if (dateOnly.getTime() === yesterdayOnly.getTime()) {
-      return '어제';
+      return 'Yesterday';
     } else {
       return date.toLocaleDateString('ko-KR', {
         year: 'numeric',
@@ -55,11 +55,9 @@ const NotificationDateGroup = ({
   return (
     <div className='mb-6'>
       {/* 날짜 헤더 */}
-      <div className='sticky top-0 bg-white z-10 py-2 mb-3'>
-        <h3 className='text-sm font-semibold text-gray-700 border-b border-gray-200 pb-2'>
-          {formatDate(date)}
-        </h3>
-      </div>
+      <h3 className='text-sm text-gray-500 text-center border-gray-200 pb-2'>
+        {formatDate(date)}
+      </h3>
 
       {/* 해당 날짜의 알림 목록 */}
       <div className='space-y-2'>

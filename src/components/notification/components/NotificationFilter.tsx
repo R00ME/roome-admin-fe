@@ -42,15 +42,15 @@ const NotificationFilter = ({
 
   return (
     <div className='flex items-center justify-between w-full'>
-      <TabsList className='bg-transparent p-0'>
+      <TabsList className='bg-transparent p-0 text-gray-700'>
         {tabs.map((tab) => (
           <TabsTrigger
             key={tab.value}
             value={tab.value}
             onClick={() => onTabChange(tab.value)}
-            className='flex items-center gap-1 data-[state=active]:bg-blue-50 data-[state=active]:shadow-none rounded-lg px-3 py-1.5'>
-            {tab.label}{' '}
-            <span className={`text-xs ${tab.color}`}>{tab.count}</span>
+            className='flex items-center gap-1 data-[state=active]:bg-blue-50 data-[state=active]:shadow-none rounded-lg px-3 py-1.5 text-gray-600'>
+            {tab.label}
+            <span className={`text-xs  ${tab.color}`}>{tab.count}</span>
           </TabsTrigger>
         ))}
       </TabsList>

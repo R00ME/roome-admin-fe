@@ -73,7 +73,7 @@ const Notification = () => {
           />
           <Tabs
             defaultValue='all'
-            className='py-2 flex-1 flex flex-col min-h-0'>
+            className='py-3 flex-1 flex flex-col min-h-0'>
             <NotificationFilter
               activeTab={activeTab}
               onTabChange={handleTabChange}
