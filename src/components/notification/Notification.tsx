@@ -50,7 +50,11 @@ const Notification = () => {
     <Popover>
       <PopoverTrigger asChild>
         <button className='rounded-full hover:bg-[#4983EF]/10 p-1.5 transition-all duration-300 inline-block cursor-pointer relative'>
-          <BellIcon className='text-white' />
+          <BellIcon
+            className={`transition-colors duration-300 ${
+              isConnected ? 'text-blue-400' : 'text-white'
+            }`}
+          />
           {/* 읽지 않은 알림 개수 뱃지 */}
           {unreadCount > 0 && (
             <Badge
@@ -58,10 +62,6 @@ const Notification = () => {
               className='absolute -top-1 -right-1 h-5 min-w-5 px-1 text-xs font-medium flex items-center justify-center'>
               {displayCount}
             </Badge>
-          )}
-          {/* SSE 연결 상태 표시 */}
-          {isConnected && (
-            <div className='absolute -bottom-1 -right-1 w-2 h-2 bg-green-500 rounded-full border border-white'></div>
           )}
         </button>
       </PopoverTrigger>

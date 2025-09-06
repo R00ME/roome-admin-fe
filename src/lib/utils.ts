@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * 알림용 날짜 포맷 함수 (ex: 방금 전, 3시간 전, 어제, MM월 dd일)
+ * 알림용 날짜 포맷 함수 (ex: 방금 전, 3시간 전, 어제, MM월 dd일 HH:mm)
  */
 export function formatNotificationDate(timestamp: string): string {
   try {
@@ -27,12 +27,16 @@ export function formatNotificationDate(timestamp: string): string {
     } else if (diffDay === 1) {
       return '어제';
     } else {
-      // MM월 dd일 포맷
+      // MM월 dd일 HH:mm 포맷
       const month = date.getMonth() + 1;
       const day = date.getDate();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
       return `${month.toString().padStart(2, '0')}월 ${day
         .toString()
-        .padStart(2, '0')}일`;
+        .padStart(2, '0')}일 ${hours.toString().padStart(2, '0')}:${minutes
+        .toString()
+        .padStart(2, '0')}`;
     }
   } catch (error) {
     console.error('Date formatting error:', error, 'timestamp:', timestamp);
