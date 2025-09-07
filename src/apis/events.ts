@@ -16,7 +16,7 @@ export const getEventList = async (
   const { page, pagesize } = query;
 
   const response = await axiosInstance.get<EventListResponse>(
-    `/admin/events/list?page=${page}&pagesize=${pagesize}`,
+    `/api/admin/events/list?page=${page}&pagesize=${pagesize}`,
   );
 
   return response.data;
@@ -30,7 +30,7 @@ export const getEventList = async (
 export const createEvent = async (
   eventData: CreateEventRequest,
 ): Promise<void> => {
-  await axiosInstance.post('/admin/events', eventData);
+  await axiosInstance.post('/api/admin/events', eventData);
 };
 
 /**
@@ -38,5 +38,5 @@ export const createEvent = async (
  * @param eventId - 삭제할 이벤트 ID
  */
 export const deleteEvent = async (eventId: number): Promise<void> => {
-  await axiosInstance.delete(`/admin/events?eventId=${eventId}`);
+  await axiosInstance.delete(`/api/admin/events?eventId=${eventId}`);
 };

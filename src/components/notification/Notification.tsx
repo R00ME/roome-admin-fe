@@ -52,7 +52,7 @@ const Notification = () => {
         <button className='rounded-full hover:bg-[#4983EF]/10 p-1.5 transition-all duration-300 inline-block cursor-pointer relative'>
           <BellIcon
             className={`transition-colors duration-300 ${
-              isConnected ? 'text-blue-400' : 'text-white'
+              isConnected ? 'text-blue-400' : 'text-[#A4ACB9]'
             }`}
           />
           {/* 읽지 않은 알림 개수 뱃지 */}
