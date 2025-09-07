@@ -12,7 +12,7 @@ import UserDashboard from '../pages/user-dashboard/UserDashboard';
 import BaseLayout from './layout/BaseLayout';
 import DashboardLayout from './layout/DashboardLayout';
 import ManagementLayout from './layout/ManagementLayout';
-import ProtectedRoute from '../components/ProtectedRoute';
+import ProtectedRoute from './ProtectedRoute';
 
 const Router = () => {
   return (
@@ -23,50 +23,50 @@ const Router = () => {
       />
       {/* 보호 라우터 */}
       <Route element={<ProtectedRoute />}>
-      <Route element={<BaseLayout />}>
-        <Route
-          path='/'
-          element={<Main />}
-        />
+        <Route element={<BaseLayout />}>
+          <Route
+            path='/'
+            element={<Main />}
+          />
+
+          <Route
+            path='settings'
+            element={<Mypage />}
+          />
+          <Route
+            path='settings/profile'
+            element={<EditProfile />}
+          />
+          <Route
+            path='settings/password'
+            element={<ChangePassword />}
+          />
+        </Route>
 
         <Route
-          path='settings'
-          element={<Mypage />}
-        />
-        <Route
-          path='settings/profile'
-          element={<EditProfile />}
-        />
-        <Route
-          path='settings/password'
-          element={<ChangePassword />}
-        />
-      </Route>
+          path='dashboard'
+          element={<DashboardLayout />}>
+          <Route
+            path='service'
+            element={<ServiceDashboard />}
+          />
+          <Route
+            path='user'
+            element={<UserDashboard />}
+          />
+          {/* <Route path='system' element={< SystemDashboard />} /> */}
+        </Route>
 
-      <Route
-        path='dashboard'
-        element={<DashboardLayout />}>
-        <Route
-          path='service'
-          element={<ServiceDashboard />}
-        />
-        <Route
-          path='user'
-          element={<UserDashboard />}
-        />
-        {/* <Route path='system' element={< SystemDashboard />} /> */}
-      </Route>
-
-      <Route element={<ManagementLayout />}>
-        <Route
-          path='admins'
-          element={<Admins />}
-        />
-        <Route
-          path='events'
-          element={<Events />}
-        />
-      </Route>
+        <Route element={<ManagementLayout />}>
+          <Route
+            path='admins'
+            element={<Admins />}
+          />
+          <Route
+            path='events'
+            element={<Events />}
+          />
+        </Route>
       </Route>
 
       <Route
