@@ -18,10 +18,25 @@ export interface EventItem {
 
 // 이벤트 목록 조회 응답
 export interface EventListResponse {
-  pageNumber: number;
-  totalPages: number;
-  pageSize: number;
-  content: EventItem[];
+  success: boolean;
+  data: {
+    pagingUtil: {
+      totalElements: number;
+      totalPages: number;
+      pageNumber: number;
+      pageSize: number;
+      totalPageGroups: number;
+      pageGroupSize: number;
+      pageGroup: number;
+      startPage: number;
+      endPage: number;
+      existPrePageGroup: boolean;
+      existNextPageGroup: boolean;
+    };
+    content: EventItem[];
+  };
+  code: string | null;
+  message: string | null;
 }
 
 // 이벤트 생성 요청
