@@ -73,7 +73,7 @@ const Admins = () => {
       id: 'actions',
       header: '관리',
       cell: ({ row }) => (
-        <div className='flex justify-center'>
+        <div className='flex justify-start'>
           <DeleteCell onClick={() => handleDeleteClick(row.original)} />
         </div>
       ),
@@ -152,8 +152,7 @@ const Admins = () => {
                 {adminToDelete?.name}
               </span>
               &nbsp;운영자의 권한을 삭제하시겠습니까?
-              <br />
-              이 작업은 되돌릴 수 없습니다.
+              <br />이 작업은 되돌릴 수 없습니다.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
