@@ -36,11 +36,6 @@ const Events = () => {
       <TableHeader
         icon={EventIcon}
         title='이벤트 목록'
-        tabs={[
-          { value: 'name', label: '이름순' },
-          { value: 'date', label: '가입순' },
-        ]}
-        defaultTab='name'
       />
       <Table
         table={table}
