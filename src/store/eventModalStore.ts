@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { EventReceiverTarget } from '@/types/events';
 
 interface DateTime {
   date: string;
@@ -12,6 +13,8 @@ interface EventModalState {
     start: DateTime;
     end: DateTime;
   };
+  uploadTime: DateTime;
+  receiverTarget: EventReceiverTarget;
   setTitle: (title: string) => void;
   setContent: (content: string) => void;
   setDateTime: (
@@ -19,6 +22,8 @@ interface EventModalState {
     field: keyof DateTime,
     value: string,
   ) => void;
+  setUploadTime: (field: keyof DateTime, value: string) => void;
+  setReceiverTarget: (target: EventReceiverTarget) => void;
   reset: () => void;
 }
 
@@ -35,6 +40,11 @@ const initialState = {
       time: '',
     },
   },
+  uploadTime: {
+    date: '',
+    time: '',
+  },
+  receiverTarget: 'ALL' as EventReceiverTarget,
 };
 
 export const useEventModalStore = create<EventModalState>((set) => ({
@@ -51,5 +61,13 @@ export const useEventModalStore = create<EventModalState>((set) => ({
         },
       },
     })),
+  setUploadTime: (field, value) =>
+    set((state) => ({
+      uploadTime: {
+        ...state.uploadTime,
+        [field]: value,
+      },
+    })),
+  setReceiverTarget: (target) => set({ receiverTarget: target }),
   reset: () => set(initialState),
 }));
