@@ -24,14 +24,18 @@ const clamp = (v: number, min: number, max: number) =>
 
 /** 간단한 페이지 목록 생성 (최대 5개 노출: 1, ..., prev, current, next, ..., total) */
 function getPageRange(current: number, total: number): (number | '...')[] {
-  if (total <= 5) return Array.from({ length: total }, (_, i) => i + 1);
+  // total이 NaN이거나 유효하지 않은 경우 기본값 1 사용
+  const safeTotal = isNaN(total) || total < 1 ? 1 : total;
+  const safeCurrent = isNaN(current) || current < 1 ? 1 : current;
+
+  if (safeTotal <= 5) return Array.from({ length: safeTotal }, (_, i) => i + 1);
 
   const pages = new Set<number>();
   pages.add(1);
-  pages.add(total);
-  pages.add(clamp(current - 1, 1, total));
-  pages.add(current);
-  pages.add(clamp(current + 1, 1, total));
+  pages.add(safeTotal);
+  pages.add(clamp(safeCurrent - 1, 1, safeTotal));
+  pages.add(safeCurrent);
+  pages.add(clamp(safeCurrent + 1, 1, safeTotal));
 
   const arr = Array.from(pages).sort((a, b) => a - b);
 
@@ -52,9 +56,14 @@ const TableFooter: React.FC<TableFooterProps> = ({
   buttonText,
   isLoading = false,
 }) => {
-  const canPrev = currentPage > 1 && !isLoading;
-  const canNext = currentPage < totalPages && !isLoading;
-  const pageRange = getPageRange(currentPage, totalPages);
+  // 안전한 값으로 변환
+  const safeCurrentPage =
+    isNaN(currentPage) || currentPage < 1 ? 1 : currentPage;
+  const safeTotalPages = isNaN(totalPages) || totalPages < 1 ? 1 : totalPages;
+
+  const canPrev = safeCurrentPage > 1 && !isLoading;
+  const canNext = safeCurrentPage < safeTotalPages && !isLoading;
+  const pageRange = getPageRange(safeCurrentPage, safeTotalPages);
 
   return (
     <div className='mt-4 flex items-center justify-between'>
@@ -68,7 +77,7 @@ const TableFooter: React.FC<TableFooterProps> = ({
               href='#'
               onClick={(e) => {
                 e.preventDefault();
-                if (canPrev) onPageChange(currentPage - 1);
+                if (canPrev) onPageChange(safeCurrentPage - 1);
               }}
             />
           </PaginationItem>
@@ -83,12 +92,11 @@ const TableFooter: React.FC<TableFooterProps> = ({
               <PaginationItem key={p}>
                 <PaginationLink
                   href='#'
-                  isActive={p === currentPage}
+                  isActive={p === safeCurrentPage}
                   onClick={(e) => {
                     e.preventDefault();
                     onPageChange(p);
-                  }}
-                >
+                  }}>
                   {p}
                 </PaginationLink>
               </PaginationItem>
@@ -103,7 +111,7 @@ const TableFooter: React.FC<TableFooterProps> = ({
               href='#'
               onClick={(e) => {
                 e.preventDefault();
-                if (canNext) onPageChange(currentPage + 1);
+                if (canNext) onPageChange(safeCurrentPage + 1);
               }}
             />
           </PaginationItem>
