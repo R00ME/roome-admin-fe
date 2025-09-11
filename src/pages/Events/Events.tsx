@@ -14,6 +14,7 @@ import { EventItem, EventListResponse } from '@/types/events';
 import { useToast } from '@/hooks/useToast';
 import { Badge } from '@/components/ui/badge';
 import DeleteCell from '@/components/table/cells/DeleteCell';
+import { formatKoreanDateTime } from '@/utils/dateFormatter';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -69,6 +70,10 @@ const Events = () => {
       {
         accessorKey: 'uploadTime',
         header: '업로드 예정일시',
+        cell: ({ getValue }) => {
+          const dateString = getValue<string>();
+          return formatKoreanDateTime(dateString);
+        },
       },
       {
         accessorKey: 'status',
@@ -94,6 +99,10 @@ const Events = () => {
       {
         accessorKey: 'createdAt',
         header: '작성일/시간',
+        cell: ({ getValue }) => {
+          const dateString = getValue<string>();
+          return formatKoreanDateTime(dateString);
+        },
       },
       {
         accessorKey: 'writer',

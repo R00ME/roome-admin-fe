@@ -29,6 +29,8 @@ const Admins = () => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<AdminItem[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [adminToDelete, setAdminToDelete] = useState<AdminItem | null>(null);
   const { success, error: showError } = useToast();
@@ -91,6 +93,8 @@ const Admins = () => {
       setIsLoading(true);
       const response = await fetchAdminList();
       setData(response.content);
+      setCurrentPage(response.paging.pageNumber);
+      setTotalPages(response.paging.totalPages);
     } catch (error) {
       console.error('🚨 운영자 목록 조회 실패:', error);
       showError('운영자 목록을 불러오는데 실패했습니다.');
@@ -132,8 +136,12 @@ const Admins = () => {
         isLoading={isLoading}
       />
       <TableFooter
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
         onAddItem={() => setOpen(true)}
         buttonText='+ 운영자 초대'
+        isLoading={isLoading}
       />
       <AdminModal
         open={open}
