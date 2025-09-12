@@ -17,7 +17,15 @@ const StatCardGrid = ({
   data,
 }: StatCardGridProps) => {
   // API 데이터를 기반으로 카드 데이터 생성
-  const getCardData = (cardTitle: ServiceDashboardType) => {
+  const getCardData = (
+    cardTitle: ServiceDashboardType,
+  ): {
+    title: ServiceDashboardType;
+    value: string | number;
+    icon: ServiceDashboardType;
+    trend: { value: number; isPositive: boolean };
+    unit?: string;
+  } => {
     if (!data) {
       // 데이터가 없으면 기본값 사용
       return (
@@ -39,10 +47,10 @@ const StatCardGrid = ({
           return label.includes('일간') || label.includes('DAU');
         case 'MAU':
           return label.includes('월간') || label.includes('MAU');
-        case 'CONTENTS':
-          return label.includes('콘텐츠') || label.includes('CONTENTS');
-        case 'NEW_USERS':
-          return label.includes('신규') || label.includes('NEW');
+        case 'CONTENT':
+          return label.includes('콘텐츠') || label.includes('CONTENT');
+        case 'INFLOW':
+          return label.includes('신규') || label.includes('INFLOW');
         case 'REFERRAL':
           return label.includes('유입') || label.includes('REFERRAL');
         default:

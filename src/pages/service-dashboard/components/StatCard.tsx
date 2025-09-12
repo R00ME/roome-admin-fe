@@ -23,8 +23,8 @@ interface StatCardProps {
 const iconMap = {
   DAU: DAUIcon,
   MAU: MAUIcon,
-  CONTENTS: ContentsIcon,
-  NEW_USERS: NewUsersIcon,
+  CONTENT: ContentsIcon,
+  INFLOW: NewUsersIcon,
   REFERRAL: RevisionsIcon, // 유입경로는 기존 revisiting 아이콘 사용
 };
 
@@ -49,7 +49,11 @@ const StatCard = ({
           ? 'bg-white shadow-blue rounded-lg z-10 w-[calc(100%+3rem)]'
           : 'bg-gray-50 hover:bg-gray-100 w-full'
       }
-      ${!isActive && title !== 'CONTENTS' ? 'border-r border-gray-200' : ''}`}>
+                  ${
+                    !isActive && title !== 'CONTENT'
+                      ? 'border-r border-gray-200'
+                      : ''
+                  }`}>
       <div className='flex items-start gap-4'>
         <Icon className='h-14 w-14' />
 

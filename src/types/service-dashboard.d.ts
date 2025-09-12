@@ -1,10 +1,5 @@
 // 서비스 대시보드 타입들
-type ServiceDashboardType =
-  | 'DAU'
-  | 'MAU'
-  | 'CONTENTS'
-  | 'NEW_USERS'
-  | 'REFERRAL';
+type ServiceDashboardType = 'DAU' | 'MAU' | 'CONTENT' | 'INFLOW' | 'REFERRAL';
 
 interface StatCardProps {
   title: ServiceDashboardType;
@@ -33,13 +28,11 @@ export type DashboardSummaryResponse = DashboardSummaryItem[];
 
 // 2. 서비스 사용 지표 차트 조회(주간) API 응답 타입
 export interface DashboardChartDataPoint {
-  xLabels: string; // "YYYY-MM-DD" 형식의 날짜
+  xlabels: string; // "YYYY-MM-DD" 형식의 날짜
   value: string; // 차트 값 (문자열로 반환됨)
 }
 
-export interface DashboardChartResponse {
-  data: DashboardChartDataPoint[];
-}
+export type DashboardChartResponse = DashboardChartDataPoint[];
 
 // 3. 서비스 사용 지표 요약 조회(AI) API 응답 타입
 export interface DashboardAISummaryResponse {

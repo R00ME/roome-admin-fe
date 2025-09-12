@@ -8,6 +8,7 @@ interface StatCardData {
     value: number;
     isPositive: boolean;
   };
+  unit?: string;
 }
 
 export const statCards: StatCardData[] = [
@@ -24,15 +25,15 @@ export const statCards: StatCardData[] = [
     trend: { value: 10, isPositive: true },
   },
   {
-    title: 'CONTENTS',
+    title: 'CONTENT',
     value: 1000,
-    icon: 'CONTENTS',
+    icon: 'CONTENT',
     trend: { value: 10, isPositive: true },
   },
   {
-    title: 'NEW_USERS',
+    title: 'INFLOW',
     value: 1000,
-    icon: 'NEW_USERS',
+    icon: 'INFLOW',
     trend: { value: 10, isPositive: true },
   },
   {
@@ -46,7 +47,7 @@ export const statCards: StatCardData[] = [
 export const statTitleMap = {
   DAU: '일간 활성 사용자 (DAU)',
   MAU: '월간 활성 사용자 (MAU)',
-  CONTENTS: '콘텐츠 수 (3개월)',
-  NEW_USERS: '신규 사용자',
+  CONTENT: '콘텐츠 수 (3개월)',
+  INFLOW: '신규 사용자',
   REFERRAL: '유입 경로',
 } as const;

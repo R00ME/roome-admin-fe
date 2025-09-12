@@ -142,7 +142,10 @@ const ServiceDashboard = () => {
         title='일간 사용자 활성 지표'
         tooltipContent='서비스의 주요 지표와 통계를 한눈에 확인할 수 있는 대시보드입니다.'
       />
-      <ServiceChart />
+      <ServiceChart
+        selectedCard={selectedCard}
+        data={chartData}
+      />
     </section>
   );
 };
