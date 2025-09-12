@@ -1,10 +1,15 @@
-// 기존 StatCard 컴포넌트용 타입들
-type IconType = 'DAU' | 'MAU' | 'CONTENTS' | 'NEW_USERS' | 'REVISIONS';
+// 서비스 대시보드 타입들
+type ServiceDashboardType =
+  | 'DAU'
+  | 'MAU'
+  | 'CONTENTS'
+  | 'NEW_USERS'
+  | 'REFERRAL';
 
 interface StatCardProps {
-  title: IconType;
+  title: ServiceDashboardType;
   value: string | number;
-  icon: IconType;
+  icon: ServiceDashboardType;
   trend: {
     value: number;
     isPositive: boolean;

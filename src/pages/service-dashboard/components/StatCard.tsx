@@ -3,15 +3,29 @@ import MAUIcon from '@/assets/icons/service-dashboard/MAU-icon.svg?react';
 import ContentsIcon from '@/assets/icons/service-dashboard/contents-icon.svg?react';
 import NewUsersIcon from '@/assets/icons/service-dashboard/new-user-icon.svg?react';
 import RevisionsIcon from '@/assets/icons/service-dashboard/revisiting-icon.svg?react';
+import type { ServiceDashboardType } from '@/types/service-dashboard';
 
 import { statTitleMap } from '@/constants/service-dashboard/stat-card';
+
+interface StatCardProps {
+  title: ServiceDashboardType;
+  value: string | number;
+  icon: ServiceDashboardType;
+  trend: {
+    value: number;
+    isPositive: boolean;
+  };
+  unit?: string;
+  isActive?: boolean;
+  onClick?: () => void;
+}
 
 const iconMap = {
   DAU: DAUIcon,
   MAU: MAUIcon,
   CONTENTS: ContentsIcon,
   NEW_USERS: NewUsersIcon,
-  REVISIONS: RevisionsIcon,
+  REFERRAL: RevisionsIcon, // 유입경로는 기존 revisiting 아이콘 사용
 };
 
 const StatCard = ({

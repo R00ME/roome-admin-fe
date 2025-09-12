@@ -3,20 +3,22 @@ import StatCardGrid from './components/StatCardGrid';
 import ServiceReport from './components/ServiceReport';
 import DashboardTitle from '@/components/DashboardTitle';
 import ServiceChart from './components/ServiceChart';
+import SplitText from '@/components/react-bits/SplitText';
+import CircularText from '@/components/react-bits/CircularText';
 import {
   getDashboardSummary,
   getDashboardChart,
   getDashboardAISummary,
 } from '@/apis/service-dashboard';
 import type {
-  IconType,
+  ServiceDashboardType,
   DashboardSummaryResponse,
   DashboardChartResponse,
   DashboardAISummaryResponse,
 } from '@/types/service-dashboard';
 
 const ServiceDashboard = () => {
-  const [selectedCard, setSelectedCard] = useState<IconType>('DAU');
+  const [selectedCard, setSelectedCard] = useState<ServiceDashboardType>('DAU');
 
   // API 데이터 상태 (하위 컴포넌트에서 사용 예정)
   const [summaryData, setSummaryData] = useState<DashboardSummaryResponse>([]);
@@ -65,20 +67,8 @@ const ServiceDashboard = () => {
       if (!selectedCard) return;
 
       try {
-        // IconType을 typeId로 매핑
-        const typeIdMap: Record<IconType, string> = {
-          DAU: 'dau',
-          MAU: 'mau',
-          CONTENTS: 'contents',
-          NEW_USERS: 'new_users',
-          REVISIONS: 'revisions',
-        };
-
-        const typeId = typeIdMap[selectedCard];
-        if (typeId) {
-          const chart = await getDashboardChart(typeId);
-          setChartData(chart);
-        }
+        const chart = await getDashboardChart(selectedCard);
+        setChartData(chart);
       } catch (err) {
         console.error('차트 데이터 로드 실패:', err);
       }
@@ -87,7 +77,7 @@ const ServiceDashboard = () => {
     loadChartData();
   }, [selectedCard]);
 
-  const handleCardSelect = (cardTitle: IconType) => {
+  const handleCardSelect = (cardTitle: ServiceDashboardType) => {
     setSelectedCard(cardTitle);
   };
 
@@ -99,8 +89,21 @@ const ServiceDashboard = () => {
           title='서비스 대시보드'
           tooltipContent='서비스의 주요 지표와 통계를 한눈에 확인할 수 있는 대시보드입니다.'
         />
-        <div className='flex items-center justify-center h-64'>
-          <div className='text-lg text-gray-500'>데이터를 불러오는 중...</div>
+        <div className='flex flex-col items-center justify-center h-96 space-y-8'>
+          <CircularText
+            text='LOADING'
+            spinDuration={3}
+            className='w-32 h-32'
+          />
+          <SplitText
+            text='데이터를 불러오는 중...'
+            className='text-lg text-gray-500'
+            tag='p'
+            delay={50}
+            duration={0.8}
+            from={{ opacity: 0, y: 20 }}
+            to={{ opacity: 1, y: 0 }}
+          />
         </div>
       </section>
     );
@@ -131,6 +134,7 @@ const ServiceDashboard = () => {
         <StatCardGrid
           selectedCard={selectedCard}
           onCardSelect={handleCardSelect}
+          data={summaryData}
         />
         <ServiceReport data={aiSummaryData} />
       </div>

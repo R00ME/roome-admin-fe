@@ -1,4 +1,16 @@
-export const statCards: StatCardProps[] = [
+import type { ServiceDashboardType } from '@/types/service-dashboard';
+
+interface StatCardData {
+  title: ServiceDashboardType;
+  value: number;
+  icon: ServiceDashboardType;
+  trend: {
+    value: number;
+    isPositive: boolean;
+  };
+}
+
+export const statCards: StatCardData[] = [
   {
     title: 'DAU',
     value: 1000,
@@ -24,9 +36,9 @@ export const statCards: StatCardProps[] = [
     trend: { value: 10, isPositive: true },
   },
   {
-    title: 'REVISIONS',
+    title: 'REFERRAL',
     value: 1000,
-    icon: 'REVISIONS',
+    icon: 'REFERRAL',
     trend: { value: 10, isPositive: true },
   },
 ];
@@ -36,5 +48,5 @@ export const statTitleMap = {
   MAU: '월간 활성 사용자 (MAU)',
   CONTENTS: '콘텐츠 수 (3개월)',
   NEW_USERS: '신규 사용자',
-  REVISIONS: '재방문 사용자',
+  REFERRAL: '유입 경로',
 } as const;
