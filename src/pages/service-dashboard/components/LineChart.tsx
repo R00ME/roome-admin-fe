@@ -17,6 +17,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
+import ChartEmptyState from './ChartEmptyState';
 import type {
   ServiceDashboardType,
   DashboardChartResponse,
@@ -39,7 +40,7 @@ export function ServiceLineChart({ type, data }: LineChartProps) {
   const chartData =
     data?.map((item) => ({
       date: item.xlabels,
-      value: parseInt(item.value),
+      value: item.value ? parseInt(item.value) : 0,
     })) || [];
 
   const getTitle = (type: ServiceDashboardType) => {
@@ -72,6 +73,7 @@ export function ServiceLineChart({ type, data }: LineChartProps) {
     }
   };
 
+  // 데이터가 없거나 빈 배열인 경우
   if (!data || chartData.length === 0) {
     return (
       <Card>
@@ -80,9 +82,26 @@ export function ServiceLineChart({ type, data }: LineChartProps) {
           <CardDescription>{getDescription(type)}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className='flex items-center justify-center h-64 text-gray-500'>
-            데이터가 없습니다.
-          </div>
+          <ChartEmptyState message='데이터 집계중인 항목입니다.' />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // value가 null인 경우 (분석된 결과가 없는 경우)
+  const hasNullValues = data.some((item) => item.value === null);
+  if (hasNullValues) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>{getTitle(type)}</CardTitle>
+          <CardDescription>{getDescription(type)}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ChartEmptyState
+            message='분석된 결과가 없습니다.'
+            showDots={false}
+          />
         </CardContent>
       </Card>
     );

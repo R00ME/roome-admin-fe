@@ -29,7 +29,7 @@ export type DashboardSummaryResponse = DashboardSummaryItem[];
 // 2. 서비스 사용 지표 차트 조회(주간) API 응답 타입
 export interface DashboardChartDataPoint {
   xlabels: string; // "YYYY-MM-DD" 형식의 날짜
-  value: string; // 차트 값 (문자열로 반환됨)
+  value: string | null; // 차트 값 (문자열로 반환됨, null일 수 있음)
 }
 
 export type DashboardChartResponse = DashboardChartDataPoint[];

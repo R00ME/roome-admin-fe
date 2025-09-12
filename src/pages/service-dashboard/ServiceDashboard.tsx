@@ -139,7 +139,7 @@ const ServiceDashboard = () => {
         <ServiceReport data={aiSummaryData} />
       </div>
       <DashboardTitle
-        title='일간 사용자 활성 지표'
+        title='상세 지표 차트'
         tooltipContent='서비스의 주요 지표와 통계를 한눈에 확인할 수 있는 대시보드입니다.'
       />
       <ServiceChart
