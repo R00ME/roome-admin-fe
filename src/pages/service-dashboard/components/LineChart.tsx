@@ -1,27 +1,15 @@
 import { CartesianGrid, LabelList, Line, LineChart, XAxis } from 'recharts';
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import ChartEmptyState from './ChartEmptyState';
-import type {
-  ServiceDashboardType,
-  DashboardChartResponse,
-} from '@/types/service-dashboard';
+import type { DashboardChartResponse } from '@/types/service-dashboard';
 
 interface LineChartProps {
-  type: ServiceDashboardType;
-  data: DashboardChartResponse | null;
+  data: DashboardChartResponse;
 }
 
 const chartConfig = {
@@ -31,132 +19,59 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ServiceLineChart({ type, data }: LineChartProps) {
+export function ServiceLineChart({ data }: LineChartProps) {
   // API 데이터를 차트 형식으로 변환
-  const chartData =
-    data?.map((item) => ({
-      date: item.xlabels,
-      value: item.value ? parseInt(item.value) : 0,
-    })) || [];
-
-  const getTitle = (type: ServiceDashboardType) => {
-    switch (type) {
-      case 'DAU':
-        return '일간 활성 사용자 (DAU)';
-      case 'MAU':
-        return '월간 활성 사용자 (MAU)';
-      case 'INFLOW':
-        return '신규 사용자';
-      case 'CONTENT':
-        return '콘텐츠 등록 수';
-      default:
-        return '사용자 지표';
-    }
-  };
-
-  const getDescription = (type: ServiceDashboardType) => {
-    switch (type) {
-      case 'DAU':
-        return '최근 7일간 일간 활성 사용자 추이';
-      case 'MAU':
-        return '최근 7일간 월간 활성 사용자 추이';
-      case 'INFLOW':
-        return '최근 7일간 신규 사용자 추이';
-      case 'CONTENT':
-        return '최근 7일간 콘텐츠 등록 수 추이';
-      default:
-        return '최근 7일간 사용자 지표 추이';
-    }
-  };
-
-  // 데이터가 없거나 빈 배열인 경우
-  if (!data || chartData.length === 0) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{getTitle(type)}</CardTitle>
-          <CardDescription>{getDescription(type)}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ChartEmptyState message='데이터 집계중인 항목입니다.' />
-        </CardContent>
-      </Card>
-    );
-  }
-
-  // value가 null인 경우 (분석된 결과가 없는 경우)
-  const hasNullValues = data.some((item) => item.value === null);
-  if (hasNullValues) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{getTitle(type)}</CardTitle>
-          <CardDescription>{getDescription(type)}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ChartEmptyState
-            message='분석된 결과가 없습니다.'
-            showDots={false}
-          />
-        </CardContent>
-      </Card>
-    );
-  }
+  const chartData = data.map((item) => ({
+    date: item.xlabels,
+    value: item.value ? parseInt(item.value) : 0,
+  }));
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{getTitle(type)}</CardTitle>
-        <CardDescription>{getDescription(type)}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer
-          config={chartConfig}
-          className='max-h-[400px] mx-auto'>
-          <LineChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              top: 20,
-              left: 12,
-              right: 12,
-            }}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey='date'
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => {
-                const date = new Date(value);
-                return `${date.getMonth() + 1}/${date.getDate()}`;
-              }}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator='line' />}
-            />
-            <Line
-              dataKey='value'
-              type='natural'
-              stroke='var(--color-value)'
-              strokeWidth={2}
-              dot={{
-                fill: 'var(--color-value)',
-              }}
-              activeDot={{
-                r: 6,
-              }}>
-              <LabelList
-                position='top'
-                offset={12}
-                className='fill-foreground'
-                fontSize={12}
-              />
-            </Line>
-          </LineChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+    <ChartContainer
+      config={chartConfig}
+      className='max-h-[400px] mx-auto'>
+      <LineChart
+        accessibilityLayer
+        data={chartData}
+        margin={{
+          top: 20,
+          left: 12,
+          right: 12,
+        }}>
+        <CartesianGrid vertical={false} />
+        <XAxis
+          dataKey='date'
+          tickLine={false}
+          axisLine={false}
+          tickMargin={8}
+          tickFormatter={(value) => {
+            const date = new Date(value);
+            return `${date.getMonth() + 1}/${date.getDate()}`;
+          }}
+        />
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent indicator='line' />}
+        />
+        <Line
+          dataKey='value'
+          type='natural'
+          stroke='var(--color-value)'
+          strokeWidth={2}
+          dot={{
+            fill: 'var(--color-value)',
+          }}
+          activeDot={{
+            r: 6,
+          }}>
+          <LabelList
+            position='top'
+            offset={12}
+            className='fill-foreground'
+            fontSize={12}
+          />
+        </Line>
+      </LineChart>
+    </ChartContainer>
   );
 }
