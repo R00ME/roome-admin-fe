@@ -115,7 +115,7 @@ const ServiceDashboard = () => {
       <section>
         <DashboardTitle
           title='서비스 대시보드'
-          tooltipContent='서비스의 주요 지표와 통계를 한눈에 확인할 수 있는 대시보드입니다.'
+          tooltipContent='해당 지표는 어제를 기준으로 하는 데이터입니다.'
         />
         <div className='flex items-center justify-center h-64'>
           <div className='text-lg text-red-500'>{error}</div>
@@ -128,7 +128,7 @@ const ServiceDashboard = () => {
     <section>
       <DashboardTitle
         title='서비스 대시보드'
-        tooltipContent='서비스의 주요 지표와 통계를 한눈에 확인할 수 있는 대시보드입니다.'
+        tooltipContent='해당 지표는 어제를 기준으로 하는 데이터입니다.'
       />
       <div className='grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-6 mb-12'>
         <StatCardGrid
