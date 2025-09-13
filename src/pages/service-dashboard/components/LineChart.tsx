@@ -110,7 +110,9 @@ export function ServiceLineChart({ type, data }: LineChartProps) {
         <CardDescription>{getDescription(type)}</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer
+          config={chartConfig}
+          className='max-h-[400px] mx-auto'>
           <LineChart
             accessibilityLayer
             data={chartData}
