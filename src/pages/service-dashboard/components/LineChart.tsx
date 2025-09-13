@@ -6,10 +6,14 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import type { DashboardChartResponse } from '@/types/service-dashboard';
+import type {
+  DashboardChartResponse,
+  ServiceDashboardType,
+} from '@/types/service-dashboard';
 
 interface LineChartProps {
   data: DashboardChartResponse;
+  chartType?: ServiceDashboardType;
 }
 
 const chartConfig = {
@@ -19,7 +23,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ServiceLineChart({ data }: LineChartProps) {
+export function ServiceLineChart({ data, chartType }: LineChartProps) {
   // API 데이터를 차트 형식으로 변환
   const chartData = data.map((item) => ({
     date: item.xlabels,
@@ -46,7 +50,12 @@ export function ServiceLineChart({ data }: LineChartProps) {
           tickMargin={8}
           tickFormatter={(value) => {
             const date = new Date(value);
-            return `${date.getMonth() + 1}/${date.getDate()}`;
+            // MAU와 CONTENT는 월 단위, DAU와 INFLOW는 일 단위
+            if (chartType === 'MAU' || chartType === 'CONTENT') {
+              return `${date.getMonth() + 1}월`;
+            } else {
+              return `${date.getMonth() + 1}/${date.getDate()}`;
+            }
           }}
         />
         <ChartTooltip

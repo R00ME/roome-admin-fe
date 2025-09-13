@@ -79,7 +79,10 @@ const ServiceChart = ({ selectedCard, data }: ServiceChartProps) => {
         <CardDescription>{chartDescriptions[selectedCard]}</CardDescription>
       </CardHeader>
       <CardContent>
-        <ServiceLineChart data={data} />
+        <ServiceLineChart
+          data={data}
+          chartType={selectedCard}
+        />
       </CardContent>
     </Card>
   );

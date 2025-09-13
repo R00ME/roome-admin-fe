@@ -40,18 +40,21 @@ const ServiceReport = ({ data }: ServiceReportProps) => {
               <div className='flex items-start gap-3'>
                 <ChartPieIcon className='w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0' />
                 <p className='text-sm leading-relaxed'>
-                  {data.mostUsedFeature}
+                  가장 많이 사용하는 기능은 {data.mostUsedFeature} 입니다.
                 </p>
               </div>
               <div className='flex items-start gap-3'>
                 <ExclamationTriangleIcon className='w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0' />
                 <p className='text-sm leading-relaxed'>
-                  {data.mostDroppedFeature}
+                  사용자가 가장 많이 이탈한 기능은 {data.mostDroppedFeature}{' '}
+                  입니다.
                 </p>
               </div>
               <div className='flex items-start gap-3'>
                 <ChartBarIcon className='w-5 h-5 text-green-500 mt-0.5 flex-shrink-0' />
-                <p className='text-sm leading-relaxed'>{data.mostEntryPath}</p>
+                <p className='text-sm leading-relaxed'>
+                  이번달 유입이 많은 기능은 {data.mostEntryPath} 입니다.
+                </p>
               </div>
             </>
           ) : (

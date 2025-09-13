@@ -44,24 +44,24 @@ const StatCard = ({
       case 'DAU':
         return `기준일 1일 전 대비 ${trend.isPositive ? '+' : '-'}${Math.abs(
           trend.value,
-        )}%가 변동되었습니다.`;
+        ).toFixed(1)}%가 변동되었습니다.`;
       case 'MAU':
         return `이전 달 대비 ${trend.isPositive ? '+' : '-'}${Math.abs(
           trend.value,
-        )}%가 변동되었습니다.`;
+        ).toFixed(1)}%가 변동되었습니다.`;
       case 'CONTENT':
         return `이전 달 대비 ${trend.isPositive ? '+' : '-'}${Math.abs(
           trend.value,
-        )}%가 변동되었습니다.`;
+        ).toFixed(1)}%가 변동되었습니다.`;
       case 'INFLOW':
         return `기준일 1일 전 대비 ${trend.isPositive ? '+' : '-'}${Math.abs(
           trend.value,
-        )}%가 변동되었습니다.`;
+        ).toFixed(1)}%가 변동되었습니다.`;
       case 'REFERRAL':
         return '해당 경로에서 사용자가 가장 많이 유입되었습니다.';
       default:
-        return `${trend.isPositive ? '+' : '-'}${Math.abs(
-          trend.value,
+        return `${trend.isPositive ? '+' : '-'}${Math.abs(trend.value).toFixed(
+          1,
         )}% from last week`;
     }
   };
