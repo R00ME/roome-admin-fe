@@ -2,13 +2,15 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { subscribeToNotifications } from '@/apis/notification';
 import { useNotificationRefactored } from './useNotificationRefactored';
 import { useUserStore } from '@/store/useUserStore';
-import { toast } from 'sonner';
 import { showErrorToast, showInfoToast } from '@/lib/toast';
 
 export const useNotificationSSE = () => {
   const eventSourceRef = useRef<EventSource | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [hasShownConnectionError, setHasShownConnectionError] = useState(false);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const reconnectCountRef = useRef(0);
+  const maxReconnectAttempts = 3;
   const { refreshAllData } = useNotificationRefactored();
   const { user } = useUserStore();
 
@@ -17,19 +19,26 @@ export const useNotificationSSE = () => {
     refreshAllData();
   }, [refreshAllData]);
 
-  useEffect(() => {
+  // SSE 연결 함수
+  const connectSSE = useCallback(() => {
     if (!user?.adminId) {
       console.log('SSE: user.adminId가 없습니다:', user);
       return;
     }
-
-    console.log('SSE: 연결 시작, adminId:', user.adminId);
 
     // 기존 연결이 있으면 닫기
     if (eventSourceRef.current) {
       console.log('SSE: 기존 연결 닫기');
       eventSourceRef.current.close();
     }
+
+    // 기존 재연결 타이머가 있으면 취소
+    if (reconnectTimeoutRef.current) {
+      clearTimeout(reconnectTimeoutRef.current);
+      reconnectTimeoutRef.current = null;
+    }
+
+    console.log('SSE: 연결 시작, adminId:', user.adminId);
 
     // 새 SSE 연결 생성
     const eventSource = subscribeToNotifications(user.adminId);
@@ -61,6 +70,7 @@ export const useNotificationSSE = () => {
       console.log('SSE: 연결 성공!');
       setIsConnected(true);
       setHasShownConnectionError(false); // 연결 성공시 에러 플래그 리셋
+      reconnectCountRef.current = 0; // 연결 성공시 재연결 카운트 리셋
     };
 
     // 연결 오류 처리
@@ -77,7 +87,34 @@ export const useNotificationSSE = () => {
         );
         setHasShownConnectionError(true);
       }
+
+      // 재연결 시도 (최대 3회)
+      if (
+        reconnectCountRef.current < maxReconnectAttempts &&
+        !reconnectTimeoutRef.current
+      ) {
+        reconnectCountRef.current += 1;
+        const delay = Math.min(
+          1000 * Math.pow(2, reconnectCountRef.current - 1),
+          10000,
+        ); // 지수 백오프, 최대 10초
+
+        console.log(
+          `SSE: ${delay}ms 후 재연결 시도 (${reconnectCountRef.current}/${maxReconnectAttempts})`,
+        );
+
+        reconnectTimeoutRef.current = setTimeout(() => {
+          reconnectTimeoutRef.current = null;
+          connectSSE();
+        }, delay);
+      } else if (reconnectCountRef.current >= maxReconnectAttempts) {
+        console.log('SSE: 최대 재연결 시도 횟수 초과. 재연결을 중단합니다.');
+      }
     };
+  }, [user?.adminId, stableRefreshAllData, hasShownConnectionError]);
+
+  useEffect(() => {
+    connectSSE();
 
     // 컴포넌트 언마운트 시 연결 해제
     return () => {
@@ -87,8 +124,13 @@ export const useNotificationSSE = () => {
         eventSourceRef.current = null;
         setIsConnected(false);
       }
+
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+        reconnectTimeoutRef.current = null;
+      }
     };
-  }, [user?.adminId, stableRefreshAllData, hasShownConnectionError]);
+  }, [connectSSE]);
 
   return {
     isConnected,
