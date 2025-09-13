@@ -47,7 +47,7 @@ export const statCards: StatCardData[] = [
 export const statTitleMap = {
   DAU: '일간 활성 사용자 (DAU)',
   MAU: '월간 활성 사용자 (MAU)',
-  CONTENT: '콘텐츠 수 (3개월)',
+  CONTENT: '콘텐츠 수',
   INFLOW: '신규 사용자',
   REFERRAL: '유입 경로',
 } as const;

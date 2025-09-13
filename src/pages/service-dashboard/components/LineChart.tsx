@@ -1,13 +1,9 @@
-'use client';
-
-import { TrendingUp } from 'lucide-react';
 import { CartesianGrid, LabelList, Line, LineChart, XAxis } from 'recharts';
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -159,14 +155,6 @@ export function ServiceLineChart({ type, data }: LineChartProps) {
           </LineChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className='flex-col items-start gap-2 text-sm'>
-        <div className='flex gap-2 leading-none font-medium'>
-          최근 7일간 데이터 <TrendingUp className='h-4 w-4' />
-        </div>
-        <div className='text-muted-foreground leading-none'>
-          {chartData.length}일간의 {getTitle(type)} 추이를 보여줍니다
-        </div>
-      </CardFooter>
     </Card>
   );
 }
