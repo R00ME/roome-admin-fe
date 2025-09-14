@@ -1,13 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 import { Cookies } from 'react-cookie';
-import { useAuthStore } from "../store/useAuthStore";
-import { initStatus, refreshAccessTokenAPI } from "./auth";
+import { useAuthStore } from '../store/useAuthStore';
+import { initStatus, refreshAccessTokenAPI } from './auth';
 
-const cookies = new Cookies()
+const cookies = new Cookies();
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  headers:{
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8081',
+  headers: {
     'Content-Type': 'application/json',
   },
   withCredentials: true,
@@ -23,29 +23,29 @@ axiosInstance.interceptors.request.use(
   },
   (error) => {
     throw error;
-  }
-)
+  },
+);
 
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
-  async(error) => {
+  async (error) => {
     const originalRequest = error.config;
 
-    if(error.response?.status === 401 && !originalRequest._retry){
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       const refreshToken = cookies.get('refreshToken');
 
-      if(!refreshToken){
+      if (!refreshToken) {
         console.error('🚨 Refresh Token이 없습니다. 다시 로그인하세요.');
         initStatus();
         window.location.href = '/login';
         throw error;
       }
-      try{
+      try {
         const response = await refreshAccessTokenAPI();
         const newAccessToken = response.accessToken;
 
@@ -53,7 +53,7 @@ axiosInstance.interceptors.response.use(
 
         originalRequest.headers.Authorization = `Bearer ${response.accessToken}`;
         return axiosInstance(originalRequest);
-      }catch(error){
+      } catch (error) {
         console.error('🚨 Refresh Token이 만료되었습니다. 다시 로그인하세요.');
         initStatus();
         window.location.href = '/login';
@@ -62,7 +62,7 @@ axiosInstance.interceptors.response.use(
     } else {
       throw error;
     }
-  }
-)
+  },
+);
 
-export default axiosInstance
+export default axiosInstance;

@@ -6,6 +6,7 @@ import { fetchAdminInfo, refreshAccessTokenAPI } from '../apis/auth';
 import { ROLE_PERMISSIONS } from '@/constants/permissions';
 import { AdminRole } from '@/types/admins';
 import { useToast } from '@/hooks/useToast';
+import SplitText from '@/components/react-bits/SplitText';
 
 export default function ProtectedRoute() {
   const accessToken = useAuthStore((state) => state.accessToken);
@@ -37,9 +38,42 @@ export default function ProtectedRoute() {
     };
 
     initialize();
-  }, []);
+  }, [accessToken, setAccessToken, setUser]);
 
-  if (loading) return <h1>Loading</h1>;
+  if (loading) {
+    return (
+      <div className='min-h-screen flex flex-col items-center justify-center bg-gray-50 space-y-12'>
+        {/* 로딩 텍스트 */}
+        <div className='text-center space-y-6'>
+          <p className='flex flex-col items-center justify-center'>
+            <SplitText
+              text='RoomE 관리자'
+              className='text-4xl font-bold text-gray-800'
+              tag='h1'
+              delay={100}
+              duration={0.4}
+              from={{ opacity: 0, y: 30, scale: 0.8 }}
+              to={{ opacity: 1, y: 0, scale: 1 }}
+            />
+            <SplitText
+              text='시스템을 초기화하는 중...'
+              className='text-xl text-gray-500'
+              tag='p'
+              delay={200}
+              duration={0.4}
+              from={{ opacity: 0, y: 20 }}
+              to={{ opacity: 1, y: 0 }}
+            />
+          </p>
+        </div>
+
+        {/* 진행률 표시 */}
+        <div className='w-80 bg-gray-200 rounded-full h-3 overflow-hidden'>
+          <div className='h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse'></div>
+        </div>
+      </div>
+    );
+  }
 
   const isAuthenticated = !!useAuthStore.getState().accessToken;
 

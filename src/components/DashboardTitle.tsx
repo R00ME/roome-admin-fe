@@ -4,6 +4,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
 interface DashboardTitleProps {
   title: string;
@@ -18,9 +19,7 @@ const DashboardTitle = ({ title, tooltipContent }: DashboardTitleProps) => {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <button className='text-[12px] font-bold text-gray-300 hover:text-gray-400 transition-colors rounded-full py-0.3 px-2 select-none border-2 border-gray-300 hover:border-gray-400 cursor-pointer hover:bg-gray-100 [&_*]:[-webkit-user-drag:none]'>
-                i
-              </button>
+              <InformationCircleIcon className='w-5 h-5 cursor-pointer text-gray-500' />
             </TooltipTrigger>
             <TooltipContent
               side='right'
