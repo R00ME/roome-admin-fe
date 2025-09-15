@@ -1,5 +1,5 @@
 import defaultImage from '@/assets/images/default-profile-img.jpg';
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+import { Avatar } from '@radix-ui/react-avatar';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { fetchRankingList } from '../../../apis/userdashboard';
@@ -44,11 +44,10 @@ export default function RankingUserItem() {
             {/* 순위 */}
             <span className={`font-semibold ${rankColor}`}>{index + 1}</span>
             <Avatar>
-              <AvatarImage
-                src={item.profileImage ?? defaultImage}
-                className='rounded-full w-9 h-9 border-1'
+              <img
+                src={item.profileImage || defaultImage}
+                className='rounded-full w-9 h-9 border-1 '
               />
-              <AvatarFallback>{item.nickname}</AvatarFallback>
             </Avatar>
             <div className='flex-1'>
               <div className='flex justify-between text-sm font-medium'>

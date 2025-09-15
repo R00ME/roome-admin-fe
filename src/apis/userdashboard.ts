@@ -9,7 +9,7 @@ import {
 } from '../types/user-dashboard';
 import axiosInstance from './axiosInstance';
 
-const API_URL = 'api';
+const API_URL ='api';
 
 /**
  * 이번 주 랭킹 조회
@@ -56,10 +56,10 @@ export const fetchRecentUserActivity = async (
           email: u.email,
           nickname: u.nickname ?? null,
           gender: normalizeGender(u.gender),         
-          lastLogin: toIsoString(u.lastLogin),       
+          lastLogin: toIsoString(u.lastLogin) ?? '',       
           createdAt: toIsoString(u.createdAt)!,      
           status: u.status,
-          mostUsedDomain: m.domain ?? '—',
+          mostUsedDomain: m.domain ?? ' ',
           domainCount: m.count ?? 0,
         };
       },
@@ -78,3 +78,69 @@ export const fetchRecentUserActivity = async (
     throw error;
   }
 };
+
+/**
+ * 선호하는 기능 조회
+ * @param userId 
+ * @returns {Promise<FeatureStat[]>}
+ */
+export const fetchUserFeature = async(userId: number) => {
+  try{
+    const { data } = await axiosInstance.get(`/${API_URL}/admin/usage/${userId}/feature-stats/details`);
+
+    return data.data.featureStats;
+    console.log('data',data.data.featureStats);
+  } catch(error){
+    console.error('🚨 선호하는 기능 데이터 패치 실패:', error);
+    throw error;
+  }
+}
+
+/**
+ * 컨텐츠 발행 추이
+ * @param userId 
+ * @returns {Promise<UserActivityResult>}
+ */
+export const fetchContentPublish = async(userId: number) => {
+  try{
+    const { data } = await axiosInstance.get(`/${API_URL}/admin/usage/${userId}/user-domain-stats`,);
+
+    return data;
+  } catch(error){
+    console.error('🚨 컨텐츠 발행 추이 데이터 패치 실패:', error);
+    throw error;
+  }
+}
+
+/**
+ * 포인트 발행 추이
+ * @param userId 
+ * @returns {Promise<UserActivityResult>}
+ */
+export const fetchPointIssue = async(userId: number) => {
+  try{
+    const { data } = await axiosInstance.get(`/${API_URL}/admin/usage/${userId}/points/trend`,);
+
+    return data;
+  } catch(error){
+    console.error('🚨 포인트 발행 추이 데이터 패치 실패:', error);
+    throw error;
+  }
+}
+
+/**
+ * 사용자 활동 시간대
+ * @param userId 
+ * @returns {Promise<UserActivityResult>}
+ */
+export const fetchUserActiveTime = async(userId: number) => {
+  try{
+    const { data } = await axiosInstance.get(`/${API_URL}/admin/usage/${userId}/activity-time`,);
+
+    return data;
+  } catch(error){
+    console.error('🚨 사용자 활동 시간대 데이터 패치 실패:', error);
+    throw error;
+  }
+}
+
