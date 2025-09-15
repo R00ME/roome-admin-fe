@@ -25,10 +25,16 @@ const chartConfig = {
 
 export function ServiceLineChart({ data, chartType }: LineChartProps) {
   // API 데이터를 차트 형식으로 변환
-  const chartData = data.map((item) => ({
-    date: item.xlabels,
-    value: item.value ? parseInt(item.value) : 0,
-  }));
+  const chartData = [...data]
+    .sort((a, b) => {
+      const ta = a.xlabels ? new Date(a.xlabels).getTime() : 0;
+      const tb = b.xlabels ? new Date(b.xlabels).getTime() : 0;
+      return ta - tb; // 오래된 → 최신
+    })
+    .map((item) => ({
+      date: item.xlabels,
+      value: item.value ? parseInt(item.value) : 0,
+    }));
 
   return (
     <ChartContainer
