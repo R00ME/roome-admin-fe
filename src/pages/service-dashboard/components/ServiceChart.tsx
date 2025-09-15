@@ -38,9 +38,9 @@ const ServiceChart = ({ selectedCard, data }: ServiceChartProps) => {
     );
   }
 
-  // value가 null인 경우 (분석된 결과가 없는 경우)
-  const hasNullValues = data.some((item) => item.value === null);
-  if (hasNullValues) {
+  // 모든 항목의 value가 null인 경우에만 빈 상태로 처리
+  const allValuesNull = data.every((item) => item.value === null);
+  if (allValuesNull) {
     return (
       <Card>
         <CardHeader>

@@ -19,46 +19,61 @@ const chartConfig = {
   value: {
     label: '사용자 수',
   },
+  null: {
+    label: 'null',
+    color: '#9ecbff',
+  },
+  notset: {
+    label: '측정 불가',
+    color: '#7ab8ff',
+  },
   naver: {
     label: '네이버',
-    color: 'var(--chart-1)',
+    color: '#90caf9',
   },
   google: {
     label: '구글',
-    color: 'var(--chart-2)',
+    color: '#64b5f6',
   },
   direct: {
     label: '직접 접속',
-    color: 'var(--chart-3)',
+    color: '#42a5f5',
   },
   other: {
     label: '기타',
-    color: 'var(--chart-4)',
+    color: '#1e88e5',
   },
 } satisfies ChartConfig;
 
 export function ServicePieChart({ data }: PieChartProps) {
   // API 데이터를 차트 형식으로 변환
-  const chartData = data.map((item, index) => {
+  const chartData = data.map((item) => {
     const value = item.value ? parseInt(item.value) : 0;
-    const source = item.xlabels || `소스 ${index + 1}`;
+    const sourceRaw = item.xlabels;
 
-    // 소스명을 간단하게 변환
-    let label = source;
-    if (source.includes('naver.com')) {
-      label = 'naver';
-    } else if (source.includes('google.com')) {
-      label = 'google';
-    } else if (source.includes('direct') || source === '직접') {
-      label = 'direct';
+    // 소스 key 매핑: null, not set, naver, google, direct, other
+    let key: string;
+    if (sourceRaw == null) {
+      key = 'null';
     } else {
-      label = 'other';
+      const src = String(sourceRaw).toLowerCase();
+      if (src.includes('not set')) {
+        key = 'notset';
+      } else if (src.includes('naver.com')) {
+        key = 'naver';
+      } else if (src.includes('google.com')) {
+        key = 'google';
+      } else if (src.includes('direct') || sourceRaw === '직접') {
+        key = 'direct';
+      } else {
+        key = 'other';
+      }
     }
 
     return {
-      source: label,
-      value: value,
-      fill: `var(--color-${label})`,
+      source: key,
+      value,
+      fill: `var(--color-${key})`,
     };
   });
 

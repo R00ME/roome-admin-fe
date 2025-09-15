@@ -46,7 +46,7 @@ const ServiceReport = ({ data }: ServiceReportProps) => {
               <div className='flex items-start gap-3'>
                 <ExclamationTriangleIcon className='w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0' />
                 <p className='text-sm leading-relaxed'>
-                  사용자가 가장 많이 이탈한 기능은 {data.mostDroppedFeature}{' '}
+                  사용자가 가장 많이 이탈한 기능은 {data.mostDroppedFeature}
                   입니다.
                 </p>
               </div>
