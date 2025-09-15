@@ -138,3 +138,9 @@ interface FeatureStat {
 interface PreferredFunctionsGraphProps {
   data: FeatureStat[];
 }
+
+interface UserActivityTime {
+  timeRange: string;  
+  count: number;      
+  ratio: number;   
+}

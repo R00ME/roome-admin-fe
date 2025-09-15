@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchUserFeature } from '../../../../apis/userdashboard.ts';
 import { useSelectUserStore } from '../../../../store/useSelectUserStore.ts';
 import { FeatureStat } from '../../../../types/user-dashboard';
-import { preferredFunctionHeaders } from '../../constants/preferredFunctions.ts.ts';
+import { preferredFunctionHeaders } from '../../constants/useDashBoard-Detail.ts';
 import PreferredFunctionsGraph from './PreferredFunctionsGraph.tsx';
 import PreferredFunctionTable from './PreferredFunctionTable.tsx';
 

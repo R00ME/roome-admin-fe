@@ -137,7 +137,7 @@ export const fetchUserActiveTime = async(userId: number) => {
   try{
     const { data } = await axiosInstance.get(`/${API_URL}/admin/usage/${userId}/activity-time`,);
 
-    return data;
+    return data.data.activityTime;
   } catch(error){
     console.error('🚨 사용자 활동 시간대 데이터 패치 실패:', error);
     throw error;
