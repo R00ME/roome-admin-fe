@@ -3,7 +3,7 @@ import {
   getCoreRowModel,
   type ColumnDef,
 } from '@tanstack/react-table';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import { Table, TableFooter, TableHeader } from '@/components/table';
 import AdminModal from './components/AdminModal';
@@ -33,6 +33,9 @@ const Admins = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [adminToDelete, setAdminToDelete] = useState<AdminItem | null>(null);
+  const [sortColumn, setSortColumn] = useState<'adminName' | 'createdAt'>(
+    'adminName',
+  );
   const { success, error: showError } = useToast();
 
   const handleDeleteClick = (admin: AdminItem) => {
@@ -88,19 +91,32 @@ const Admins = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const fetchAdmins = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetchAdminList();
-      setData(response.content);
-      setCurrentPage(response.paging.pageNumber);
-      setTotalPages(response.paging.totalPages);
-    } catch (error) {
-      console.error('🚨 운영자 목록 조회 실패:', error);
-      showError('운영자 목록을 불러오는데 실패했습니다.');
-    } finally {
-      setIsLoading(false);
-    }
+  const fetchAdmins = useCallback(
+    async (
+      page: number = currentPage,
+      column: 'adminName' | 'createdAt' = sortColumn,
+    ) => {
+      try {
+        setIsLoading(true);
+        const response = await fetchAdminList(page, 10, column, 'asc'); // 정렬 파라미터 추가
+        setData(response.content);
+        setCurrentPage(response.paging.pageNumber); // API 응답 그대로 사용
+        setTotalPages(response.paging.totalPages);
+      } catch (error) {
+        console.error('🚨 운영자 목록 조회 실패:', error);
+        showError('운영자 목록을 불러오는데 실패했습니다.');
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [currentPage, sortColumn, showError],
+  );
+
+  const handleSortChange = (value: string) => {
+    const column = value === 'name' ? 'adminName' : 'createdAt';
+    setSortColumn(column);
+    setCurrentPage(1); // 정렬 변경시 첫 페이지로 이동
+    fetchAdmins(1, column);
   };
 
   const handleInviteAdmin = async (inviteData: AdminInviteRequest) => {
@@ -118,7 +134,7 @@ const Admins = () => {
 
   useEffect(() => {
     fetchAdmins();
-  }, []);
+  }, [fetchAdmins]);
 
   return (
     <div className='w-full'>
@@ -130,6 +146,7 @@ const Admins = () => {
           { value: 'date', label: '가입순' },
         ]}
         defaultTab='name'
+        onTabChange={handleSortChange}
       />
       <Table
         table={table}
@@ -138,7 +155,10 @@ const Admins = () => {
       <TableFooter
         currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={setCurrentPage}
+        onPageChange={(page) => {
+          setCurrentPage(page);
+          fetchAdmins(page); // UI는 1부터 시작
+        }}
         onAddItem={() => setOpen(true)}
         buttonText='+ 운영자 초대'
         isLoading={isLoading}

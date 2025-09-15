@@ -10,19 +10,35 @@ const API_URL = 'api';
 /**
  * 운영자 목록 조회
  * @description 슈퍼 관리자 권한으로 모든 운영자 목록 조회
+ * @param {number} page - 페이지 번호 (기본값: 1)
+ * @param {number} pageSize - 페이지 크기 (기본값: 10)
+ * @param {string} column - 정렬 컬럼 (기본값: 'adminName')
+ * @param {string} sortDirection - 정렬 방향 (기본값: 'asc')
  * @returns {Promise<AdminListResponse>} 운영자 목록과 페이징 정보
  * @throws {Error} API 요청 실패 시 에러
  *
  * @example
  * ```typescript
- * const adminList = await fetchAdminList();
+ * const adminList = await fetchAdminList(1, 10, 'adminName', 'asc');
  * console.log(adminList.content); // 운영자 배열
  * console.log(adminList.paging.totalElements); // 전체 운영자 수
  * ```
  */
-export const fetchAdminList = async (): Promise<AdminListResponse> => {
+export const fetchAdminList = async (
+  page: number = 1,
+  pageSize: number = 10,
+  column: string = 'adminName',
+  sortDirection: string = 'asc',
+): Promise<AdminListResponse> => {
   try {
-    const response = await axiosInstance.get(`/${API_URL}/admin/super/admins`);
+    const response = await axiosInstance.get(`/${API_URL}/admin/super/admins`, {
+      params: {
+        page,
+        pageSize,
+        column,
+        sortDirection,
+      },
+    });
     return response.data.data;
   } catch (error) {
     console.error('🚨 운영자 목록 조회 실패:', error);
