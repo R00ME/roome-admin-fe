@@ -144,3 +144,9 @@ interface UserActivityTime {
   count: number;      
   ratio: number;   
 }
+
+interface TrendPoint {
+  month: string;
+  earnedPoints: number;
+  usedPoints: number;
+}

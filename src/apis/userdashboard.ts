@@ -121,7 +121,7 @@ export const fetchPointIssue = async(userId: number) => {
   try{
     const { data } = await axiosInstance.get(`/${API_URL}/admin/usage/${userId}/points/trend`,);
 
-    return data;
+    return data.data.trend;
   } catch(error){
     console.error('🚨 포인트 발행 추이 데이터 패치 실패:', error);
     throw error;
