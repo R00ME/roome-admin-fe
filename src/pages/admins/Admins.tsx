@@ -4,6 +4,7 @@ import {
   type ColumnDef,
 } from '@tanstack/react-table';
 import { useEffect, useState, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { Table, TableFooter, TableHeader } from '@/components/table';
 import AdminModal from './components/AdminModal';
@@ -26,17 +27,35 @@ import {
 } from '@/components/ui/alert-dialog';
 
 const Admins = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<AdminItem[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [adminToDelete, setAdminToDelete] = useState<AdminItem | null>(null);
-  const [sortColumn, setSortColumn] = useState<'adminName' | 'createdAt'>(
-    'adminName',
-  );
   const { success, error: showError } = useToast();
+
+  const currentPage = parseInt(searchParams.get('page') || '1');
+  const sortColumn =
+    (searchParams.get('sort') as 'adminName' | 'createdAt') || 'adminName';
+
+  const updatePage = (page: number) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set('page', page.toString());
+      return newParams;
+    });
+  };
+
+  const updateSort = (sort: 'adminName' | 'createdAt') => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set('sort', sort);
+      newParams.set('page', '1');
+      return newParams;
+    });
+  };
 
   const handleDeleteClick = (admin: AdminItem) => {
     setAdminToDelete(admin);
@@ -91,32 +110,23 @@ const Admins = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const fetchAdmins = useCallback(
-    async (
-      page: number = currentPage,
-      column: 'adminName' | 'createdAt' = sortColumn,
-    ) => {
-      try {
-        setIsLoading(true);
-        const response = await fetchAdminList(page, 10, column, 'asc'); // 정렬 파라미터 추가
-        setData(response.content);
-        setCurrentPage(response.paging.pageNumber); // API 응답 그대로 사용
-        setTotalPages(response.paging.totalPages);
-      } catch (error) {
-        console.error('🚨 운영자 목록 조회 실패:', error);
-        showError('운영자 목록을 불러오는데 실패했습니다.');
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [currentPage, sortColumn, showError],
-  );
+  const fetchAdmins = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetchAdminList(currentPage, 10, sortColumn, 'asc');
+      setData(response.content);
+      setTotalPages(response.paging.totalPages);
+    } catch (error) {
+      console.error('🚨 운영자 목록 조회 실패:', error);
+      showError('운영자 목록을 불러오는데 실패했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [currentPage, sortColumn, showError]);
 
   const handleSortChange = (value: string) => {
     const column = value === 'name' ? 'adminName' : 'createdAt';
-    setSortColumn(column);
-    setCurrentPage(1); // 정렬 변경시 첫 페이지로 이동
-    fetchAdmins(1, column);
+    updateSort(column);
   };
 
   const handleInviteAdmin = async (inviteData: AdminInviteRequest) => {
@@ -133,6 +143,12 @@ const Admins = () => {
   };
 
   useEffect(() => {
+    if (!searchParams.get('page') && !searchParams.get('sort')) {
+      setSearchParams({ page: '1', sort: 'adminName' });
+    }
+  }, [searchParams, setSearchParams]);
+
+  useEffect(() => {
     fetchAdmins();
   }, [fetchAdmins]);
 
@@ -145,7 +161,7 @@ const Admins = () => {
           { value: 'name', label: '이름순' },
           { value: 'date', label: '가입순' },
         ]}
-        defaultTab='name'
+        defaultTab={sortColumn === 'adminName' ? 'name' : 'date'}
         onTabChange={handleSortChange}
       />
       <Table
@@ -155,10 +171,7 @@ const Admins = () => {
       <TableFooter
         currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={(page) => {
-          setCurrentPage(page);
-          fetchAdmins(page); // UI는 1부터 시작
-        }}
+        onPageChange={updatePage}
         onAddItem={() => setOpen(true)}
         buttonText='+ 운영자 초대'
         isLoading={isLoading}
