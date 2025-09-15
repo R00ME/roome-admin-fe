@@ -150,3 +150,15 @@ interface TrendPoint {
   earnedPoints: number;
   usedPoints: number;
 }
+
+interface DomainCount {
+  domain: string;
+  count: number;
+  ratio: number;
+}
+
+interface DomainChartData {
+  domain: string;
+  이번달: number;
+  평균: number;
+}
