@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchUserFeature } from '../../../../apis/userdashboard.ts';
 import { useSelectUserStore } from '../../../../store/useSelectUserStore.ts';
 import { FeatureStat } from '../../../../types/user-dashboard';
-import { preferredFunctionHeaders } from '../../constants/useDashBoard-Detail.ts';
+import { featureMap, preferredFunctionHeaders } from '../../constants/useDashBoard-Detail.ts';
 import PreferredFunctionsGraph from './PreferredFunctionsGraph.tsx';
 import PreferredFunctionTable from './PreferredFunctionTable.tsx';
 
@@ -28,8 +28,6 @@ export default function PreferredFunctions({
     fetchData();
   }, [selectedUser]);
 
-  console.log(data);
-
   if (loading) return;
 
   return (
@@ -45,7 +43,7 @@ export default function PreferredFunctions({
         <section className='flex-shrink-0-1'>
           <PreferredFunctionTable
             rows={data.slice(0, 5).map((item) => ({
-              feature: item.feature,
+              feature: featureMap[item.feature] || item.feature, 
               apiRequestCount: item.apiRequestCount,
               usageTime: item.usageTime,
               lastUsedAt: item.lastUsedAt,

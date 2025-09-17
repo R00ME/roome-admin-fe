@@ -6,6 +6,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { PreferredFunctionsGraphProps } from '../../../../types/user-dashboard';
+import { featureMap } from '../../constants/useDashBoard-Detail';
 
 export default function PreferredFunctionsGraph({
   data,
@@ -15,7 +16,7 @@ export default function PreferredFunctionsGraph({
     .slice(0, 5);
 
   const chartData = top5.map((item) => ({
-    feature: item.feature,
+    feature: featureMap[item.feature] || item.feature,
     value: item.apiRequestCount,
   }));
 

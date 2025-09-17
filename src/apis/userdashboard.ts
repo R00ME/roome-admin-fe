@@ -89,7 +89,6 @@ export const fetchUserFeature = async(userId: number) => {
     const { data } = await axiosInstance.get(`/${API_URL}/admin/usage/${userId}/feature-stats/details`);
 
     return data.data.featureStats;
-    console.log('data',data.data.featureStats);
   } catch(error){
     console.error('🚨 선호하는 기능 데이터 패치 실패:', error);
     throw error;

@@ -24,3 +24,11 @@ export const domainMap: Record<string, string> = {
   theme: '테마변경',
   etc: '기타',
 };
+
+export const featureMap: Record<string, string> = {
+  book: "도서",
+  cd: "음악",
+  comment: "댓글",
+  theme: "테마",
+  guestbook: "방명록",
+};
