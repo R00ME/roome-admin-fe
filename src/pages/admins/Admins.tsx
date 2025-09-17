@@ -3,7 +3,8 @@ import {
   getCoreRowModel,
   type ColumnDef,
 } from '@tanstack/react-table';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { Table, TableFooter, TableHeader } from '@/components/table';
 import AdminModal from './components/AdminModal';
@@ -26,14 +27,35 @@ import {
 } from '@/components/ui/alert-dialog';
 
 const Admins = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<AdminItem[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [adminToDelete, setAdminToDelete] = useState<AdminItem | null>(null);
   const { success, error: showError } = useToast();
+
+  const currentPage = parseInt(searchParams.get('page') || '1');
+  const sortColumn =
+    (searchParams.get('sort') as 'adminName' | 'createdAt') || 'adminName';
+
+  const updatePage = (page: number) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set('page', page.toString());
+      return newParams;
+    });
+  };
+
+  const updateSort = (sort: 'adminName' | 'createdAt') => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set('sort', sort);
+      newParams.set('page', '1');
+      return newParams;
+    });
+  };
 
   const handleDeleteClick = (admin: AdminItem) => {
     setAdminToDelete(admin);
@@ -88,12 +110,11 @@ const Admins = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const fetchAdmins = async () => {
+  const fetchAdmins = useCallback(async () => {
     try {
       setIsLoading(true);
-      const response = await fetchAdminList();
+      const response = await fetchAdminList(currentPage, 10, sortColumn, 'asc');
       setData(response.content);
-      setCurrentPage(response.paging.pageNumber);
       setTotalPages(response.paging.totalPages);
     } catch (error) {
       console.error('🚨 운영자 목록 조회 실패:', error);
@@ -101,6 +122,11 @@ const Admins = () => {
     } finally {
       setIsLoading(false);
     }
+  }, [currentPage, sortColumn, showError]);
+
+  const handleSortChange = (value: string) => {
+    const column = value === 'name' ? 'adminName' : 'createdAt';
+    updateSort(column);
   };
 
   const handleInviteAdmin = async (inviteData: AdminInviteRequest) => {
@@ -117,8 +143,14 @@ const Admins = () => {
   };
 
   useEffect(() => {
+    if (!searchParams.get('page') && !searchParams.get('sort')) {
+      setSearchParams({ page: '1', sort: 'adminName' });
+    }
+  }, [searchParams, setSearchParams]);
+
+  useEffect(() => {
     fetchAdmins();
-  }, []);
+  }, [fetchAdmins]);
 
   return (
     <div className='w-full'>
@@ -129,7 +161,8 @@ const Admins = () => {
           { value: 'name', label: '이름순' },
           { value: 'date', label: '가입순' },
         ]}
-        defaultTab='name'
+        defaultTab={sortColumn === 'adminName' ? 'name' : 'date'}
+        onTabChange={handleSortChange}
       />
       <Table
         table={table}
@@ -138,7 +171,7 @@ const Admins = () => {
       <TableFooter
         currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={setCurrentPage}
+        onPageChange={updatePage}
         onAddItem={() => setOpen(true)}
         buttonText='+ 운영자 초대'
         isLoading={isLoading}
