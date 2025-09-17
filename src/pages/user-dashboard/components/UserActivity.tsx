@@ -5,6 +5,7 @@ import { TableFooter, TableHeader } from '../../../components/table';
 import { LoadArgs, SortKey, UAState, UserActivityItem } from '../../../types/user-dashboard';
 import UserActivityTable from './UserActivityTable';
 import UserDetailDrawer from './userDetailDrawer/UserDetailDrawer';
+import { useSelectUserStore } from '../../../store/useSelectUserStore';
 
 const initialState: UAState = { data: [], paging: undefined, error: null };
 
@@ -35,9 +36,7 @@ export default function UserActivity() {
     loadUserActivity,
     initialState,
   );
-  const [selectedUser, setSelectedUser] = useState<UserActivityItem | null>(
-    null,
-  );
+  const { selectedUser, setSelectedUser } = useSelectUserStore();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [sortKey, setSortKey] = useState<SortKey>('name');
 
@@ -98,7 +97,6 @@ export default function UserActivity() {
       {drawerOpen && selectedUser && (
         <UserDetailDrawer
           open={drawerOpen}
-          user={selectedUser}
           onClose={() => setDrawerOpen(false)}
         />
       )}

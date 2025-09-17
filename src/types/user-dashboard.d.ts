@@ -1,7 +1,6 @@
 interface UserDetailDrawerProps {
   open: boolean;
   onClose: () => void;
-  user: UserActivityItem | null;
 }
 
 interface PreferredFunctionRow {
@@ -18,11 +17,12 @@ interface PreferredFunctionsTableProps {
   rows: PreferredFunctionRow[];
 }
 
-interface GenericTableProps<T extends Record<string>> {
+interface PreferredFunctionTableProps {
   headers: string[];
-  rows: T[];
-  getRowKey?: (row: T, idx: number) => string | number;
+  rows: FeatureStat[];
+  getRowKey?: (row: FeatureStat, index: number) => string | number;
   className?: string;
+  fullWidth?: boolean;
 }
 
 interface DrawerActionsProps {
@@ -86,6 +86,7 @@ interface UserActivityItem {
   status: 'ONLINE' | 'OFFLINE' | string;
   mostUsedDomain: string | null;
   domainCount: number;
+  profileImage?: string;
 }
 
 interface RawUserActivityItem {
@@ -125,3 +126,39 @@ type UAState = {
 };
 
 type SortKey = 'name' | 'date';
+
+interface FeatureStat {
+  feature: string;
+  apiRequestCount: number;
+  usageTime: string;
+  lastUsedAt: string;
+  contentCount: number;
+}
+
+interface PreferredFunctionsGraphProps {
+  data: FeatureStat[];
+}
+
+interface UserActivityTime {
+  timeRange: string;  
+  count: number;      
+  ratio: number;   
+}
+
+interface TrendPoint {
+  month: string;
+  earnedPoints: number;
+  usedPoints: number;
+}
+
+interface DomainCount {
+  domain: string;
+  count: number;
+  ratio: number;
+}
+
+interface DomainChartData {
+  domain: string;
+  이번달: number;
+  평균: number;
+}

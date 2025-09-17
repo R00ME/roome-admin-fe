@@ -9,7 +9,6 @@ const MemoizedUserDetailContent = React.memo(UserDetailContent);
 export default function UserDetailDrawer({
   open,
   onClose,
-  user,
 }: UserDetailDrawerProps) {
   const [width, setWidth] = useState(800);
   const [visible, setVisible] = useState(false);

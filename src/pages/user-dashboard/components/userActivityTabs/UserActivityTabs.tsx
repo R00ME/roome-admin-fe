@@ -18,27 +18,32 @@ export default function UserActivityTabs({
   return (
     <section className='w-full bg-white rounded-xl shadow p-6 max-h-100 min-h-[350px] flex flex-col'>
       {/* 탭 버튼 영역 */}
-      <div className='flex gap-1 mb-6 border-b border-gray-200'>
-        {TAB_LIST.map((tab) => (
-          <button
-            key={tab.value}
-            className={`px-5 py-2 text-sm font-semibold rounded-t
-              ${
-                activeTab === tab.value
-                  ? 'bg-white text-blue-600 border-b-2 border-blue-600'
-                  : 'bg-[#F5F8FB] text-gray-400 border-b-2 border-transparent'
-              }
-              transition
+      <div className='flex gap-1 mb-6 border-b border-gray-200 justify-between'>
+        <section>
+          {TAB_LIST.map((tab) => (
+            <button
+              key={tab.value}
+              className={`px-5 py-2 text-sm font-semibold rounded-t
+            ${
+              activeTab === tab.value
+                ? 'bg-white text-blue-600 border-b-2 border-blue-600'
+                : 'bg-[#F5F8FB] text-gray-400 border-b-2 border-transparent'
+            }
+            transition
             `}
-            onClick={() => setActiveTab(tab.value)}>
-            {tab.label}
-          </button>
-        ))}
+              onClick={() => setActiveTab(tab.value)}>
+              {tab.label}
+            </button>
+          ))}
+        </section>
+        <h3 className='font-semibold text-gray-600 mt-2 text-sm'>
+          {activeTab === 'summary' ? '사용자 활동 시간대' : activeTab === 'point' ? '포인트 획득/사용 추이' : '컨텐츠 발행 추이'}
+        </h3>
       </div>
 
       {/* 탭별 콘텐츠 영역 */}
       <div className={`flex-1 pt-8  ${drawerWidth < 920 ? 'pr-0' : 'pr-10'} `}>
-        {activeTab === 'summary' && <SummaryTab  />}
+        {activeTab === 'summary' && <SummaryTab />}
         {activeTab === 'point' && <PointActivityTab />}
         {activeTab === 'content' && <ContentActivityTab />}
       </div>
