@@ -1,6 +1,6 @@
 import Admins from '@/pages/admins/Admins';
 import Error from '@/pages/error/Error';
-import Events from '@/pages/events/Events';
+import Events from '@/pages/Events/Events';
 import Login from '@/pages/login/Login';
 import Main from '@/pages/main/Main';
 import EditProfile from '@/pages/mypage/EditProfile';
@@ -13,6 +13,7 @@ import BaseLayout from './layout/BaseLayout';
 import DashboardLayout from './layout/DashboardLayout';
 import ManagementLayout from './layout/ManagementLayout';
 import ProtectedRoute from './ProtectedRoute';
+import SystemDashboard from '@/pages/system-dashboard/SystemDashboard';
 
 const Router = () => {
   return (
@@ -54,7 +55,10 @@ const Router = () => {
             path='user'
             element={<UserDashboard />}
           />
-          {/* <Route path='system' element={< SystemDashboard />} /> */}
+          <Route
+            path='system'
+            element={<SystemDashboard />}
+          />
         </Route>
 
         <Route element={<ManagementLayout />}>

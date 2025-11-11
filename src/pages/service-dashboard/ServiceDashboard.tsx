@@ -28,21 +28,15 @@ const ServiceDashboard = () => {
   const [aiSummaryData, setAiSummaryData] =
     useState<DashboardAISummaryResponse | null>(null);
 
-  // 현재는 사용하지 않지만 하위 컴포넌트 수정 후 사용 예정
-  console.log('API 데이터:', { summaryData, chartData, aiSummaryData });
-
-  // 로딩 상태
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // API 데이터 로드
   useEffect(() => {
     const loadDashboardData = async () => {
       try {
         setIsLoading(true);
         setError(null);
 
-        // 병렬로 모든 API 호출
         const [summary, aiSummary] = await Promise.all([
           getDashboardSummary(),
           getDashboardAISummary(),
@@ -61,7 +55,6 @@ const ServiceDashboard = () => {
     loadDashboardData();
   }, []);
 
-  // 선택된 카드에 따른 차트 데이터 로드
   useEffect(() => {
     const loadChartData = async () => {
       if (!selectedCard) return;
@@ -81,7 +74,6 @@ const ServiceDashboard = () => {
     setSelectedCard(cardTitle);
   };
 
-  // 로딩 상태 처리
   if (isLoading) {
     return (
       <section>
@@ -109,7 +101,6 @@ const ServiceDashboard = () => {
     );
   }
 
-  // 에러 상태 처리
   if (error) {
     return (
       <section>
